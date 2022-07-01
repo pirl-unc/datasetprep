@@ -42,8 +42,7 @@ set_race_fields = function(dat, column_name="Race"){
   options = c("Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
   others = levels(factor(dat$Race[dat$Race %ni% options]))
   if( length(others) > 0 ){
-    warning("Warning :: following Race values converted to 'Other'")
-    warning(paste(others, collapse=", "))
+    warning("Warning :: following Race values converted to 'Other'", paste(others, collapse=", "))
     dat$Race[dat$Race %ni% options] = "Other"  
   }
   options = options[1:5]
