@@ -1,0 +1,19 @@
+Package: datasetprep
+Version: 0.1-01
+Title: Basic Helpers for Dataset Prep
+Description: Methods to make life easier when preparing datasets for analysis.
+Authors@R: 
+    person(given = "Nathan",
+           family = "Wheeler",
+           role = c("aut", "cre"),
+           email = "regenernate@gmail.com")
+Imports:
+    magrittr
+Suggests:
+    devtools
+BugReports: https://github.com/Benjamin-Vincent-Lab/datasetprep/issues
+License: MIT + file LICENSE
+NeedsCompilation: no
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+LazyData: false
