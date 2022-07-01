@@ -14,6 +14,6 @@ Suggests:
 BugReports: https://github.com/Benjamin-Vincent-Lab/datasetprep/issues
 License: MIT + file LICENSE
 NeedsCompilation: no
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 LazyData: false

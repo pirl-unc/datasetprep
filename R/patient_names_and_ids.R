@@ -18,6 +18,7 @@
 #'   i.e. Patient1, Patient2, etc.
 #'   \item Only works if old names have a single numerical element within them
 #'   i.e wouldn't work with identifiers like MD-27-AR-0215
+#' }
 #' 
 #' @export
 format_patient_names = function( old_names ){
