@@ -16,6 +16,7 @@
 format_sex = function(sex, female_char = "F", male_char = "M"){
   sex[sex == female_char] = "Female"
   sex[sex == male_char] = "Male"
+  sex = stringr::str_to_sentence(sex)
   return(sex)
 }
 
@@ -78,7 +79,7 @@ set_response_data = function( dat, response_col = "Response" ){
   response_data = stringr::str_to_sentence(dat[[response_col]])
   dat$Response = response_data
   if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
-    dat$Response[is.na(response_data)] = "Unknown"
+    dat$Response = NA
     dat$Response[response_data == "Pd"] = "Progressive Disease"
     dat$Response[response_data == "Sd"] = "Stable Disease"
     dat$Response[response_data == "Pr"] = "Partial Response"
