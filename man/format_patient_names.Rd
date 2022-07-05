@@ -4,10 +4,12 @@
 \alias{format_patient_names}
 \title{Formats patient names}
 \usage{
-format_patient_names(old_names)
+format_patient_names(old_names, reduce_size = FALSE)
 }
 \arguments{
 \item{old_names}{Vector of patient names to format}
+
+\item{reduce_size}{Boolean to indicate whether numeric portion of ids should be reduced to shortest length representing unique values}
 }
 \value{
 Returns the updated patient names vector
