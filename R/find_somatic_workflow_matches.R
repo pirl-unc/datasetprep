@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # find_somatic_workflow_matches
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Sets field equal to run name where data exists for somatic workflow
+#' @title Sets field equal to patient name where data exists for somatic workflow
 #' 
 #' @description 
 #' Typically somatic workflow matches are when a given patient has samples of 
@@ -16,6 +16,8 @@
 #'   Analyte and Run_Name
 #'}
 #' 
+#' @return Vector of matches
+#' 
 #' @export
 find_somatic_workflow_matches = function( dat ){
   if(any(c("Patient_Name", "Normal", "Analyte", "Run_Name") %ni% names(dat))){
@@ -23,6 +25,7 @@ find_somatic_workflow_matches = function( dat ){
     return()
     
   }
+  dat$Somatic_Workflow_Match = NA
   a("For Somatic_Workflow_Match, set to Patient_Name where patient has RNA and DNA samples from Tumor tissue AND a DNA sample from Normal tissue.")
   for (patient_name in unique(dat$Patient_Name)){
     subdat = dat[dat$Patient_Name == patient_name,]

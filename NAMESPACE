@@ -3,6 +3,8 @@
 export(a)
 export(configure_output_columns)
 export(configure_readme)
+export(create_patient_ids)
+export(create_run_ids)
 export(create_run_names)
 export(find_somatic_workflow_matches)
 export(format_patient_names)

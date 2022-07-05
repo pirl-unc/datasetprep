@@ -52,6 +52,8 @@ create_run_names = function(normal_tissue, analyte, file_prefix){
 #' @param run_names Vector of run_names to use
 #' 
 #' @return Returns a vector of run_ids
+#' 
+#' @export
 create_run_ids = function( patient_ids, run_names ){
   return(paste0(patient_ids, '-', run_names))
 }

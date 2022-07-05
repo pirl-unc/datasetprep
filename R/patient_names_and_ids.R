@@ -48,6 +48,8 @@ format_patient_names = function( old_names ){
 #' @param dataset Name of dataset to use with these ids
 #' @param patient_names Vector of patient names to use in creation of ids
 #' @return Returns a vector of patient_ids
+#' 
+#' @export
 create_patient_ids = function( dataset, patient_names ){
   return(paste0(dataset, "-", patient_names))
 }

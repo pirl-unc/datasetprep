@@ -16,7 +16,6 @@
 format_sex = function(sex, female_char = "F", male_char = "M"){
   sex[sex == female_char] = "Female"
   sex[sex == male_char] = "Male"
-  sex = stringr::str_to_sentence(sex)
   return(sex)
 }
 
@@ -31,25 +30,27 @@ format_sex = function(sex, female_char = "F", male_char = "M"){
 #' and sets the individual boolean race fields ( Caucasian, Asian, etc. ) based on updated Race.
 #' 
 #' @param dat Dataframe containing race values
-#' @param column_name Name of column containing race values, defaults to Race
+#' @param column_name Name of column containing race values, defaults to Race, if NA intializes Race as all NA
+#' @param na_to_lc Boolean dictating whether to set any na's to Likely Caucasian
 #' 
 #' @return Returns dat with updated and added columns
 #' 
 #' @export
-set_race_fields = function(dat, column_name="Race"){
-  dat$Race = stringr::str_to_title(dat[[column_name]])
+set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
+  dat$Race = ifelse(is.na(column_name), NA, stringr::str_to_title(dat[[column_name]]))
   dat$Race[dat$Race %like% "White"] = "Caucasian"
   dat$Race[dat$Race %like% "Black"] = "African"
-  options = c("Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
+  options = c(NA, "Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
   others = levels(factor(dat$Race[dat$Race %ni% options]))
   if( length(others) > 0 ){
     warning("Warning :: following Race values converted to 'Other':: ", paste(others, collapse=", "))
     dat$Race[dat$Race %ni% options] = "Other"  
   }
-  options = options[1:5]
+  options = options[2:6]
   for(x in options){
     dat[[x]] = dat$Race == x
   }
+  dat$Likely_Caucasian = na_to_lc & is.na(dat$Race)
   return(dat)
 }
 

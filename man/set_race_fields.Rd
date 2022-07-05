@@ -4,12 +4,14 @@
 \alias{set_race_fields}
 \title{Formats race values and sets individual race fields}
 \usage{
-set_race_fields(dat, column_name = "Race")
+set_race_fields(dat, column_name = "Race", na_to_lc = FALSE)
 }
 \arguments{
 \item{dat}{Dataframe containing race values}
 
-\item{column_name}{Name of column containing race values, defaults to Race}
+\item{column_name}{Name of column containing race values, defaults to Race, if NA intializes Race as all NA}
+
+\item{na_to_lc}{Boolean dictating whether to set any na's to Likely Caucasian}
 }
 \value{
 Returns dat with updated and added columns

@@ -7,5 +7,5 @@
 configure_output_columns()
 }
 \description{
-Method to set Run and Patient columns to be outputted in final data.
+Method to set RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS to be output to final data.
 }

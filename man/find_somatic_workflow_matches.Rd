@@ -2,12 +2,15 @@
 % Please edit documentation in R/find_somatic_workflow_matches.R
 \name{find_somatic_workflow_matches}
 \alias{find_somatic_workflow_matches}
-\title{Sets field equal to run name where data exists for somatic workflow}
+\title{Sets field equal to patient name where data exists for somatic workflow}
 \usage{
 find_somatic_workflow_matches(dat)
 }
 \arguments{
 \item{dat}{Data.frame from which to determine matches}
+}
+\value{
+Vector of matches
 }
 \description{
 Typically somatic workflow matches are when a given patient has samples of 

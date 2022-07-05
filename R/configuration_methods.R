@@ -23,7 +23,7 @@ a = function(...){
 #' @title Defines columns for output data
 #' 
 #' @description 
-#' Method to set Run and Patient columns to be outputted in final data.
+#' Method to set RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS to be output to final data.
 #'  
 #' @export
 configure_output_columns = function(){
@@ -69,5 +69,5 @@ configure_readme = function( output_dir, dataset ){
   
   if(file.exists(readme_path)) file.remove( readme_path )
   
-  a(my_dataset, " Dataset")
+  a(dataset, " Dataset")
 }
