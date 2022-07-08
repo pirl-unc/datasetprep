@@ -1,0 +1,77 @@
+full_name	preferred_name	is_ici_inhibitor	ici_pathway	is_aVEGF	is_aBRAF	is_aMAPK	is_chemo	name_aliases	description
+Biochemo		F			F		T		
+Trametinib		F			F	T	T		MEK inhibitor
+Dabrafenib		F			T		F		MEK inhibitor; potent inhibitor of the RAF proteins BRAF and CRAF through ATP competitive binding of the active conformation of BRAF kinase
+IL-2		F			F		F		Increases NKCs
+Ribociclib		F			F		T		CDK inhibitor
+Binimetinib		F			F	T	T		MEK 1 and MEK 2 protein inhibitor
+CVD		F			F		T	Cisplatin, Dacarbazine, Vinblastine	
+Interferon		F			F		F		Increases NKCs
+Dacarbazine		F			F		T		DTIC methylates nucleic acids, causing DNA damage resulting in growth arrest and cell death
+Temozolomide	TMZ	F			F		T	Temodar, Temo	methylates guanine
+Dasatinib		F			F		T		kinase inhibitor
+Temodar	TZM	F			F		T	Temozolomide, Temo	methylates guanine
+TLR		F			F		F		toll-like receptor agonist
+gp100 vaccine		F			F		F		targets melanocytes
+Abraxane		F			F		T	paclitaxel	
+Carboplatin		F			F		T		Platinum chemo
+Doxycycline		F			F		F		inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment
+Vemurafenib		F			T		F		blocks BRAF; used on patients with BRAF mutation V600E
+IL-21+		F			F		F		Increases NKCs
+Cisplatin		F			F		T		Platinum chemo
+Velban		F			F		T		Inhibits microtuble assembly
+Taxol		F			F		T		
+Trientine		F			F		T	Triethylenetetramine, TETA	telomerase inhibiting
+Gleevec		F			F		T		Tyrosine kinase inhibitor
+Nivolumab	Nivo	T	PD1		F		F		immune checkpoint inhibitor
+Ecorafenib		F			T		F		blocks BRAF; used on patients with BRAF mutation V600E
+TIL		F			F		F		
+MAGE		F			F		F		CTA that triggers body to attack MAGE overexpression in melanoma
+Vinblastine		F			F		T		mitotic inhibitor
+Trametibib		F			F		T		MEK inhibitor
+Decarbazine		F			F		T		methylates guanine
+AMG 337		F			F		F		inhibitor of the adenosine transporter; MET kinase imhibitor
+TIC		F			F		F		tumor-initiating cells
+BCNU		F			F		T		crosslinks DNA
+Tamoxifen		F			F		F		blocks estrogen receptors
+Paclitaxel		F			F		T	Abraxane	
+DCVax		F			F		F		activated dendritic cells
+ADI-PEG		F			F		T		Breaks down asparagine
+GM-CSF		F			F		F		improves recovery of white blood cells following chemo
+M-Vax		F			F		F		Irradiated cancer cells
+Mel44		F			F		F		Melanoma peptides
+PEG		F			F		T	Pegaspargase	Breaks down asparagine
+IL-10		F			F		F		enhances vaccine-induced T cell responses
+Ipilimumab	Ipi	T	CTLA4	F	F	F	F	Yervoy	Binds CTLA4, reducing its ability to upregulate cell division by binding C28
+Pembrolizumab	Pembro	T	PD1	F	F	F	F	Keytruda	
+MK3475	Pembro	T	PD1						
+ADZ2014		F		F	F	F	F	Vistusertib	
+CPT11		F		F	F	F	T	Camptosar, Irinotecan	
+Docetaxal		F		F	F	F	T	Taxotere	
+Vismodegib		F		F	F	F	F	Erivedge	
+AZD6738		F		F	F	F	F		impact ATR pathway checkpoint for DDR ( DNA Damage Response ) establishment
+FOLFIRI		F		F	F	F	T	Fonic Acid + Fluorouracil + Irinotecan	
+FOLFOX		F		F	F	F	T	Folinic Acid + Fluorouacil + Oxiliplatin	
+Ramucrimab		F		T	F	F	F		Binds VEGF2 antigen with high affnity preventing typical activation by VEGFR, thus downregulation of angiogeneis in tumor tissue
+XELOX		F		F	F	F	T	Oxaliplatin and capecitabine	
+Lapatinib		F		F	F	F	F	Tykerb and Tyverb	
+DXP		F		F	F	F	T	docetaxel, cisplatin and capecitabine	
+DP		??cant find any refereces to this drug							
+SOX		F		F	F	F	T	S-1 and oxaliplatin	
+SP		F		F	F	F	T	S-1 plus cisplatin	
+XP		F		F	F	F	T	Capecitabine and cisplatin	
+Herceptin		F		F	F	F	F	Trastuzumab	
+FGFR2		??? can't find data on this one, appears to be the name of a gene, but not of a drug							
+Selumetinib		F		F	F	T	F	Koselugo	Inhibits MEP1
+Volitinib		F		F	F	F	F		
+FPA144-001		F		F	F	F	F	Bemarituzumab	
+ADZ1775		F		F	F	F	F		used in combination with chemo typically as it makes cells more succepble to radiation and chemo
+ADZ5363				F	F	F	F	capivasertib	
+Cemiplimab		T	PD1						
+Atezolizumab	Atezo	T	PD-L1						
+Avelumab		T	PD-L1						
+Durvalumab		T	PD-L1						
+Sunitinib				T					
+Bevacizumab	Bev			T					
+Ironotecan							T		
+Lomustine							T		

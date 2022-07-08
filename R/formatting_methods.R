@@ -37,23 +37,38 @@ format_sex = function(sex, female_char = "F", male_char = "M"){
 #' 
 #' @export
 set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
-  dat$Race = ifelse(is.na(column_name), NA, stringr::str_to_title(dat[[column_name]]))
+  dat$Race = str_to_title(dat[[column_name]])
+  #override quirk in str_to_title where _ is not a word separator ...
+  dat$Race[ dat$Race == "Pac_islander" ] = "Pac_Islander"
+  dat$Race[ dat$Race == "Nat_american" ] = "Nat_American"
   dat$Race[dat$Race %like% "White"] = "Caucasian"
-  dat$Race[dat$Race %like% "Black"] = "African"
+  #convert Black and African-American to African
+  dat$Race[dat$Race %like% "Black" | dat$Race %like% "African"] = "African"
   options = c(NA, "Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
   others = levels(factor(dat$Race[dat$Race %ni% options]))
   if( length(others) > 0 ){
     warning("Warning :: following Race values converted to 'Other':: ", paste(others, collapse=", "))
     dat$Race[dat$Race %ni% options] = "Other"  
   }
-  options = options[2:6]
+  options = options[-c(1,length(options))]
+  # We want specific race fields to be TRUE if matches Race field value
+  #       FALSE if we know they can't be the given Race ( because they are a different known race, excluding Other )
+  #       Likely_Caucasian where not a non-caucasian known race or where Other and there are no known Caucasians 
+  #           AND na_to_lc is TRUE
+  #       NA where data is NA or called out as Other
   for(x in options){
-    dat[[x]] = dat$Race == x
+    if( nrow(filter(dat, Race == x )) > 0 )
+      dat[[x]] <- dat$Race == x
+    else
+      dat[[x]][ dat$Race %in% options ] = FALSE
   }
-  dat$Likely_Caucasian = na_to_lc & is.na(dat$Race)
+  dat$Likely_Caucasian = dat$Race %in% options[c(1,NA)]
+  if( !na_to_lc ) dat$Likely_Caucasian[ is.na(dat$Race)] = NA
+  dat$Race[ dat$Race == "Other" ] = NA
   return(dat)
 }
 
+#set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", NA, NA, "Other", "Pac_Islander")), na_to_lc=FALSE)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_response_data
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

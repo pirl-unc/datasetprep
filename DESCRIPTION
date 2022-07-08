@@ -1,5 +1,5 @@
 Package: datasetprep
-Version: 0.1-05
+Version: 0.2-01
 Title: Basic Helpers for Dataset Prep
 Description: Methods to make life easier when preparing datasets for analysis.
 Authors@R: 
@@ -8,7 +8,10 @@ Authors@R:
            role = c("aut", "cre"),
            email = "regenernate@gmail.com")
 Imports:
-    magrittr
+    magrittr,
+    readr,
+    stringr,
+    dplyr
 Suggests:
     devtools
 BugReports: https://github.com/Benjamin-Vincent-Lab/datasetprep/issues
