@@ -33,7 +33,7 @@ for(dci in 1:length(classes)){
 #' This method looks up drugs by name, normalizes them and sets the various 
 #' pathway fields ( i.e. ICI_Rx, ICI_Tx, aPD1_Rx, aPD1_Tx ).
 #' 
-#' @param rx_list Dataframe containing " + " separated Drugs
+#' @param dat Dataframe containing " + " separated Drugs as Drug variable
 #' 
 #' @section Limitations:
 #' \itemize{
@@ -42,10 +42,10 @@ for(dci in 1:length(classes)){
 #'   \item Does not handle non-Rx treatments like Surgery, Radiation, etc.
 #'}
 #' 
-#' @return Returns rx_list with updated and added columns
+#' @return Returns dataframe with updated and added *_Rx and *_Tx columns
 #' 
 #' @export
-set_rx_tx = function( rx_list ){
+set_rx_tx = function( dat ){
   #normalize drug names, replace full names with preferred names and normalized case
   for( rxi in 1:nrow(drug_list) ){
     rx_list$Drug %<>% gsub( drug_list$preferred_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) %>%

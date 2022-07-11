@@ -37,7 +37,7 @@ format_sex = function(sex, female_char = "F", male_char = "M"){
 #' 
 #' @export
 set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
-  dat$Race = str_to_title(dat[[column_name]])
+  dat$Race = ifelse(is.na(column_name) | column_name %ni% names(dat), NA, str_to_title(dat[[column_name]]))
   #override quirk in str_to_title where _ is not a word separator ...
   dat$Race[ dat$Race == "Pac_islander" ] = "Pac_Islander"
   dat$Race[ dat$Race == "Nat_american" ] = "Nat_American"

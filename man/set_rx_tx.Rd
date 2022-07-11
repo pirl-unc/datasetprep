@@ -4,13 +4,13 @@
 \alias{set_rx_tx}
 \title{Takes a drug list and returns fomatted variables}
 \usage{
-set_rx_tx(rx_list)
+set_rx_tx(dat)
 }
 \arguments{
-\item{rx_list}{Dataframe containing " + " separated Drugs}
+\item{dat}{Dataframe containing " + " separated Drugs as Drug variable}
 }
 \value{
-Returns rx_list with updated and added columns
+Returns dataframe with updated and added *_Rx and *_Tx columns
 }
 \description{
 This method looks up drugs by name, normalizes them and sets the various 
