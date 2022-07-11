@@ -16,9 +16,9 @@ output_variable_summary(
 
 \item{column_names}{Vector of column names to summarize. Defaults to all colnames}
 
-\item{title}{Optional string to display as label for data being output}
+\item{max_length}{Integer of maximum unique values to display for a given column}
 
-\item{min_length}{Integer of maximum unique values to display for a given column}
+\item{title}{Optional string to display as label for data being output}
 }
 \description{
 In order to confirm data being generated through the prep phase, 

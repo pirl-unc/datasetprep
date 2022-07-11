@@ -10,6 +10,7 @@
 #' 
 #' @param normal_tissue Boolean vector indicating whether tissue was normal or tumor
 #' @param analyte Character vector of analytes containing DNA, RNA, Methylation or Protein
+#' @param file_prefix Unique file identifiers
 #' 
 #' @return Vector of run names
 #' 

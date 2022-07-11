@@ -8,8 +8,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "regenernate@gmail.com")
 Imports:
-    magrittr,
     readr,
+    magrittr,
     stringr,
     dplyr
 Suggests:

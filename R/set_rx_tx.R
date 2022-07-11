@@ -5,9 +5,9 @@
 #test_df = data.frame(Patient_ID=c(1:4), Drug=c("Nivolumab", "Vemurafenib + Atezolizumab + Dabrafenib", "nivo + Binimetinib + MK3475", "nivo+Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
 
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
-drug_path = system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep")
 
-drug_list = read_tsv(drug_path, show_col_types=F)
+
+drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), show_col_types=F)
 #Fill in preferred_name fields where the preferred name is the same as the full generic name
 drug_list$preferred_name[is.na(drug_list$preferred_name)] = drug_list$full_name[is.na(drug_list$preferred_name)]
 #Add columns for is_PD1 and is_CTLA4
@@ -77,11 +77,11 @@ set_rx_tx = function( rx_list ){
     rx_list$Non_ICI_Rx[di] = "None"
     rx_list$Non_ICI_Tx[di] = FALSE
    #split on + to get all individual drugs
-   nvec <- sort(str_split(rx_list$Drug[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
+   nvec <- sort(stringr::str_split(rx_list$Drug[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
    #iterate on individual drug names
    for( dr in nvec ){
      #get just the first observation for drug in question
-     dr_data <- drug_list %>% filter(preferred_name == dr) %>% slice(1)
+     dr_data <- drug_list %>% dplyr::filter(preferred_name == dr) %>% slice(1)
      #handle case of drug not in list
      if(nrow(dr_data) == 0){
        warning("Ignoring unknown drug named :: ", dr)
@@ -129,7 +129,7 @@ default_known_Tx = F
 #' This method sets the initial values for the various Rx and Tx fields for 
 #' Prior and Subsq treatments
 #' 
-#' @param rx_list Dataframe to add columns to
+#' @param dat Dataframe to add columns to
 #' @param prior_is_known Whether we want to initialize prior values as 
 #' unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )
 #' @param subsq_is_known Whether we want to initialize subsq values as 
@@ -143,7 +143,7 @@ init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=
   pr_Tx = ifelse( prior_is_known, default_known_Tx, default_unknown_Tx )
   sq_Rx = ifelse( subsq_is_known, default_known_Rx, default_unknown_Rx )
   sq_Tx = ifelse( subsq_is_known, default_known_Tx, default_unknown_Tx )
-  dat %<>% mutate(Prior_Rx=pr_Rx, 
+  dat %<>% dplyr::mutate(Prior_Rx=pr_Rx, 
                   Prior_ICI_Rx=pr_Rx,
                   Prior_Tx=pr_Tx,
                   Prior_ICI_Tx=pr_Tx,
@@ -151,7 +151,7 @@ init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=
                   Prior_aMAPK_Tx=pr_Tx
                   )
   
-  dat %<>% mutate(Subsq_Rx=sq_Rx,
+  dat %<>% dplyr::mutate(Subsq_Rx=sq_Rx,
                   Subsq_ICI_Rx=sq_Rx,
                   Subsq_Tx=sq_Tx,
                   Subsq_ICI_Tx=sq_Tx,
@@ -162,4 +162,4 @@ init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=
   return(dat)
 }
 
-init_prior_and_subsq_rx_tx(data.frame(Patient_ID=c(1:6)), TRUE, TRUE)
+#init_prior_and_subsq_rx_tx(data.frame(Patient_ID=c(1:6)), TRUE, TRUE)

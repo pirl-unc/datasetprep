@@ -10,7 +10,7 @@
 #' 
 #' @param dat Data.frame from which to output summary
 #' @param column_names Vector of column names to summarize. Defaults to all colnames
-#' @param min_length Integer of maximum unique values to display for a given column
+#' @param max_length Integer of maximum unique values to display for a given column
 #' @param title Optional string to display as label for data being output
 #' 
 #' @export

@@ -7,13 +7,13 @@
 init_prior_and_subsq_rx_tx(dat, prior_is_known = FALSE, subsq_is_known = FALSE)
 }
 \arguments{
+\item{dat}{Dataframe to add columns to}
+
 \item{prior_is_known}{Whether we want to initialize prior values as 
 unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )}
 
 \item{subsq_is_known}{Whether we want to initialize subsq values as 
 unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )}
-
-\item{rx_list}{Dataframe to add columns to}
 }
 \value{
 Returns dataframe with columns

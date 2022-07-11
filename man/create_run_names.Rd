@@ -10,6 +10,8 @@ create_run_names(normal_tissue, analyte, file_prefix)
 \item{normal_tissue}{Boolean vector indicating whether tissue was normal or tumor}
 
 \item{analyte}{Character vector of analytes containing DNA, RNA, Methylation or Protein}
+
+\item{file_prefix}{Unique file identifiers}
 }
 \value{
 Vector of run names
