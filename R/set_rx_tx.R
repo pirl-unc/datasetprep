@@ -48,36 +48,36 @@ for(dci in 1:length(classes)){
 set_rx_tx = function( dat ){
   #normalize drug names, replace full names with preferred names and normalized case
   for( rxi in 1:nrow(drug_list) ){
-    rx_list$Drug %<>% gsub( drug_list$preferred_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) %>%
+    dat$Drug %<>% gsub( drug_list$preferred_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) %>%
                       gsub( drug_list$full_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) 
   }
 
   # initialize all fields to None, Unknown or NA
-  rx_list$ICI_Pathway = "None" #whats the target pathway
-  rx_list$ICI_Target = "None" #whats the target receptor
-  rx_list$ICI_Rx = "Unknown"
-  rx_list$ICI_Tx = NA
-  rx_list$Non_ICI_Rx = "Unknown"
-  rx_list$Non_ICI_Tx = NA
-  rx_list[,paste(names(classes),"Rx", sep="_")] = "Unknown"
-  rx_list[,paste(names(classes),"Tx", sep="_")] = NA
-  rx_list$aCTLA4_aPD1_Tx = NA
+  dat$ICI_Pathway = "None" #whats the target pathway
+  dat$ICI_Target = "None" #whats the target receptor
+  dat$ICI_Rx = "Unknown"
+  dat$ICI_Tx = NA
+  dat$Non_ICI_Rx = "Unknown"
+  dat$Non_ICI_Tx = NA
+  dat[,paste(names(classes),"Rx", sep="_")] = "Unknown"
+  dat[,paste(names(classes),"Tx", sep="_")] = NA
+  dat$aCTLA4_aPD1_Tx = NA
 
   #iterate over drugs in patient records
-  for( di in 1:nrow(rx_list) ){
+  for( di in 1:nrow(dat) ){
     #if drug field is NA or NULL, continue to next record
-    if(is.na(rx_list$Drug[di]) | is.null(rx_list$Drug[di])) next()
+    if(is.na(dat$Drug[di]) | is.null(dat$Drug[di])) next()
     #if drug field is anything other than NA or NULL, assume we know the information for this patient
     #so update the _Rx fields to "None" and _Tx fields to FALSE
-    rx_list$ICI_Rx[di] <- "None"
-    rx_list$ICI_Tx[di] <- FALSE
-    rx_list[di,paste(names(classes),"Rx",sep="_")] <- "None"
-    rx_list[di,paste(names(classes),"Tx",sep="_")] <- FALSE
-    rx_list$aCTLA4_aPD1_Tx = FALSE
-    rx_list$Non_ICI_Rx[di] = "None"
-    rx_list$Non_ICI_Tx[di] = FALSE
+    dat$ICI_Rx[di] <- "None"
+    dat$ICI_Tx[di] <- FALSE
+    dat[di,paste(names(classes),"Rx",sep="_")] <- "None"
+    dat[di,paste(names(classes),"Tx",sep="_")] <- FALSE
+    dat$aCTLA4_aPD1_Tx = FALSE
+    dat$Non_ICI_Rx[di] = "None"
+    dat$Non_ICI_Tx[di] = FALSE
    #split on + to get all individual drugs
-   nvec <- sort(stringr::str_split(rx_list$Drug[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
+   nvec <- sort(stringr::str_split(dat$Drug[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
    #iterate on individual drug names
    for( dr in nvec ){
      #get just the first observation for drug in question
@@ -89,30 +89,30 @@ set_rx_tx = function( dat ){
      }
      #handle ici_inhibitors first
      if( dr_data$is_ici_inhibitor ){
-       rx_list$ICI_Rx[di] <- ifelse(rx_list$ICI_Rx[di] == "None", dr_data$preferred_name, paste(rx_list$ICI_Rx[di],dr_data$preferred_name, sep=" + "))
-       rx_list$ICI_Tx[di] <- TRUE       
-       rx_list$ICI_Pathway[di] <- ifelse(dr_data$is_CTLA4, "CTLA4", "PD1")
-       rx_list$ICI_Target[di] <- dr_data$ici_pathway
+       dat$ICI_Rx[di] <- ifelse(dat$ICI_Rx[di] == "None", dr_data$preferred_name, paste(dat$ICI_Rx[di],dr_data$preferred_name, sep=" + "))
+       dat$ICI_Tx[di] <- TRUE       
+       dat$ICI_Pathway[di] <- ifelse(dr_data$is_CTLA4, "CTLA4", "PD1")
+       dat$ICI_Target[di] <- dr_data$ici_pathway
      }else{
-       rx_list$Non_ICI_Rx[di] <- ifelse(rx_list$Non_ICI_Rx[di] == "None", dr_data$preferred_name, paste(rx_list$Non_ICI_Rx[di], dr_data$preferred_name, sep=" + "))
-       rx_list$Non_ICI_Tx[di] <- TRUE
+       dat$Non_ICI_Rx[di] <- ifelse(dat$Non_ICI_Rx[di] == "None", dr_data$preferred_name, paste(dat$Non_ICI_Rx[di], dr_data$preferred_name, sep=" + "))
+       dat$Non_ICI_Tx[di] <- TRUE
      }
-     #handle drug classes using the classes look up table ( since drug_list column names aren't the same as rx_list columns )
+     #handle drug classes using the classes look up table ( since drug_list column names aren't the same as dat columns )
      for( dcli in 1:length(classes) ){
        rx_col <- paste(names(classes[dcli]),"Rx", sep="_")
        tx_col <- paste(names(classes[dcli]), "Tx", sep="_")
        #if this drug matches the current class, update the respective Rx and Tx fields
        if(dr_data[[classes[dcli]]]){
-         rx_list[[rx_col]][di] <- ifelse(rx_list[[rx_col]][di] == "None", dr_data$preferred_name, paste(rx_list[[rx_col]][di], dr_data$preferred_name, sep=" + "))
-         rx_list[[tx_col]][di] <- TRUE
+         dat[[rx_col]][di] <- ifelse(dat[[rx_col]][di] == "None", dr_data$preferred_name, paste(dat[[rx_col]][di], dr_data$preferred_name, sep=" + "))
+         dat[[tx_col]][di] <- TRUE
        }
      }
    }
    #handle rare case where there were both a PD1 and a CTLA4 inhibitor used
-   rx_list$aCTLA4_aPD1_Tx[di] <- rx_list$aCTLA4_Tx[di] & rx_list$aPD1_Tx[di]
+   dat$aCTLA4_aPD1_Tx[di] <- dat$aCTLA4_Tx[di] & dat$aPD1_Tx[di]
   }
   # 
-  return(rx_list)
+  return(dat)
 }
   
 #x = set_rx_tx(test_df)
