@@ -2,10 +2,10 @@
 # library("dplyr")
 # library("stringr")
 
-#test_df = data.frame(Patient_ID=c(1:4), Drug=c("Nivolumab", "Vemurafenib + Atezolizumab + Dabrafenib", "nivo + Binimetinib + MK3475", "nivo+Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
+#test_df = data.frame(Patient_ID=c(1:4), Drug=c("Nivolumab + Cemiplimab + Durvalumab", "Vemurafenib + Atezolizumab + Dabrafenib", "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
 
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
-
+#drug_list = readr::read_tsv(drug_path, show_col_types=F)
 
 drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), show_col_types=F)
 #Fill in preferred_name fields where the preferred name is the same as the full generic name
@@ -65,6 +65,7 @@ set_rx_tx = function( dat ){
 
   #iterate over drugs in patient records
   for( di in 1:nrow(dat) ){
+#    print(paste("For patient ", di))
     #if drug field is NA or NULL, continue to next record
     if(is.na(dat$Drug[di]) | is.null(dat$Drug[di])) next()
     #if drug field is anything other than NA or NULL, assume we know the information for this patient
@@ -79,6 +80,8 @@ set_rx_tx = function( dat ){
    #split on + to get all individual drugs
    nvec <- sort(stringr::str_split(dat$Drug[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
    #iterate on individual drug names
+   ici_p="None"
+   ici_t="None"
    for( dr in nvec ){
      #get just the first observation for drug in question
      dr_data <- drug_list %>% dplyr::filter(preferred_name == dr) %>% slice(1)
@@ -90,9 +93,20 @@ set_rx_tx = function( dat ){
      #handle ici_inhibitors first
      if( dr_data$is_ici_inhibitor ){
        dat$ICI_Rx[di] <- ifelse(dat$ICI_Rx[di] == "None", dr_data$preferred_name, paste(dat$ICI_Rx[di],dr_data$preferred_name, sep=" + "))
-       dat$ICI_Tx[di] <- TRUE       
-       dat$ICI_Pathway[di] <- ifelse(dr_data$is_CTLA4, "CTLA4", "PD1")
-       dat$ICI_Target[di] <- dr_data$ici_pathway
+       dat$ICI_Tx[di] <- TRUE
+       #This is super clunky but I was really struggling to get the primary variable to update via c() so I gave up and did it this way
+       drug_pathway = ifelse(dr_data$is_CTLA4, "CTLA4", "PD1")
+       drug_target = dr_data$ici_pathway
+       if( ici_p[1] == "None" ){
+         ici_p <- c(drug_pathway)
+       }else{
+         ici_p <- c(ici_p, drug_pathway)
+       }
+       if( ici_t[1] == "None" ){
+         ici_t <- c(drug_target)
+       }else{
+         ici_t <- c(ici_t, drug_target)
+       }
      }else{
        dat$Non_ICI_Rx[di] <- ifelse(dat$Non_ICI_Rx[di] == "None", dr_data$preferred_name, paste(dat$Non_ICI_Rx[di], dr_data$preferred_name, sep=" + "))
        dat$Non_ICI_Tx[di] <- TRUE
@@ -108,6 +122,9 @@ set_rx_tx = function( dat ){
        }
      }
    }
+   #combine ICI_Target and ICI_Pathway values here to eliminate any duplicate pathways
+   dat$ICI_Pathway[di] = paste(sort(unique(ici_p)), collapse=" + ")
+   dat$ICI_Target[di] = paste(sort(unique(ici_t)), collapse=" + ")
    #handle rare case where there were both a PD1 and a CTLA4 inhibitor used
    dat$aCTLA4_aPD1_Tx[di] <- dat$aCTLA4_Tx[di] & dat$aPD1_Tx[di]
   }
@@ -116,6 +133,8 @@ set_rx_tx = function( dat ){
 }
   
 #x = set_rx_tx(test_df)
+
+
 default_unknown_Rx = "Unknown"
 default_unknown_Tx = NA
 default_known_Rx = "None"
