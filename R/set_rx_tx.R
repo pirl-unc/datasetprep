@@ -2,12 +2,12 @@
 # library("dplyr")
 # library("stringr")
 
-test_df = data.frame(Patient_ID=c(1:2), Drug=c("ipi+pembro", "Vemurafenib + Atezolizumab + Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
+#test_df = data.frame(Patient_ID=c(1:2), Drug=c("ipi+pembro", "Vemurafenib + Atezolizumab + Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
 
-drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
-drug_list = readr::read_tsv(drug_path, show_col_types=F)
+#drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
+#drug_list = readr::read_tsv(drug_path, show_col_types=F)
 
-#drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), show_col_types=F)
+drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), show_col_types=F)
 #Fill in preferred_name fields where the preferred name is the same as the full generic name
 drug_list$preferred_name[is.na(drug_list$preferred_name)] = drug_list$full_name[is.na(drug_list$preferred_name)]
 #Add columns for is_PD1 and is_CTLA4
@@ -132,7 +132,7 @@ set_rx_tx = function( dat ){
   return(dat)
 }
   
-x = set_rx_tx(test_df)
+#x = set_rx_tx(test_df)
 #x$aCTLA4_aPD1_Tx
 
 default_unknown_Rx = "Unknown"
