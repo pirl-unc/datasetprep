@@ -92,10 +92,9 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
 #' @export
 set_response_data = function( dat, response_col = "Response" ){
   #Normalize abbreviated responses, if there are any, while also normalizing full name values if those already exist
-  response_data = stringr::str_to_sentence(dat[[response_col]])
+  response_data = stringr::str_to_title(dat[[response_col]])
   dat$Response = response_data
   if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
-    dat$Response = NA
     dat$Response[response_data == "Pd"] = "Progressive Disease"
     dat$Response[response_data == "Sd"] = "Stable Disease"
     dat$Response[response_data == "Pr"] = "Partial Response"
@@ -106,8 +105,10 @@ set_response_data = function( dat, response_col = "Response" ){
   dat$Progression= dat$Response == "Progressive Disease"
   dat$Clinical_Benefit = !dat$Progression
   
+  dat$Responder = NA
   dat$Responder[dat$Response %in% c("Complete Response", "Partial Response")] = TRUE
   dat$Responder[dat$Response %in% c("Stable Disease", "Progressive Disease")] = FALSE
   
   return(dat)
 }
+#set_response_data(data.frame(pid=c(1:4), Response=c("Pd", "PD", "Progressive disease", "Progressive Disease")))
