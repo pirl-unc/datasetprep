@@ -23,34 +23,36 @@
 #' 
 #' @export
 format_patient_names = function( old_names, reduce_size=FALSE ){
+  num_unique = length(unique(old_names))
   #remove any non numeric characters from before and after numeric characters
-  new_names = gsub( "[^0-9]", "", old_names )
+  if(all(grepl("^[^0-9]+[0-9]+$|^[0-9]+$", old_names)) & length(unique(old_names)) == length(unique(gsub("[^0-9]", "", old_names)))) new_names = gsub( "[^0-9]", "", old_names )
+  else new_names = old_names
   max_nchar = max(nchar(new_names))
-  new_names = sapply(new_names, function(x){stringr::str_pad(x, width = max_nchar, side = "left", pad = "0")})
+  #str_pad is vectorized so no need for sapply
+  if(any(grepl("^[^0-9]", new_names))) new_names %<>% stringr::str_pad(width=max_nchar, side="right", pad="0")
+  else new_names %<>% stringr::str_pad(width=max_nchar, side="left", pad="0")
   if(reduce_size){
     #find shortest number that is unique for all values
     e_index = max_nchar
     s_index = 1
     unique_names = length(unique(new_names))
     for( ind in (e_index-1):s_index ){
-      if( unique_names == length(unique(substr(new_names, ind, e_index)))){
+       if( unique_names == length(unique(substr(new_names, ind, e_index)))){
         s_index = ind
         break
       }
     }
     new_names = substr(new_names, s_index, e_index)
   }
-  new_names = paste0( "p", new_names )
-  if( !all(grepl( "^p[0-9]*$", new_names) ) ){
-    warning( "Warning: Not all name values are formatted properly: new names not returned.")
-    return()
+  if(!all(grepl("^[p]",new_names))) new_names = paste0( "p", new_names )
+  if(num_unique != length(unique(new_names))){
+    warning("Failed to preserve unique names. Names must be formatted manually.")
+    return(old_names)
   }
-  # if( length(unique(old_names)) != length(old_names) ){
-  #   message( "Warning: Not all new names are unique: new names not returned.")
-  #   return
-  # }
   return(new_names)
 }
+
+#d = format_patient_names(c("p1", "p1a2", "p3", "p1"), FALSE)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # create_patient_ids

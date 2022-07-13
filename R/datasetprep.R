@@ -6,6 +6,7 @@
 #' @importFrom dplyr mutate filter slice
 #' @importFrom stringr str_split str_to_title
 #' @importFrom readr read_tsv
+#' @importFrom housekeeping "%ni%"
 #' 
 #' @keywords internal
 "_PACKAGE"

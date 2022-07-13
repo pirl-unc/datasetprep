@@ -37,13 +37,16 @@ format_sex = function(sex, female_char = "F", male_char = "M"){
 #' 
 #' @export
 set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
-  dat$Race = ifelse(is.na(column_name) | column_name %ni% names(dat), NA, str_to_title(dat[[column_name]]))
+  if(is.na(column_name) | column_name %ni% names(dat)) dat$Race = NA
+  else dat$Race = stringr::str_to_title(dat[[column_name]])
   #override quirk in str_to_title where _ is not a word separator ...
   dat$Race[ dat$Race == "Pac_islander" ] = "Pac_Islander"
   dat$Race[ dat$Race == "Nat_american" ] = "Nat_American"
   dat$Race[dat$Race %like% "White"] = "Caucasian"
   #convert Black and African-American to African
   dat$Race[dat$Race %like% "Black" | dat$Race %like% "African"] = "African"
+  #convert Unknowns to NA
+  dat$Race[dat$Race %like% "Unknown"] = NA
   options = c(NA, "Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
   others = levels(factor(dat$Race[dat$Race %ni% options]))
   if( length(others) > 0 ){
@@ -57,7 +60,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   #           AND na_to_lc is TRUE
   #       NA where data is NA or called out as Other
   for(x in options){
-    if( nrow(filter(dat, Race == x )) > 0 )
+    if( nrow(dplyr::filter(dat, Race == x )) > 0 )
       dat[[x]] <- dat$Race == x
     else
       dat[[x]][ dat$Race %in% options ] = FALSE
@@ -68,7 +71,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   return(dat)
 }
 
-#set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", NA, NA, "Other", "Pac_Islander")), na_to_lc=FALSE)
+#set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_response_data
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,7 +103,9 @@ set_response_data = function( dat, response_col = "Response" ){
     dat$Response[response_data == "Pr"] = "Partial Response"
     dat$Response[response_data == "Cr"] = "Complete Response"
   }
-  
+  #convert remaining values to NA
+  dat$Response[dat$Response %ni% c("Progressive Disease", "Stable Disease", "Partial Response", "Complete Response")] = NA
+  #set additional values
   dat$Progression = NA
   dat$Progression= dat$Response == "Progressive Disease"
   dat$Clinical_Benefit = !dat$Progression
@@ -111,4 +116,4 @@ set_response_data = function( dat, response_col = "Response" ){
   
   return(dat)
 }
-#set_response_data(data.frame(pid=c(1:4), Response=c("Pd", "PD", "Progressive disease", "Progressive Disease")))
+#set_response_data(data.frame(pid=c(1:5), Response=c("Pd", "PD", "Summin Else", "NE", "Progressive Disease")))

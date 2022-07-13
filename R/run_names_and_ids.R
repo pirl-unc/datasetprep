@@ -21,9 +21,11 @@ create_run_names = function(normal_tissue, analyte, file_prefix){
     warning("Warning: for create_run_names to work properly, all parameters must be of the same length.")
     return()
   }
+  max_nchar = max(nchar(file_prefix))
   if( length(unique(nchar(file_prefix))) > 1 ){
-    warning("Warning: for create_run_names to work properly, all file_prefix's must be of the same length.")
-    return()
+    #normalize lengths by padding left with "_"
+    print("Normalizing file_prefix to same length.")
+    file_prefix %<>% stringr::str_pad(width=max_nchar, side="left", pad="_")
   }
   substrate_lut = c("d","r","m","p")
   names(substrate_lut) = c("DNA", "RNA", "Methylation", "Protein")
@@ -31,7 +33,7 @@ create_run_names = function(normal_tissue, analyte, file_prefix){
   type_lut = c("a","n")
   names(type_lut) = c("FALSE", "TRUE")
   s_index = 1
-  e_index = nchar(file_prefix[1])
+  e_index = max_nchar
   for( x in ((e_index)-1):1 ){
     if( length(unique(substr(file_prefix, x, e_index))) == length(file_prefix) ){
       s_index = x
