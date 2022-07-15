@@ -40,7 +40,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   if(is.na(column_name) | column_name %ni% names(dat)) dat$Race = NA
   else dat$Race = stringr::str_to_title(dat[[column_name]])
   #override quirk in str_to_title where _ is not a word separator ...
-  dat$Race[ dat$Race == "Pac_islander" ] = "Pac_Islander"
+  dat$Race[ dat$Race == "Pac_islander" | dat$Race %like% "Pacific"] = "Pac_Islander"
   dat$Race[ dat$Race == "Nat_american" ] = "Nat_American"
   dat$Race[dat$Race %like% "White"] = "Caucasian"
   #convert Black and African-American to African
@@ -67,7 +67,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   }
   dat$Likely_Caucasian = dat$Race %in% options[c(1,NA)]
   if( !na_to_lc ) dat$Likely_Caucasian[ is.na(dat$Race)] = NA
-  dat$Race[ dat$Race == "Other" ] = NA
+#  dat$Race[ dat$Race == "Other" ] = NA
   return(dat)
 }
 

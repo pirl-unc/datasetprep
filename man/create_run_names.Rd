@@ -4,7 +4,7 @@
 \alias{create_run_names}
 \title{Creates run names}
 \usage{
-create_run_names(normal_tissue, analyte, file_prefix)
+create_run_names(normal_tissue, analyte, file_prefix, shorten = T)
 }
 \arguments{
 \item{normal_tissue}{Boolean vector indicating whether tissue was normal or tumor}
@@ -12,6 +12,8 @@ create_run_names(normal_tissue, analyte, file_prefix)
 \item{analyte}{Character vector of analytes containing DNA, RNA, Methylation or Protein}
 
 \item{file_prefix}{Unique file identifiers}
+
+\item{shorten}{Boolean whether or not to reduce file_prefix to minimum unique length, defaults TRUE}
 }
 \value{
 Vector of run names

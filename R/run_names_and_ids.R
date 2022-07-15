@@ -11,11 +11,12 @@
 #' @param normal_tissue Boolean vector indicating whether tissue was normal or tumor
 #' @param analyte Character vector of analytes containing DNA, RNA, Methylation or Protein
 #' @param file_prefix Unique file identifiers
+#' @param shorten Boolean whether or not to reduce file_prefix to minimum unique length, defaults TRUE
 #' 
 #' @return Vector of run names
 #' 
 #' @export
-create_run_names = function(normal_tissue, analyte, file_prefix){
+create_run_names = function(normal_tissue, analyte, file_prefix, shorten=T){
   num_observations = length(normal_tissue)
   if( length(analyte) != num_observations | length(file_prefix) != num_observations ){
     warning("Warning: for create_run_names to work properly, all parameters must be of the same length.")
@@ -34,10 +35,12 @@ create_run_names = function(normal_tissue, analyte, file_prefix){
   names(type_lut) = c("FALSE", "TRUE")
   s_index = 1
   e_index = max_nchar
-  for( x in ((e_index)-1):1 ){
-    if( length(unique(substr(file_prefix, x, e_index))) == length(file_prefix) ){
-      s_index = x
-      break
+  if(shorten){
+    for( x in ((e_index)-1):1 ){
+      if( length(unique(substr(file_prefix, x, e_index))) == length(file_prefix) ){
+        s_index = x
+        break
+      }
     }
   }
   return(paste0( type_lut[as.character(normal_tissue)], substrate_lut[analyte],  "-", substr(file_prefix, s_index, e_index)))
