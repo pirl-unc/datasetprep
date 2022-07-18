@@ -65,7 +65,7 @@ configure_output_columns = function(){
 #' @export
 list_missing_columns = function(dat, col.names=NA){
   if( !is.vector(col.names) ) col.names = RUN_COLUMNS
-  missing = colnames(dat)[!(colnames(dat) %in% col.names)]
+  missing = col.names[!(col.names %in% colnames(dat))]
   if(length(missing) == 0) cat("There are no missing columns.")
   else{
     cat(paste("There are ", length(missing), " missing columns:\n")) 
