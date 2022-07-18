@@ -52,6 +52,29 @@ configure_output_columns = function(){
   RUN_COLUMNS <<- c(RUN_ONLY_COLUMNS, PATIENT_ONLY_COLUMNS)
 }
 
+#configure_output_columns()
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# list_missing_columns
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @title Prints any column names not yet defined in data
+#' 
+#' @description 
+#' Method to print out any col.names not yet defined in the data passed in. Intended to help with preparing valid data.
+#'  
+#' @export
+list_missing_columns = function(dat, col.names=NA){
+  if( !is.vector(col.names) ) col.names = RUN_COLUMNS
+  missing = colnames(dat)[!(colnames(dat) %in% col.names)]
+  if(length(missing) == 0) cat("There are no missing columns.")
+  else{
+    cat(paste("There are ", length(missing), " missing columns:\n")) 
+    cat(paste(missing, collapse="\n"))
+  }
+}
+
+#list_missing_columns(data.frame(Patient_ID=NA, Patient_Name=NA, Dataset=NA), c("Patient_ID", "Patient_Name", "Dataset"))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # configure_readme
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

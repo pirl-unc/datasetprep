@@ -46,6 +46,7 @@ for(dci in 1:length(classes)){
 #' 
 #' @export
 set_rx_tx = function( dat ){
+  dat$Drug %<>% stringr::str_trim() %>% gsub( "[ ]+", "", .)
   #normalize drug names, replace full names with preferred names and normalized case
   for( rxi in 1:nrow(drug_list) ){
     dat$Drug %<>% gsub( drug_list$preferred_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) %>%
