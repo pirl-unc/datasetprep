@@ -12,9 +12,9 @@
 a = function(...){
   my_output = paste0(...)
   if(!is.null(readme_path)){
-    write(my_output, readme_path, append = TRUE)
+    cat(my_output," ", file=readme_path, append = TRUE, sep="\n")
   }
-  cat(paste0(my_output, "\n\n"))
+  cat(my_output)
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

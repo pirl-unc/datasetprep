@@ -50,8 +50,12 @@ output_variable_summary = function(dat=NULL, column_names=NULL, max_length=10, t
       my_out = gsub("Progressive Disease", "PD", my_out)
       message(my_out)
     }else{
-      message(paste("has more than", max_length, "values"))
+      message(paste("more than", max_length, "values"))
+      message(paste("example value: ", dat[[this_name]][!is.na(dat[[this_name]])][1]))
     }
     message("")
   }
 }
+
+#d <- data.frame(id=c(NA, "p120","p125","p117"), age=c(10,14,12,10))
+#output_variable_summary(d, c("id","age"), 2)
