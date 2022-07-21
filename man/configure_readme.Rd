@@ -4,12 +4,12 @@
 \alias{configure_readme}
 \title{Configure readme file}
 \usage{
-configure_readme(output_dir, dataset)
+configure_readme(output_dir, file_prefix)
 }
 \arguments{
 \item{output_dir}{path in which to save readme file}
 
-\item{dataset}{name of dataset to use in readme file}
+\item{file_prefix}{value to use as prefix to _readme.txt file}
 }
 \description{
 Method sets the readme path and removes existing readme file

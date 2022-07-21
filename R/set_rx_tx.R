@@ -5,9 +5,9 @@
 #test_df = data.frame(Patient_ID=c(1:2), Drug=c("ipi+pembro", "Vemurafenib + Atezolizumab + Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
 
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
-#drug_list = readr::read_tsv(drug_path, show_col_types=F)
+#drug_list = readr::read_tsv(drug_path, col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 
-drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), show_col_types=F)
+drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 #Fill in preferred_name fields where the preferred name is the same as the full generic name
 drug_list$preferred_name[is.na(drug_list$preferred_name)] = drug_list$full_name[is.na(drug_list$preferred_name)]
 #Add columns for is_PD1 and is_CTLA4
@@ -18,6 +18,8 @@ classes = c("is_PD1", "is_CTLA4", "is_aVEGF", "is_aBRAF", "is_aMAPK", "is_chemo"
 names(classes) = c("aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo")
 
 #convert all NA's to FALSE in drug class fields
+
+
 drug_list$is_ici_inhibitor[is.na(drug_list$is_ici_inhibitor)] = FALSE
 for(dci in 1:length(classes)){
   drug_list[[classes[dci]]][is.na(drug_list[[classes[dci]]])] = FALSE

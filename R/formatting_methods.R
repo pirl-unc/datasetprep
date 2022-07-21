@@ -72,6 +72,9 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
 }
 
 #set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
+
+fm_response_lut = c(Pd="Progressive Disease", Sd="Stable Disease", Pr="Partial Response", Cr="Complete Response")
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_response_data
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,16 +96,22 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
 #' @return Returns dat with updated and added columns
 #' 
 #' @export
+#' 
+# dat = data.frame(Response=c("PD","SD","Pr","Pd","NE",NA,"CR","CR"))
+# set_response_data(dat)
 set_response_data = function( dat, response_col = "Response" ){
   #Normalize abbreviated responses, if there are any, while also normalizing full name values if those already exist
   response_data = stringr::str_to_title(dat[[response_col]])
   dat$Response = response_data
-  if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
-    dat$Response[response_data == "Pd"] = "Progressive Disease"
-    dat$Response[response_data == "Sd"] = "Stable Disease"
-    dat$Response[response_data == "Pr"] = "Partial Response"
-    dat$Response[response_data == "Cr"] = "Complete Response"
-  }
+  
+  dat$Response = fm_response_lut[dat$Response]
+  
+  # if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
+  #   dat$Response[response_data == "Pd"] = "Progressive Disease"
+  #   dat$Response[response_data == "Sd"] = "Stable Disease"
+  #   dat$Response[response_data == "Pr"] = "Partial Response"
+  #   dat$Response[response_data == "Cr"] = "Complete Response"
+  # }
   #convert remaining values to NA
   dat$Response[dat$Response %ni% c("Progressive Disease", "Stable Disease", "Partial Response", "Complete Response")] = NA
   #set additional values

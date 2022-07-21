@@ -4,8 +4,13 @@
 \alias{list_missing_columns}
 \title{Prints any column names not yet defined in data}
 \usage{
-list_missing_columns(dat, col.names = NA)
+list_missing_columns(dat, col_names)
+}
+\arguments{
+\item{dat}{data to look for column names within}
+
+\item{col_names}{vector representing full set of column names expected}
 }
 \description{
-Method to print out any col.names not yet defined in the data passed in. Intended to help with preparing valid data.
+Method to print out any col_names not yet defined in the data passed in. Intended to help with preparing valid data.
 }

@@ -56,12 +56,12 @@ Ramucrimab		F		T	F	F	F		Binds VEGF2 antigen with high affnity preventing typical
 XELOX		F		F	F	F	T	Oxaliplatin and capecitabine	
 Lapatinib		F		F	F	F	F	Tykerb and Tyverb	
 DXP		F		F	F	F	T	docetaxel, cisplatin and capecitabine	
-DP		??cant find any refereces to this drug							
+DP									
 SOX		F		F	F	F	T	S-1 and oxaliplatin	
 SP		F		F	F	F	T	S-1 plus cisplatin	
 XP		F		F	F	F	T	Capecitabine and cisplatin	
 Herceptin		F		F	F	F	F	Trastuzumab	
-FGFR2		??? can't find data on this one, appears to be the name of a gene, but not of a drug							
+FGFR2									
 Selumetinib		F		F	F	T	F	Koselugo	Inhibits MEP1
 Volitinib		F		F	F	F	F		
 FPA144-001		F		F	F	F	F	Bemarituzumab	
