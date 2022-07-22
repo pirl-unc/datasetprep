@@ -48,7 +48,7 @@ for(dci in 1:length(classes)){
 #' @return Returns dataframe with updated and added *_Rx and *_Tx columns
 #' 
 #' @export
-#' set_rx_tx(test_df)
+#'
 set_rx_tx = function( dat ){
   #normalize drug names, using [] instead of $Drug to avoid copying entire df
   dat[,"Drug"] <- dat$Drug %>% stringr::str_trim() %>% gsub( "[ ]*\\+[ ]*", "+", .) %>% stringr::str_to_lower()
