@@ -7,7 +7,7 @@
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
 #drug_list = readr::read_tsv(drug_path, col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 
-drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), 
+drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"),
                              col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l",
                              ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l",
                              name_aliases="c", description="c" ))
@@ -53,7 +53,7 @@ set_rx_tx = function( dat ){
   #normalize drug names, using [] instead of $Drug to avoid copying entire df
   dat[,"Drug"] <- dat$Drug %>% stringr::str_trim() %>% gsub( "[ ]*\\+[ ]*", "+", .) %>% stringr::str_to_lower()
   #convert ""'s to NA's
-  dat[,"Drug"][dat$Drug == ""] <- NA
+  dat[dat$Drug == "","Drug"] <- NA
   #tmp data.frame initialized with "None" and FALSE
   tmp_df <- data.frame( Drug=levels(factor(dat$Drug)), ICI_Pathway="None", ICI_Target="None",
                        ICI_Rx="None", ICI_Tx=FALSE, Non_ICI_Rx="None", Non_ICI_Tx=FALSE, aCTLA4_aPD1_Tx=FALSE )
@@ -126,7 +126,8 @@ set_rx_tx = function( dat ){
   tmp_df$p_name <- NULL
   #merge new columns (tmp_df) into dat
   #to avoid duplicate columns, remove all overlapping columns from dat EXCEPT Drug which is used for merge
-  dat <- dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")]
+#  print(dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")])
+  dat %<>% dplyr::select(colnames(dat)[colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")])
   return(merge(dat, tmp_df, by="Drug"))
 }
 #set_rx_tx(test_df)
