@@ -11,6 +11,9 @@ list_missing_columns(dat, col_names)
 
 \item{col_names}{vector representing full set of column names expected}
 }
+\value{
+vector of missing column names
+}
 \description{
 Method to print out any col_names not yet defined in the data passed in. Intended to help with preparing valid data.
 }

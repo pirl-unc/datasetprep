@@ -50,7 +50,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   options = c(NA, "Caucasian", "Asian", "African", "Nat_American", "Pac_Islander", "Other")
   others = levels(factor(dat$Race[dat$Race %ni% options]))
   if( length(others) > 0 ){
-    warning("Warning :: following Race values converted to 'Other':: ", paste(others, collapse=", "))
+    warning("The following Race values converted to 'Other':: ", paste(others, collapse=", "))
     dat$Race[dat$Race %ni% options] = "Other"  
   }
   options = options[-c(1,length(options))]
@@ -68,12 +68,10 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   dat$Likely_Caucasian = dat$Race %in% options[c(1,NA)]
   if( !na_to_lc ) dat$Likely_Caucasian[ is.na(dat$Race)] = NA
 #  dat$Race[ dat$Race == "Other" ] = NA
+  output_summary(dat$Race, "Race")
   return(dat)
 }
-
-#set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
-
-fm_response_lut = c(Pd="Progressive Disease", Sd="Stable Disease", Pr="Partial Response", Cr="Complete Response")
+#rf = set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_response_data
@@ -97,21 +95,19 @@ fm_response_lut = c(Pd="Progressive Disease", Sd="Stable Disease", Pr="Partial R
 #' 
 #' @export
 #' 
-# dat = data.frame(Response=c("PD","SD","Pr","Pd","NE",NA,"CR","CR"))
-# set_response_data(dat)
 set_response_data = function( dat, response_col = "Response" ){
   #Normalize abbreviated responses, if there are any, while also normalizing full name values if those already exist
   response_data = stringr::str_to_title(dat[[response_col]])
   dat$Response = response_data
-  
-  dat$Response = fm_response_lut[dat$Response]
-  
-  # if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
-  #   dat$Response[response_data == "Pd"] = "Progressive Disease"
-  #   dat$Response[response_data == "Sd"] = "Stable Disease"
-  #   dat$Response[response_data == "Pr"] = "Partial Response"
-  #   dat$Response[response_data == "Cr"] = "Complete Response"
-  # }
+  #clever approach but doesn't work if any entries are already full words b/c they don't match the lut
+  #fm_response_lut = c(Pd="Progressive Disease", Sd="Stable Disease", Pr="Partial Response", Cr="Complete Response")  
+  #dat$Response[dat] = fm_response_lut[dat$Response]
+  if(any(response_data %in% c("Pd", "Sd", "Pr", "Cr"))){
+    dat$Response[response_data == "Pd"] = "Progressive Disease"
+    dat$Response[response_data == "Sd"] = "Stable Disease"
+    dat$Response[response_data == "Pr"] = "Partial Response"
+    dat$Response[response_data == "Cr"] = "Complete Response"
+  }
   #convert remaining values to NA
   dat$Response[dat$Response %ni% c("Progressive Disease", "Stable Disease", "Partial Response", "Complete Response")] = NA
   #set additional values
@@ -122,7 +118,17 @@ set_response_data = function( dat, response_col = "Response" ){
   dat$Responder = NA
   dat$Responder[dat$Response %in% c("Complete Response", "Partial Response")] = TRUE
   dat$Responder[dat$Response %in% c("Stable Disease", "Progressive Disease")] = FALSE
-  
+  output_summary(dat$Response, "Response")
   return(dat)
 }
-#set_response_data(data.frame(pid=c(1:5), Response=c("Pd", "PD", "Summin Else", "NE", "Progressive Disease")))
+# dat = data.frame(Response=c("PD","SD","Pr","Pd","NE",NA,"CR","CR"))
+# set_response_data(dat)
+# set_response_data(data.frame(pid=c(1:6), Response=c("Pd", "PD", "Summin Else", "NE", "Progressive Disease", NA)))
+
+output_summary = function(vec, varname){
+  s = summary(factor(vec))
+  cat("Final ",varname," values:", "\n")
+  for( n in names(s) ){
+    cat(n, ": ", s[n], "\n")
+  }
+}
