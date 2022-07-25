@@ -2,15 +2,15 @@
 # library("dplyr")
 # library("stringr")
 
-#test_df = data.frame(Patient_ID=c(1:5), Drug=c(NA, "Ipilimumab+pembro", "Vemurafenib + Atezolizumab + Dabrafenib", " ", "Vemurafenib  + Atezolizumab+ Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
+#test_df = data.frame(Patient_ID=c(1:5), Run_ID=LETTERS[1:5], Non_ICI_Rx=T, ICI_Rx=c(NA, "Ipilimumab+pembro", "Vemurafenib + Atezolizumab + Dabrafenib", " ", "Vemurafenib  + Atezolizumab+ Dabrafenib"),Drug=c(NA, "Ipilimumab+pembro", "Vemurafenib + Atezolizumab + Dabrafenib", " ", "Vemurafenib  + Atezolizumab+ Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
 
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
 #drug_list = readr::read_tsv(drug_path, col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 
 drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"), 
-                            col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l",
-                            ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l",
-                            name_aliases="c", description="c" ))
+                             col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l",
+                             ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l",
+                             name_aliases="c", description="c" ))
 #Fill in preferred_name fields where the preferred name is the same as the full generic name
 drug_list$preferred_name[is.na(drug_list$preferred_name)] = drug_list$full_name[is.na(drug_list$preferred_name)]
 #Add columns for is_PD1 and is_CTLA4
@@ -125,6 +125,8 @@ set_rx_tx = function( dat ){
   #remove the p_name column as no longer needed
   tmp_df$p_name <- NULL
   #merge new columns (tmp_df) into dat
+  #to avoid duplicate columns, remove all overlapping columns from dat EXCEPT Drug which is used for merge
+  dat <- dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")]
   return(merge(dat, tmp_df, by="Drug"))
 }
 #set_rx_tx(test_df)
