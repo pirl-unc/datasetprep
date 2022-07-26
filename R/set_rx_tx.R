@@ -126,8 +126,8 @@ set_rx_tx = function( dat ){
   tmp_df$p_name <- NULL
   #merge new columns (tmp_df) into dat
   #to avoid duplicate columns, remove all overlapping columns from dat EXCEPT Drug which is used for merge
-#  print(dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")])
-  dat %<>% dplyr::select(colnames(dat)[colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")])
+  dat %<>% as.data.frame() #following line doesn't work if dat is a data.table data.frame which it is when coming from Gide dataset
+  dat <-dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")]
   return(merge(dat, tmp_df, by="Drug"))
 }
 #set_rx_tx(test_df)
