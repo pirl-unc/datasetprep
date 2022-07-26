@@ -69,6 +69,7 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   if( !na_to_lc ) dat$Likely_Caucasian[ is.na(dat$Race)] = NA
 #  dat$Race[ dat$Race == "Other" ] = NA
   output_summary(dat$Race, "Race")
+  cat("Also added/modified columns: ", options, "and Likely_Caucasian", sep=", ")
   return(dat)
 }
 #rf = set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
@@ -119,6 +120,7 @@ set_response_data = function( dat, response_col = "Response" ){
   dat$Responder[dat$Response %in% c("Complete Response", "Partial Response")] = TRUE
   dat$Responder[dat$Response %in% c("Stable Disease", "Progressive Disease")] = FALSE
   output_summary(dat$Response, "Response")
+  cat("Also added/modified columns: Responder, Progression and Clinical Benefit")
   return(dat)
 }
 # dat = data.frame(Response=c("PD","SD","Pr","Pd","NE",NA,"CR","CR"))

@@ -53,7 +53,7 @@ set_rx_tx = function( dat ){
   #normalize drug names, using [] instead of $Drug to avoid copying entire df
   dat[,"Drug"] <- dat$Drug %>% stringr::str_trim() %>% gsub( "[ ]*\\+[ ]*", "+", .) %>% stringr::str_to_lower()
   #convert ""'s to NA's
-  dat[dat$Drug == "","Drug"] <- NA
+  dat[dat$Drug == "" & !is.na(dat$Drug),"Drug"] <- NA
   #tmp data.frame initialized with "None" and FALSE
   tmp_df <- data.frame( Drug=levels(factor(dat$Drug)), ICI_Pathway="None", ICI_Target="None",
                        ICI_Rx="None", ICI_Tx=FALSE, Non_ICI_Rx="None", Non_ICI_Tx=FALSE, aCTLA4_aPD1_Tx=FALSE )
@@ -128,9 +128,10 @@ set_rx_tx = function( dat ){
   #to avoid duplicate columns, remove all overlapping columns from dat EXCEPT Drug which is used for merge
   dat %<>% as.data.frame() #following line doesn't work if dat is a data.table data.frame which it is when coming from Gide dataset
   dat <-dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")]
+  cat("Added/Modified columns: ICI_Target, ICI_Pathway, ICI_Rx, ICI_Tx, Non_ICI_Rx, Non_ICI_Tx,",paste(names(classes),"Rx", sep="_", collapse=", "),", ", paste(names(classes),"Tx", sep="_", collapse=", "), "and aCTLA4_aPD1_Tx.")
   return(merge(dat, tmp_df, by="Drug"))
 }
-#set_rx_tx(test_df)
+#dx=set_rx_tx(test_df)
 
 default_unknown_Rx = "Unknown"
 default_unknown_Tx = NA
@@ -175,6 +176,7 @@ init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=
                   Subsq_aMAPK_Tx=sq_Tx,
                   Subsq_aCTLA4_aPD1_Tx=sq_Tx
                   )
+  cat("Added/Modified columns: Prior_Rx, Prior_ICI_Rx, Prior_Tx, Prior_ICI_Tx, Prior_aCTLA4_Tx, Prior_aMAPK_Tx, Subsq_Rx, Subsq_ICI_Rx, Subsq_Tx, Subsq_ICI_Tx, Subsq_aCTLA4_Tx, Subsq_aMAPK_Tx, Subsq_aCTLA4_aPD1_Tx")
   return(dat)
 }
 

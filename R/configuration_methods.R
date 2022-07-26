@@ -1,23 +1,4 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# a
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Adds annotations
-#' 
-#' @description 
-#' Method outputs text to configured readme file and to console
-#'  
-#' @param ... Text to output
-#' 
-#' @export
-a = function(...){
-  my_output = paste0(...)
-  if(!is.null(README_PATH)){
-    cat(my_output," ", file=README_PATH, append = TRUE, sep="\n")
-  }
-  cat(my_output)
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # configure_output_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @title Defines columns for output data
@@ -114,52 +95,4 @@ get_patient_columns = function(){
 #' 
 get_all_columns = function(){
   return (RUN_COLUMNS)
-}
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# list_missing_columns
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Prints any column names not yet defined in data
-#' 
-#' @description 
-#' Method to print out any col_names not yet defined in the data passed in. Intended to help with preparing valid data.
-#'
-#' @param dat data to look for column names within
-#' @param col_names vector representing full set of column names expected
-#' 
-#' @return vector of missing column names 
-#' 
-#' @export
-#' 
-list_missing_columns = function(dat, col_names){
-  missing = setdiff(col_names, colnames(dat))
-  #  missing = col_names[!(col_names %in% colnames(dat))]
-  if(length(missing) == 0) cat("There are no missing columns.")
-  else{
-    cat(paste("There are ", length(missing), " missing columns:\n")) 
-    cat(paste(missing, collapse="\n"))
-  }
-  return(missing)
-}
-
-#list_missing_columns(data.frame(Patient_ID=NA, Dataset=NA), c("Patient_ID", "Patient_Name", "Dataset"))
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# configure_readme
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Configure readme file
-#' 
-#' @description 
-#' Method sets the readme path and removes existing readme file
-#'  
-#' @param output_dir path in which to save readme file
-#' @param file_prefix value to use as prefix to _readme.txt file
-#' 
-#' @export
-configure_readme = function( output_dir, file_prefix ){
-  README_PATH <<- file.path(output_dir, paste0(file_prefix, "_readme.txt"))
-  
-  if(file.exists(README_PATH)) file.remove( README_PATH )
-  
-  a("Readme path set to: ", README_PATH)
 }

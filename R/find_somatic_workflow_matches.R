@@ -25,16 +25,16 @@ find_somatic_workflow_matches = function( dat ){
     return()
     
   }
-  dat$Somatic_Workflow_Match = NA
+  Somatic_Workflow_Match = dat$Patient_Name
   a("For Somatic_Workflow_Match, set to Patient_Name where patient has RNA and DNA samples from Tumor tissue AND a DNA sample from Normal tissue.")
   for (patient_name in unique(dat$Patient_Name)){
     subdat = dat[dat$Patient_Name == patient_name,]
     ar_runs = subdat[!subdat$Normal & subdat$Analyte == "RNA", c("Run_Name")]
     ad_runs = subdat[!subdat$Normal & subdat$Analyte == "DNA", c("Run_Name")]
     nd_runs = subdat[subdat$Normal & subdat$Analyte == "DNA", c("Run_Name")]
-    if(length(ar_runs) > 0 & length(ad_runs) > 0 & length(nd_runs) > 0){
-      dat$Somatic_Workflow_Match[dat$Run_Name %in% c(ar_runs, ad_runs, nd_runs)] = patient_name
+    if(length(ar_runs) == 0 | length(ad_runs) == 0 | length(nd_runs) == 0){
+      Somatic_Workflow_Match[dat$Run_Name %in% c(ar_runs, ad_runs, nd_runs)] = NA
     }
   }
-  return(dat$Somatic_Workflow_Match)
+  return(Somatic_Workflow_Match)
 }
