@@ -1,5 +1,5 @@
 Package: datasetprep
-Version: 0.2-21
+Version: 0.2-22
 Title: Basic Helpers for Dataset Prep
 Description: Methods to make life easier when preparing datasets for analysis.
 Authors@R: 
@@ -10,7 +10,8 @@ Authors@R:
 Imports:
     readr,
     magrittr,
-    stringr,dplyr,
+    stringr,
+    dplyr,
     housekeeping
 Suggests:
     devtools

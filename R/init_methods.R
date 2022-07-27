@@ -57,10 +57,19 @@ RAW_DATA_DIR = "/datastore/nextgenout5/share/labs/Vincent_Lab/datasets"
 #' 
 #' @param dataset The name of the dataset ( which should match the folder name for this dataset in the filesystem )
 #' @param filename The name of the input file
+#' @param subfolder The path to the subfolder containing the input file, if any
 #' 
-#' @return The full path to the file being requested
+#' @return The full path to the file being requested starting from 
+#' /datastore/nextgenout5/share/labs/Vincent_Lab/datasets
 #' 
 #' @export
-create_input_path = function( dataset, filename ){
-  return(file.path(RAW_DATA_DIR, dataset, filename))
+create_input_path = function( dataset, filename, subfolder=NA ){
+  if( !is.na(subfolder) ){
+    #strip beginning and ending slashes from subfolder ...
+    subfolder %<>% gsub("^/+", "", .) %>% gsub("/+$", "", . )
+    return(file.path(RAW_DATA_DIR, dataset, subfolder, filename)) 
+  }else{
+    return(file.path(RAW_DATA_DIR, dataset, filename))
+  }
 }
+#create_input_path("mds","data.txt")

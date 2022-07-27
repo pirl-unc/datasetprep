@@ -4,15 +4,18 @@
 \alias{create_input_path}
 \title{Creates the full path to a given input file}
 \usage{
-create_input_path(dataset, filename)
+create_input_path(dataset, filename, subfolder = NA)
 }
 \arguments{
 \item{dataset}{The name of the dataset ( which should match the folder name for this dataset in the filesystem )}
 
 \item{filename}{The name of the input file}
+
+\item{subfolder}{The path to the subfolder containing the input file, if any}
 }
 \value{
-The full path to the file being requested
+The full path to the file being requested starting from 
+/datastore/nextgenout5/share/labs/Vincent_Lab/datasets
 }
 \description{
 Uses the RAW_DATA_DIR and the parameters passed in to create a full path to the input file being requested
