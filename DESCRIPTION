@@ -1,5 +1,5 @@
 Package: datasetprep
-Version: 0.2-22
+Version: 0.3.2
 Title: Basic Helpers for Dataset Prep
 Description: Methods to make life easier when preparing datasets for analysis.
 Authors@R: 
