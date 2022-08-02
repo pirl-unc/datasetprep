@@ -1,17 +1,31 @@
 The purpose of this package is to add tools that make life easier when performing dataset prep.  
 
-##Setup and debugging methods
+## Install
+Restart R Session  
+In R:
+``` r
+devtools::install_github("Benjamin-Vincent-Lab/datasetprep")
+```
 
-### a
-This method allows user to add annotations to a dataset prep file. Annotations are output into configured readme_path ( if one exists ) and output to console.
+Or for a specific version:
+``` r
+devtools::install_github("Benjamin-Vincent-Lab/datasetprep", ref = "0.3.2")
+```
 
-### configure_readme
-This method sets up the readme file based on the dataset name and output_dir provided.
+Use the package documentation for help:
+``` r
+??datasetprep
+```
 
-### output_variable_summary
-In order to confirm data being generated through the prep phase, it can be helpful to output a summary of variables in a data.frame. This method takes a dataframe and does just that, outputting the summary to the console.
+##Configuration methods
 
-## Basic normalization
+###init_paths
+Sets up the post processing directory and prepares temp library folder if necessary.
+
+###create_input_paths
+Uses the RAW_DATA_DIR and the parameters passed in to create a full path to the input file being requested.
+
+## Standardizing column names
 
 ### format_sex
 Converts data's original sex characters to standard Female / Male.
