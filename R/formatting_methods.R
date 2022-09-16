@@ -7,18 +7,26 @@
 #' Converts data's original sex characters to standard Female / Male.
 #' 
 #' @param sex Vector of sex values
-#' @param female_char Character used in sex to represent Female, defaults to F
-#' @param male_char Character used in sex to represent Male, defaults to M
+#' @param female_chars Characters in sex to replace with Female, defaults include "female", "F", and "f"
+#' @param male_chars Characters in sex to replace with Male, defaults include "male", "M", and "m"
+#' @param female_replacement Value to replace female_chars with, defaults to "Female"
+#' @param male_replacement Value to replace male_chars with, defaults to "Male"
 #' 
 #' @return Returns the updated sex vector
 #' 
 #' @export
-format_sex = function(sex, female_char = "F", male_char = "M"){
-  sex[sex == female_char] = "Female"
-  sex[sex == male_char] = "Male"
-  return(sex)
+format_sex = function(sex, female_chars = c( "female", "F", "f" ), male_chars = c( "male", "M", "m" ), female_replacement = "Female", male_replacement= "Male" ){
+  prior_na_count <- sum(is.na(sex))
+  #create look up table
+  lut <- c( rep(c("Female", "Male"), times=c(length(female_chars), length(male_chars)) ))
+  names(lut) <- c(female_chars, male_chars)
+  #return values as looked up in lut
+  sex <- mapply( function(s) return(lut[s]), sex, USE.NAMES = F )
+  if( sum(is.na(sex)) > prior_na_count ) warning( paste("Converted", (sum(is.na(sex)) - prior_na_count), " values not found in male_chars or female_chars to NA.") )
+  return( sex )
 }
 
+#format_sex( c("M", "F", "F", "m", "male", "female", "f", NA, "", "Min"), male_chars = c("male","M","m","Min",""))
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_race_fields
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

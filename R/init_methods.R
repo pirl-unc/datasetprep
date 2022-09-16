@@ -45,12 +45,12 @@ init_paths = function(base_dir){
 
 #initialize this base path here since it doesn't ever change between datasets
 #and can thus remain in the package environment
-RAW_DATA_DIR = "/datastore/nextgenout5/share/labs/Vincent_Lab/datasets"
+#RAW_DATA_DIR = "/datastore/nextgenout5/share/labs/Vincent_Lab/datasets"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # create_input_path
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Creates the full path to a given input file
+#' @title Creates the full path to a given input file ( DEPRICATED )
 #' 
 #' @description 
 #' Uses the RAW_DATA_DIR and the parameters passed in to create a full path to the input file being requested
@@ -64,12 +64,13 @@ RAW_DATA_DIR = "/datastore/nextgenout5/share/labs/Vincent_Lab/datasets"
 #' 
 #' @export
 create_input_path = function( dataset, filename, subfolder=NA ){
-  if( !is.na(subfolder) ){
-    #strip beginning and ending slashes from subfolder ...
-    subfolder %<>% gsub("^/+", "", .) %>% gsub("/+$", "", . )
-    return(file.path(RAW_DATA_DIR, dataset, subfolder, filename)) 
-  }else{
-    return(file.path(RAW_DATA_DIR, dataset, filename))
-  }
+  stop( "This method is depricated. You'll have to set your input path(s) manually. Sorry for that." )
+  # if( !is.na(subfolder) ){
+  #   #strip beginning and ending slashes from subfolder ...
+  #   subfolder %<>% gsub("^/+", "", .) %>% gsub("/+$", "", . )
+  #   return(file.path(RAW_DATA_DIR, dataset, subfolder, filename)) 
+  # }else{
+  #   return(file.path(RAW_DATA_DIR, dataset, filename))
+  # }
 }
 #create_input_path("mds","data.txt")

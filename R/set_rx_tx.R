@@ -1,5 +1,3 @@
-# library("readr")
-# library("dplyr")
 # library("stringr")
 
 #test_df = data.frame(Patient_ID=c(1:5), Run_ID=LETTERS[1:5], Non_ICI_Rx=T, ICI_Rx=c(NA, "Ipilimumab+pembro", "Vemurafenib + Atezolizumab + Dabrafenib", " ", "Vemurafenib  + Atezolizumab+ Dabrafenib"),Drug=c(NA, "Ipilimumab+pembro", "Vemurafenib + Atezolizumab + Dabrafenib", " ", "Vemurafenib  + Atezolizumab+ Dabrafenib"))#, "nivo + Binimetinib + ipi", "Binimetinib"))#, "Pembro", "Ecorafenib", "Vinblastine","Ramucrimab", "Atezolizumab", "Atezolizumab + Pembro"))
@@ -7,36 +5,17 @@
 #drug_path = paste(find_folder_along_path(housekeeping::get_script_dir_path(include_file_name = F), "inst"), "rx_list", "rx_list.tsv", sep="/")
 #drug_list = readr::read_tsv(drug_path, col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 
-drug_list = readr::read_tsv(system.file(file.path("rx_list", "rx_list.tsv"), package = "datasetprep"),
-                             col_types=readr::cols(full_name="c",preferred_name="c", is_ici_inhibitor="l",
-                             ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l",
-                             name_aliases="c", description="c" ))
-#Fill in preferred_name fields where the preferred name is the same as the full generic name
-drug_list$preferred_name[is.na(drug_list$preferred_name)] = drug_list$full_name[is.na(drug_list$preferred_name)]
-#Add columns for is_PD1 and is_CTLA4
-drug_list %<>% dplyr::mutate(is_PD1=ici_pathway %in% c("PD1", "PD-L1"), is_CTLA4=ici_pathway == "CTLA4")
-
-#define look up table for tsv file names to data variable names
-classes = c("is_PD1", "is_CTLA4", "is_aVEGF", "is_aBRAF", "is_aMAPK", "is_chemo")
-names(classes) = c("aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo")
-
-#convert all NA's to FALSE in drug class fields
-drug_list$is_ici_inhibitor[is.na(drug_list$is_ici_inhibitor)] = FALSE
-for(dci in 1:length(classes)){
-  drug_list[[classes[dci]]][is.na(drug_list[[classes[dci]]])] = FALSE
-}
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_rx_tx
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Takes a drug list and returns fomatted variables
+#' @title Takes a drug list and returns formatted variables
 #' 
 #' @description 
 #' This method looks up drugs by name, normalizes them and sets the various 
 #' pathway fields ( i.e. ICI_Rx, ICI_Tx, aPD1_Rx, aPD1_Tx ).
 #' 
 #' @param dat Dataframe containing " + " separated Drugs as Drug variable
+#' @param drug_table_path Full path to the drug table to be used
 #' 
 #' @section Limitations:
 #' \itemize{
@@ -49,94 +28,117 @@ for(dci in 1:length(classes)){
 #' 
 #' @export
 #'
-set_rx_tx = function( dat ){
+set_rx_tx = function( dat, drug_table_path=system.file("rx_table", "rx_table.tsv", package="datasetprep") ){
+  #define look up table for tsv file names to data variable names
+  drug_classes = c("is_PD1", "is_CTLA4", "is_aVEGF", "is_aBRAF", "is_aMAPK", "is_chemo")
+  names(drug_classes) = c("aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo")
+  
+  #load the table of drugs into a data frame  
+  drug_df <- read.csv(drug_table_path, sep="\t",na.strings = "")
+
+  #Fill in preferred_name fields where the preferred name is the same as the full generic name
+  drug_df$preferred_name[is.na(drug_df$preferred_name)] = drug_df$full_name[is.na(drug_df$preferred_name)]
+  #Add columns for is_PD1 and is_CTLA4
+  drug_df$is_PD1 <- drug_df$ici_pathway %in% c("PD1", "PD-L1")
+  drug_df$is_CTLA4 <- drug_df$ici_pathway == "CTLA4"
+  
+  #convert all NA's to FALSE in drug class fields
+  drug_df$is_ici_inhibitor[is.na(drug_df$is_ici_inhibitor)] = FALSE
+  for(class_key in drug_classes){
+    drug_df[[class_key]][is.na(drug_df[[class_key]])] = FALSE
+  }
+  
   #normalize drug names, using [] instead of $Drug to avoid copying entire df
   dat[,"Drug"] <- dat$Drug %>% stringr::str_trim() %>% gsub( "[ ]*\\+[ ]*", "+", .) %>% stringr::str_to_lower()
   #convert ""'s to NA's
-  dat[dat$Drug == "" & !is.na(dat$Drug),"Drug"] <- NA
+  dat[which(dat$Drug == ""),"Drug"] <- NA
+  #save initial drug column position so we can move it back to the same place after addition of new columns
+  drug_column_index <- which(names(dat) == "Drug")
   #tmp data.frame initialized with "None" and FALSE
-  tmp_df <- data.frame( Drug=levels(factor(dat$Drug)), ICI_Pathway="None", ICI_Target="None",
+  subdat_df <- data.frame( Drug=levels(factor(dat$Drug)), ICI_Pathway="None", ICI_Target="None",
                        ICI_Rx="None", ICI_Tx=FALSE, Non_ICI_Rx="None", Non_ICI_Tx=FALSE, aCTLA4_aPD1_Tx=FALSE )
-  tmp_df[,paste(names(classes), "Rx", sep="_")] <- "None"
-  tmp_df[,paste(names(classes), "Tx", sep="_")] <- FALSE
+  subdat_df[,paste(names(drug_classes), "Rx", sep="_")] <- "None"
+  subdat_df[,paste(names(drug_classes), "Tx", sep="_")] <- FALSE
   #unfortunately NA's don't show up in levels so if there are any NA's, add a row for them now with default "Unknown" and NA
   if(any(is.na(dat$Drug))){
-    tmp_df <- rbind(tmp_df, tmp_df[1,])
-    tmp_df[nrow(tmp_df), "Drug"] = NA
-    tmp_df[nrow(tmp_df), c(paste(names(classes),"Rx", sep="_"), "ICI_Rx", "Non_ICI_Rx")] = "Unknown"
-    tmp_df[nrow(tmp_df), c(paste(names(classes),"Tx", sep="_"), "ICI_Tx", "Non_ICI_Tx","aCTLA4_aPD1_Tx")] = NA
+    subdat_df <- rbind(subdat_df, subdat_df[1,])
+    subdat_df[nrow(subdat_df), "Drug"] = NA
+    subdat_df[nrow(subdat_df), c(paste(names(drug_classes),"Rx", sep="_"), "ICI_Rx", "Non_ICI_Rx")] = "Unknown"
+    subdat_df[nrow(subdat_df), c(paste(names(drug_classes),"Tx", sep="_"), "ICI_Tx", "Non_ICI_Tx","aCTLA4_aPD1_Tx")] = NA
   }
   #replace full_names with preferred_names in duplicated column so we can
   #preserve original Drug column for future back-merge with dat
-  tmp_df %<>% dplyr::mutate(p_name=Drug)
-  for( rxi in 1:nrow(drug_list) ){
-    tmp_df[,"p_name"] <- tmp_df[,"p_name"] %>% gsub( drug_list$preferred_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) %>%
-                              gsub( drug_list$full_name[rxi], drug_list$preferred_name[rxi], ., ignore.case=TRUE ) 
+  subdat_df$preferred_name <- subdat_df$Drug
+  for( rx_index in 1:nrow(drug_df) ){
+    subdat_df[,"preferred_name"] %<>% gsub( drug_df$preferred_name[rx_index], drug_df$preferred_name[rx_index], ., ignore.case=TRUE ) %>%
+                              gsub( drug_df$full_name[rx_index], drug_df$preferred_name[rx_index], ., ignore.case=TRUE ) 
   }
   #iterate over unique drug combinations
-  for( di in 1:nrow(tmp_df) ){
+  for( subdat_index in 1:nrow(subdat_df) ){
     #if drug field is NA or NULL, continue to next record
-    if(is.na(tmp_df$p_name[di]) | is.null(tmp_df$p_name[di])) next()
+    if(is.na(subdat_df$preferred_name[subdat_index]) | is.null(subdat_df$preferred_name[subdat_index])) next()
     #split on + to get all individual drugs
-    nvec <- sort(stringr::str_split(tmp_df$p_name[di], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
+    drug_names <- sort(stringr::str_split(subdat_df$preferred_name[subdat_index], "[ ]{0,1}\\+[ ]{0,1}")[[1]])
     #iterate on individual drug names
-    ici_p="None"
-    ici_t="None"
-    for( dr in nvec ){
-      #get just the first observation for drug in question
-      dr_data <- drug_list %>% dplyr::filter(preferred_name == dr) %>% dplyr::slice(1)
+    ici_pathway="None"
+    ici_target="None"
+    for( dr in drug_names ){
+      #look up drug in question
+      drug_data <- drug_df[ drug_df$preferred_name == dr, ]
       #handle case of drug not in list
-      if(nrow(dr_data) == 0){
+      if(nrow(drug_data) == 0){
         warning("Ignoring unknown drug named :: ", dr)
         next()
       }
+      #get just the first observation for this drug
+      drug_data <- drug_data[1,,drop=F]
       #handle ici_inhibitors first
-      if( dr_data$is_ici_inhibitor ){
-        tmp_df$ICI_Rx[di] <- ifelse(tmp_df$ICI_Rx[di] == "None", dr, paste(tmp_df$ICI_Rx[di],dr, sep=" + "))
-        tmp_df$ICI_Tx[di] <- TRUE
+      if( drug_data$is_ici_inhibitor ){
+        subdat_df$ICI_Rx[subdat_index] <- ifelse(subdat_df$ICI_Rx[subdat_index] == "None", dr, paste(subdat_df$ICI_Rx[subdat_index],dr, sep=" + "))
+        subdat_df$ICI_Tx[subdat_index] <- TRUE
         #This is super clunky
-        drug_pathway = ifelse(dr_data$is_CTLA4, "CTLA4", "PD1")
-        drug_target = dr_data$ici_pathway
-        if( ici_p[1] == "None" ) ici_p <- drug_pathway
-        else ici_p <- c(ici_p, drug_pathway)
-        if( ici_t[1] == "None" ) ici_t <- c(drug_target)
-        else ici_t <- c(ici_t, drug_target)
+        drug_pathway = ifelse(drug_data$is_CTLA4, "CTLA4", "PD1")
+        drug_target = drug_data$ici_pathway
+        if( ici_pathway[1] == "None" ) ici_pathway <- drug_pathway
+        else ici_pathway <- c(ici_pathway, drug_pathway)
+        if( ici_target[1] == "None" ) ici_target <- c(drug_target)
+        else ici_target <- c(ici_target, drug_target)
       }else{
-        tmp_df$Non_ICI_Rx[di] <- ifelse(tmp_df$Non_ICI_Rx[di] == "None", dr, paste(tmp_df$Non_ICI_Rx[di], dr, sep=" + "))
-        tmp_df$Non_ICI_Tx[di] <- TRUE
+        subdat_df$Non_ICI_Rx[subdat_index] <- ifelse(subdat_df$Non_ICI_Rx[subdat_index] == "None", dr, paste(subdat_df$Non_ICI_Rx[subdat_index], dr, sep=" + "))
+        subdat_df$Non_ICI_Tx[subdat_index] <- TRUE
       }
-      #handle drug classes using the classes look up table ( since drug_list column names aren't the same as tmp_df columns )
-      for( dcli in 1:length(classes) ){
-        rx_col <- paste(names(classes[dcli]),"Rx", sep="_")
-        tx_col <- paste(names(classes[dcli]), "Tx", sep="_")
+      #handle drug classes using the drug_classes look up table ( since drug_df column names aren't the same as subdat_df columns )
+      for( class_index in 1:length(drug_classes) ){
+        class_name <- names(drug_classes)[class_index]
+        rx_col <- paste(class_name,"Rx", sep="_")
+        tx_col <- paste(class_name, "Tx", sep="_")
         #if this drug matches the current class, update the respective Rx and Tx fields
-        if(dr_data[[classes[dcli]]]){
-          tmp_df[[rx_col]][di] <- ifelse(tmp_df[[rx_col]][di] == "None", dr, paste(tmp_df[[rx_col]][di], dr, sep=" + "))
-          tmp_df[[tx_col]][di] <- TRUE
+        if(drug_data[[drug_classes[class_index]]]){
+          subdat_df[[rx_col]][subdat_index] <- ifelse(subdat_df[[rx_col]][subdat_index] == "None", dr, paste(subdat_df[[rx_col]][subdat_index], dr, sep=" + "))
+          subdat_df[[tx_col]][subdat_index] <- TRUE
         }
       }
     }
     #combine ICI_Target and ICI_Pathway values here to eliminate any duplicate pathways
-    tmp_df$ICI_Pathway[di] = paste(sort(unique(ici_p)), collapse=" + ")
-    tmp_df$ICI_Target[di] = paste(sort(unique(ici_t)), collapse=" + ")
+    subdat_df$ICI_Pathway[subdat_index] = paste(sort(unique(ici_pathway)), collapse=" + ")
+    subdat_df$ICI_Target[subdat_index] = paste(sort(unique(ici_target)), collapse=" + ")
     #handle rare case where there were both a PD1 and a CTLA4 inhibitor used
-    tmp_df$aCTLA4_aPD1_Tx[di] <- tmp_df$aCTLA4_Tx[di] & tmp_df$aPD1_Tx[di]
+    subdat_df$aCTLA4_aPD1_Tx[subdat_index] <- subdat_df$aCTLA4_Tx[subdat_index] & subdat_df$aPD1_Tx[subdat_index]
   }
-  #remove the p_name column as no longer needed
-  tmp_df$p_name <- NULL
-  #merge new columns (tmp_df) into dat
+  #remove the preferred_name column as no longer needed
+  subdat_df$preferred_name <- NULL
+  #merge new columns (subdat_df) into dat
   #to avoid duplicate columns, remove all overlapping columns from dat EXCEPT Drug which is used for merge
   dat %<>% as.data.frame() #following line doesn't work if dat is a data.table data.frame which it is when coming from Gide dataset
-  dat <-dat[,colnames(dat) %ni% setdiff(colnames(tmp_df), "Drug")]
-  cat("Added/Modified columns: ICI_Target, ICI_Pathway, ICI_Rx, ICI_Tx, Non_ICI_Rx, Non_ICI_Tx,",paste(names(classes),"Rx", sep="_", collapse=", "),", ", paste(names(classes),"Tx", sep="_", collapse=", "), "and aCTLA4_aPD1_Tx.")
-  return(merge(dat, tmp_df, by="Drug"))
+  dat <- dat[,colnames(dat) %ni% setdiff(colnames(subdat_df), "Drug")]
+  cat("Added/Modified columns: ICI_Target, ICI_Pathway, ICI_Rx, ICI_Tx, Non_ICI_Rx, Non_ICI_Tx,",paste(names(drug_classes),"Rx", sep="_", collapse=", "),", ", paste(names(drug_classes),"Tx", sep="_", collapse=", "), "and aCTLA4_aPD1_Tx.")
+  dat <- merge(dat, subdat_df, by="Drug")
+  dat <- dat[housekeeping::move_to_position(names(dat), "Drug", drug_column_index)]
+  return(dat)
 }
-#dx=set_rx_tx(test_df)
+### test run ###
+#dx1=set_rx_tx(test_df,drug_table_path = file.path(getwd(),"Desktop/work/vincent_lab/datasetprep/inst/rx_table/rx_table.tsv"))
 
-default_unknown_Rx = "Unknown"
-default_unknown_Tx = NA
-default_known_Rx = "None"
-default_known_Tx = F
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # init_prior_and_subsq_rx_tx
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,34 +150,41 @@ default_known_Tx = F
 #' 
 #' @param dat Dataframe to add columns to
 #' @param prior_is_known Whether we want to initialize prior values as 
-#' unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )
+#' unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unknown )
 #' @param subsq_is_known Whether we want to initialize subsq values as 
-#' unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )
+#' unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unknown )
+#' @param default_unknown_Rx Value to use when an Rx value is unknown ( default "Unknown" )
+#' @param default_unknown_Tx Value to use when a Tx value is unknown ( default NA )
+#' @param default_known_Rx Value to use when an Rx value is known ( default "None" )
+#' @param default_known_Tx Value to use when a Tx value is known ( default F )
 #' 
 #' @return Returns dataframe with columns
 #' 
 #' @export
-init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=FALSE){
+init_prior_and_subsq_rx_tx = function(dat, prior_is_known=FALSE, subsq_is_known=FALSE, 
+                                      default_unknown_Rx = "Unknown", default_unknown_Tx = NA, 
+                                      default_known_Rx = "None", default_known_Tx = F ){
+  
   pr_Rx = ifelse( prior_is_known, default_known_Rx, default_unknown_Rx )
   pr_Tx = ifelse( prior_is_known, default_known_Tx, default_unknown_Tx )
   sq_Rx = ifelse( subsq_is_known, default_known_Rx, default_unknown_Rx )
   sq_Tx = ifelse( subsq_is_known, default_known_Tx, default_unknown_Tx )
-  dat %<>% dplyr::mutate(Prior_Rx=pr_Rx, 
-                  Prior_ICI_Rx=pr_Rx,
-                  Prior_Tx=pr_Tx,
-                  Prior_ICI_Tx=pr_Tx,
-                  Prior_aCTLA4_Tx=pr_Tx,
-                  Prior_aMAPK_Tx=pr_Tx
-                  )
   
-  dat %<>% dplyr::mutate(Subsq_Rx=sq_Rx,
-                  Subsq_ICI_Rx=sq_Rx,
-                  Subsq_Tx=sq_Tx,
-                  Subsq_ICI_Tx=sq_Tx,
-                  Subsq_aCTLA4_Tx=sq_Tx,
-                  Subsq_aMAPK_Tx=sq_Tx,
-                  Subsq_aCTLA4_aPD1_Tx=sq_Tx
-                  )
+  dat$Prior_Rx=pr_Rx
+  dat$Prior_ICI_Rx=pr_Rx
+  dat$Prior_Tx=pr_Tx
+  dat$Prior_ICI_Tx=pr_Tx
+  dat$Prior_aCTLA4_Tx=pr_Tx
+  dat$Prior_aMAPK_Tx=pr_Tx
+
+  dat$Subsq_Rx=sq_Rx
+  dat$Subsq_ICI_Rx=sq_Rx
+  dat$Subsq_Tx=sq_Tx
+  dat$Subsq_ICI_Tx=sq_Tx
+  dat$Subsq_aCTLA4_Tx=sq_Tx
+  dat$Subsq_aMAPK_Tx=sq_Tx
+  dat$Subsq_aCTLA4_aPD1_Tx=sq_Tx
+
   cat("Added/Modified columns: Prior_Rx, Prior_ICI_Rx, Prior_Tx, Prior_ICI_Tx, Prior_aCTLA4_Tx, Prior_aMAPK_Tx, Subsq_Rx, Subsq_ICI_Rx, Subsq_Tx, Subsq_ICI_Tx, Subsq_aCTLA4_Tx, Subsq_aMAPK_Tx, Subsq_aCTLA4_aPD1_Tx")
   return(dat)
 }

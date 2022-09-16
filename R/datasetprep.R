@@ -12,4 +12,4 @@
 "_PACKAGE"
 #> [1] "_PACKAGE"
 
-utils::globalVariables(c("RUN_ONLY_COLUMNS", "PATIENT_ONLY_COLUMNS", "RUN_COLUMNS", "readme_path"))
+utils::globalVariables(c("readme_path"))

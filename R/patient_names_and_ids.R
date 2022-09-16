@@ -10,6 +10,7 @@
 #' 
 #' @param old_names Vector of patient names to format
 #' @param reduce_size Boolean to indicate whether numeric portion of ids should be reduced to shortest length representing unique values
+#' @param min_chars Integer minimum number of characters to keep in numeric portion of id's ( final lengths will be 1+min_char because "p" is prepended to numeric portion )
 #' 
 #' @return Returns the updated patient names vector
 #' 
@@ -22,37 +23,48 @@
 #' }
 #' 
 #' @export
-format_patient_names = function( old_names, reduce_size=FALSE ){
-  num_unique = length(unique(old_names))
-  #remove any non numeric characters from before and after numeric characters
-  if(all(grepl("^[^0-9]+[0-9]+$|^[0-9]+$", old_names)) & length(unique(old_names)) == length(unique(gsub("[^0-9]", "", old_names)))) new_names = gsub( "[^0-9]", "", old_names )
-  else new_names = old_names
-  max_nchar = max(nchar(new_names))
-  #str_pad is vectorized so no need for sapply
-  if(any(grepl("^[^0-9]", new_names))) new_names %<>% stringr::str_pad(width=max_nchar, side="right", pad="0")
-  else new_names %<>% stringr::str_pad(width=max_nchar, side="left", pad="0")
+format_patient_names = function( old_names, reduce_size=FALSE, min_chars=1 ){
+  bad_format_indices <- which(grepl("^[^0-9]+[0-9]+$|^[0-9]+$", old_names) == FALSE )
+  if( length(bad_format_indices) > 0 ) stop( paste("Patient names like", old_names[bad_format_indices[1]], "can not be reformatted with this method. Accepted formats are all numeric OR one or more non-numeric characters followed by one or more numeric characters." ) )
+  #remove any leading numeric characters so long as same uniqueness will be preserved
+  if(length(unique(old_names)) == length(unique(gsub("[^0-9]", "", old_names)))){
+    old_names = gsub( "[^0-9]", "", old_names )
+  }else{
+    warning("The numeric portions of all names must be unique to be reformatted with this method - returning original patient names." )
+    return(old_names)
+  } 
+  #pad names with leading "0's" to make them all the same length
+  new_width <- max(c(nchar(old_names), min_chars))
+  old_names %<>% stringr::str_pad(width=new_width, side="left", pad="0")
+  #if we want only the fewest characters that maintain uniqueness
   if(reduce_size){
     #find shortest number that is unique for all values
-    e_index = max_nchar
-    s_index = 1
-    unique_names = length(unique(new_names))
-    for( ind in (e_index-1):s_index ){
-       if( unique_names == length(unique(substr(new_names, ind, e_index)))){
-        s_index = ind
+    e_index = nchar(old_names[1])
+    unique_names = length(unique(old_names))
+    for( ind in (e_index-max(1, min_chars-1)):1 ){
+      new_names <- substr(old_names, ind, e_index)
+       if( unique_names == length(unique(new_names))){
+        old_names = new_names
         break
       }
     }
-    new_names = substr(new_names, s_index, e_index)
   }
-  if(!all(grepl("^[p]",new_names))) new_names = paste0( "p", new_names )
-  if(num_unique != length(unique(new_names))){
-    warning("Failed to preserve unique names. Names must be formatted manually.")
-    return(old_names)
-  }
-  return(new_names)
+  #put a "p" in front of the numeric characters which should all be the same length now
+  old_names = paste0( "p", old_names )
+  return(old_names)
 }
 
-#d = format_patient_names(c("p1", "p1a2", "p3", "p1"), FALSE)
+######### format_patient_names method tests follow #########
+#test for non-formattable patient names
+#format_patient_names(c("p1", "p1a2", "p3", "p1"), FALSE)
+#test for non-unique numeric portions
+#format_patient_names(c("p1", "p12", "p3", "p1"), FALSE)
+#test for formattable names of various lengths with no reducing
+#format_patient_names(c("p1", "p12", "p3", "p1"), FALSE)
+#test for formattable names of various lengths with reducing
+#format_patient_names(c("p10", "p12", "p3", "p1"), FALSE, min_chars=3)
+#format_patient_names(c("p10", "p12", "p3", "p1"), TRUE, min_chars=3)
+#format_patient_names(c("dda490", "qv1240", "p3510", "p1276"), TRUE, min_chars=3)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # create_patient_ids
