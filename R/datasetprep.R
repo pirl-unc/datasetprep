@@ -3,9 +3,7 @@
 #' Methods to make life easier when preparing datasets for analysis.
 #' 
 #' @import magrittr
-#' @importFrom dplyr mutate filter slice
 #' @importFrom stringr str_split str_to_title
-#' @importFrom readr read_tsv
 #' @importFrom housekeeping "%ni%"
 #' 
 #' @keywords internal

@@ -1,5 +1,5 @@
 Package: datasetprep
-Version: 0.3.3
+Version: 0.3.4
 Title: Basic Helpers for Dataset Prep
 Description: Methods to make life easier when preparing datasets for analysis.
 Authors@R: 
@@ -18,6 +18,6 @@ Suggests:
 BugReports: https://github.com/Benjamin-Vincent-Lab/datasetprep/issues
 License: MIT + file LICENSE
 NeedsCompilation: no
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 LazyData: false

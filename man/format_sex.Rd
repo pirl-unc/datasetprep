@@ -4,14 +4,24 @@
 \alias{format_sex}
 \title{Formats sex values}
 \usage{
-format_sex(sex, female_char = "F", male_char = "M")
+format_sex(
+  sex,
+  female_chars = c("female", "F", "f"),
+  male_chars = c("male", "M", "m"),
+  female_replacement = "Female",
+  male_replacement = "Male"
+)
 }
 \arguments{
 \item{sex}{Vector of sex values}
 
-\item{female_char}{Character used in sex to represent Female, defaults to F}
+\item{female_chars}{Characters in sex to replace with Female, defaults include "female", "F", and "f"}
 
-\item{male_char}{Character used in sex to represent Male, defaults to M}
+\item{male_chars}{Characters in sex to replace with Male, defaults include "male", "M", and "m"}
+
+\item{female_replacement}{Value to replace female_chars with, defaults to "Female"}
+
+\item{male_replacement}{Value to replace male_chars with, defaults to "Male"}
 }
 \value{
 Returns the updated sex vector

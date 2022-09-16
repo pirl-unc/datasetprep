@@ -2,12 +2,17 @@
 % Please edit documentation in R/set_rx_tx.R
 \name{set_rx_tx}
 \alias{set_rx_tx}
-\title{Takes a drug list and returns fomatted variables}
+\title{Takes a drug list and returns formatted variables}
 \usage{
-set_rx_tx(dat)
+set_rx_tx(
+  dat,
+  drug_table_path = system.file("rx_table", "rx_table.tsv", package = "datasetprep")
+)
 }
 \arguments{
 \item{dat}{Dataframe containing " + " separated Drugs as Drug variable}
+
+\item{drug_table_path}{Full path to the drug table to be used}
 }
 \value{
 Returns dataframe with updated and added *_Rx and *_Tx columns

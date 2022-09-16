@@ -4,12 +4,14 @@
 \alias{format_patient_names}
 \title{Formats patient names}
 \usage{
-format_patient_names(old_names, reduce_size = FALSE)
+format_patient_names(old_names, reduce_size = FALSE, min_chars = 1)
 }
 \arguments{
 \item{old_names}{Vector of patient names to format}
 
 \item{reduce_size}{Boolean to indicate whether numeric portion of ids should be reduced to shortest length representing unique values}
+
+\item{min_chars}{Integer minimum number of characters to keep in numeric portion of id's ( final lengths will be 1+min_char because "p" is prepended to numeric portion )}
 }
 \value{
 Returns the updated patient names vector

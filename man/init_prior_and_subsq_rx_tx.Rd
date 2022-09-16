@@ -4,16 +4,32 @@
 \alias{init_prior_and_subsq_rx_tx}
 \title{Initializes prior and subsq Rx and Tx fields}
 \usage{
-init_prior_and_subsq_rx_tx(dat, prior_is_known = FALSE, subsq_is_known = FALSE)
+init_prior_and_subsq_rx_tx(
+  dat,
+  prior_is_known = FALSE,
+  subsq_is_known = FALSE,
+  default_unknown_Rx = "Unknown",
+  default_unknown_Tx = NA,
+  default_known_Rx = "None",
+  default_known_Tx = F
+)
 }
 \arguments{
 \item{dat}{Dataframe to add columns to}
 
 \item{prior_is_known}{Whether we want to initialize prior values as 
-unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )}
+unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unknown )}
 
 \item{subsq_is_known}{Whether we want to initialize subsq values as 
-unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unkonwn )}
+unknown ("Unknown", NA) or known ("None", FALSE). Defaults to FALSE ( unknown )}
+
+\item{default_unknown_Rx}{Value to use when an Rx value is unknown ( default "Unknown" )}
+
+\item{default_unknown_Tx}{Value to use when a Tx value is unknown ( default NA )}
+
+\item{default_known_Rx}{Value to use when an Rx value is known ( default "None" )}
+
+\item{default_known_Tx}{Value to use when a Tx value is known ( default F )}
 }
 \value{
 Returns dataframe with columns
