@@ -21,7 +21,7 @@ format_sex = function(sex, female_chars = c( "female", "F", "f" ), male_chars = 
   lut <- c( rep(c("Female", "Male"), times=c(length(female_chars), length(male_chars)) ))
   names(lut) <- c(female_chars, male_chars)
   #return values as looked up in lut
-  sex <- mapply( function(s) return(lut[s]), sex, USE.NAMES = F )
+  sex <- mapply( function(s) return(lut[s]), as.character(sex), USE.NAMES = F )
   if( sum(is.na(sex)) > prior_na_count ) warning( paste("Converted", (sum(is.na(sex)) - prior_na_count), " values not found in male_chars or female_chars to NA.") )
   return( sex )
 }
