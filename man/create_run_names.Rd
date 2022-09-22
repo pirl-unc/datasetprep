@@ -4,7 +4,13 @@
 \alias{create_run_names}
 \title{Creates run names}
 \usage{
-create_run_names(normal_tissue, analyte, file_prefix, shorten = T)
+create_run_names(
+  normal_tissue,
+  analyte,
+  file_prefix,
+  shorten = T,
+  shorten_to = NA
+)
 }
 \arguments{
 \item{normal_tissue}{Boolean vector indicating whether tissue was normal or tumor}
@@ -13,7 +19,9 @@ create_run_names(normal_tissue, analyte, file_prefix, shorten = T)
 
 \item{file_prefix}{Unique file identifiers}
 
-\item{shorten}{Boolean whether or not to reduce file_prefix to minimum unique length, defaults TRUE}
+\item{shorten}{Boolean whether or not to reduce file_prefix to minimum unique length, defaults TRUE. If shorten_to is also set, that value overrides the "minimum unique length" determination}
+
+\item{shorten_to}{Integer value indicating how many characters from the end of each file_prefix should be used. Defaults to NA in which case if shorten is true the minimum length is used for file_prefix where all values remain unique.}
 }
 \value{
 Vector of run names
