@@ -3,8 +3,9 @@
 #' Methods to make life easier when preparing datasets for analysis.
 #' 
 #' @import magrittr
-#' @importFrom stringr str_split str_to_title
+#' @importFrom stringr str_split str_to_title str_pad str_split str_to_lower
 #' @importFrom housekeeping "%ni%"
+#' @importFrom data.table "%like%"
 #' 
 #' @keywords internal
 "_PACKAGE"

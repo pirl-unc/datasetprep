@@ -8,7 +8,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_rx_tx
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Takes a drug list and returns formatted variables
+#' @title Takes a data.frame with a Drug column and returns formatted variables based on the drug names
 #' 
 #' @description 
 #' This method looks up drugs by name, normalizes them and sets the various 

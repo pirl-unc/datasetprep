@@ -2,7 +2,7 @@
 % Please edit documentation in R/configuration_methods.R
 \name{get_all_columns}
 \alias{get_all_columns}
-\title{Returns character vector of all output columns}
+\title{Returns character vector concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS}
 \usage{
 get_all_columns()
 }

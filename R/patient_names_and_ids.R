@@ -10,7 +10,8 @@
 #' 
 #' @param old_names Vector of patient names to format
 #' @param reduce_size Boolean to indicate whether numeric portion of ids should be reduced to shortest length representing unique values
-#' @param min_chars Integer minimum number of characters to keep in numeric portion of id's ( final lengths will be 1+min_char because "p" is prepended to numeric portion )
+#' @param min_chars Integer minimum number of characters to keep in numeric portion of id's ( final lengths will be length(prefix)+min_char because prefix is prepended to numeric portion )
+#' @param prefix Character value to prepend onto numeric portions of reformatted ids - defaults to "p"
 #' 
 #' @return Returns the updated patient names vector
 #' 
@@ -23,7 +24,7 @@
 #' }
 #' 
 #' @export
-format_patient_names = function( old_names, reduce_size=FALSE, min_chars=1 ){
+format_patient_names = function( old_names, reduce_size=FALSE, min_chars=1, prefix="p" ){
   bad_format_indices <- which(grepl("^[^0-9]+[0-9]+$|^[0-9]+$", old_names) == FALSE )
   if( length(bad_format_indices) > 0 ) stop( paste("Patient names like", old_names[bad_format_indices[1]], "can not be reformatted with this method. Accepted formats are all numeric OR one or more non-numeric characters followed by one or more numeric characters." ) )
   #remove any leading numeric characters so long as same uniqueness will be preserved
@@ -49,8 +50,8 @@ format_patient_names = function( old_names, reduce_size=FALSE, min_chars=1 ){
       }
     }
   }
-  #put a "p" in front of the numeric characters which should all be the same length now
-  old_names = paste0( "p", old_names )
+  #put a "p" ( or whatever was sent as prefix ) in front of the numeric characters which should all be the same length now
+  old_names = paste0( prefix, old_names )
   return(old_names)
 }
 
@@ -76,6 +77,7 @@ format_patient_names = function( old_names, reduce_size=FALSE, min_chars=1 ){
 #' 
 #' @param dataset Name of dataset to use with these ids
 #' @param patient_names Vector of patient names to use in creation of ids
+#' 
 #' @return Returns a vector of patient_ids
 #' 
 #' @export

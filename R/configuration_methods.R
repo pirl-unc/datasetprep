@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # configure_output_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Defines columns for output data
+#' @title Depricated method to define columns for output data - use get_run_only_columns, get_patient_only_columns, get_all_columns instead
 #' 
 #' @description 
 #' Method to set RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS to be output to final data.
@@ -65,7 +65,7 @@ get_patient_columns = function(){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # get_all_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Returns character vector of all output columns
+#' @title Returns character vector concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS
 #' 
 #' @description 
 #' Method to return static list of RUN_COLUMNS which is 

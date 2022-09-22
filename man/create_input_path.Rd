@@ -2,7 +2,7 @@
 % Please edit documentation in R/init_methods.R
 \name{create_input_path}
 \alias{create_input_path}
-\title{Creates the full path to a given input file ( DEPRICATED )}
+\title{Depricated method to create the full path to a given input file - set this manually with file.path instead}
 \usage{
 create_input_path(dataset, filename, subfolder = NA)
 }

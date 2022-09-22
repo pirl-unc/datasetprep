@@ -6,8 +6,8 @@
 \usage{
 format_sex(
   sex,
-  female_chars = c("female", "F", "f"),
-  male_chars = c("male", "M", "m"),
+  female_chars = c("female", "F", "f", "FEMALE"),
+  male_chars = c("male", "M", "m", "MALE"),
   female_replacement = "Female",
   male_replacement = "Male"
 )

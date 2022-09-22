@@ -2,7 +2,7 @@
 % Please edit documentation in R/configuration_methods.R
 \name{configure_output_columns}
 \alias{configure_output_columns}
-\title{Defines columns for output data}
+\title{Depricated method to define columns for output data - use get_run_only_columns, get_patient_only_columns, get_all_columns instead}
 \usage{
 configure_output_columns()
 }

@@ -50,7 +50,7 @@ init_paths = function(base_dir){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # create_input_path
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Creates the full path to a given input file ( DEPRICATED )
+#' @title Depricated method to create the full path to a given input file - set this manually with file.path instead
 #' 
 #' @description 
 #' Uses the RAW_DATA_DIR and the parameters passed in to create a full path to the input file being requested

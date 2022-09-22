@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_rx_tx.R
 \name{set_rx_tx}
 \alias{set_rx_tx}
-\title{Takes a drug list and returns formatted variables}
+\title{Takes a data.frame with a Drug column and returns formatted variables based on the drug names}
 \usage{
 set_rx_tx(
   dat,

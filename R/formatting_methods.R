@@ -15,18 +15,18 @@
 #' @return Returns the updated sex vector
 #' 
 #' @export
-format_sex = function(sex, female_chars = c( "female", "F", "f" ), male_chars = c( "male", "M", "m" ), female_replacement = "Female", male_replacement= "Male" ){
+format_sex = function(sex, female_chars = c( "female", "F", "f", "FEMALE" ), male_chars = c( "male", "M", "m", "MALE" ), female_replacement = "Female", male_replacement= "Male" ){
   prior_na_count <- sum(is.na(sex))
   #create look up table
-  lut <- c( rep(c("Female", "Male"), times=c(length(female_chars), length(male_chars)) ))
-  names(lut) <- c(female_chars, male_chars)
+  lut <- c( rep(c("Female", "Male"), times=c(length(female_chars)+1, length(male_chars)+1) ))
+  names(lut) <- c(female_chars,"Female", male_chars,"Male")
   #return values as looked up in lut
   sex <- mapply( function(s) return(lut[s]), as.character(sex), USE.NAMES = F )
   if( sum(is.na(sex)) > prior_na_count ) warning( paste("Converted", (sum(is.na(sex)) - prior_na_count), " values not found in male_chars or female_chars to NA.") )
   return( sex )
 }
 
-#format_sex( c("M", "F", "F", "m", "male", "female", "f", NA, "", "Min"), male_chars = c("male","M","m","Min",""))
+#format_sex( c("M", "F", "F", "m", "male", "female", "f", NA, "", "Min", "Female", "Male"), male_chars = c("male","M","m","Min",""))
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_race_fields
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,10 +68,11 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   #           AND na_to_lc is TRUE
   #       NA where data is NA or called out as Other
   for(x in options){
-    if( nrow(dplyr::filter(dat, Race == x )) > 0 )
+    if( length(dat[dat$Race %like% x, "Race"]) > 0 ){
       dat[[x]] <- dat$Race == x
-    else
+    }else{
       dat[[x]][ dat$Race %in% options ] = FALSE
+    }
   }
   dat$Likely_Caucasian = dat$Race %in% options[c(1,NA)]
   if( !na_to_lc ) dat$Likely_Caucasian[ is.na(dat$Race)] = NA
@@ -80,7 +81,9 @@ set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
   cat("Also added/modified columns: ", options, "and Likely_Caucasian", sep=", ")
   return(dat)
 }
-#rf = set_race_fields(data.frame(Race=c("White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander")), "Race", na_to_lc=TRUE)
+
+#tdf <- data.frame(Race=c(" ", "White", "White", "African-American", "Caucasian", "Black", "African", "Other", "Unknown", NA, "Other", "Pac_Islander"))
+#rf2 = set_race_fields(tdf, "Race", na_to_lc=TRUE)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_response_data
