@@ -32,8 +32,9 @@ find_somatic_workflow_matches = function( dat ){
     ar_runs = subdat[!subdat$Normal & subdat$Analyte == "RNA", c("Run_Name")]
     ad_runs = subdat[!subdat$Normal & subdat$Analyte == "DNA", c("Run_Name")]
     nd_runs = subdat[subdat$Normal & subdat$Analyte == "DNA", c("Run_Name")]
+    nr_runs = subdat[subdat$Normal & subdat$Analyte == "RNA", c("Run_Name")] #collect these even though they aren't required for workflow match because they do need to be set to NA if there isn't a match
     if(length(ar_runs) == 0 | length(ad_runs) == 0 | length(nd_runs) == 0){
-      Somatic_Workflow_Match[dat$Run_Name %in% c(ar_runs, ad_runs, nd_runs)] = NA
+      Somatic_Workflow_Match[dat$Run_Name %in% c(ar_runs, ad_runs, nd_runs, nr_runs)] = NA
     }
   }
   return(Somatic_Workflow_Match)

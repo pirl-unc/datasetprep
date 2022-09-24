@@ -45,6 +45,7 @@ format_sex = function(sex, female_chars = c( "female", "F", "f", "FEMALE" ), mal
 #' 
 #' @export
 set_race_fields = function(dat, column_name="Race", na_to_lc=FALSE){
+  if(is.data.table(dat)) warning("Inconsitent results occur when dat is a data.table, not a data.frame.")
   if(is.na(column_name) | column_name %ni% names(dat)) dat$Race = NA
   else dat$Race = stringr::str_to_title(dat[[column_name]])
   #override quirk in str_to_title where _ is not a word separator ...
