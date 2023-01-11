@@ -5,23 +5,22 @@ Dabrafenib	Dabrafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		MEK inhibitor;
 IL-2	IL-2			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
 Ribociclib	Ribociclib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		CDK inhibitor
 Binimetinib	Binimetinib			FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	TRUE		MEK 1 and MEK 2 protein inhibitor
-CVD	CVD			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Cisplatin, Dacarbazine, Vinblastine	
+CVD	CVD			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Cisplatin and Dacarbazine and Vinblastine	
 Interferon	Interferon			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
-Dacarbazine	Dacarbazine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		DTIC methylates nucleic acids, causing DNA damage resulting in growth arrest and cell death
-Temozolomide	TMZ			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Temodar, Temo	methylates guanine
+Dacarbazine	Dacarbazine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		"DTIC methylates nucleic acids, causing DNA damage resulting in growth arrest and cell death"
+Temozolomide	TMZ			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Temodar, Temo, Temodal"	methylates guanine
 Dasatinib	Dasatinib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		kinase inhibitor
-Temodar	TZM			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Temozolomide, Temo	methylates guanine
 TLR	TLR			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		toll-like receptor agonist
 gp100 vaccine	gp100 vaccine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		targets melanocytes
-Abraxane	Abraxane			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	paclitaxel	
+Abraxane	Abraxane			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
 Carboplatin	Carboplatin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Platinum chemo
-Doxycycline	Doxycycline			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment
+Doxycycline	Doxycycline			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		"inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment"
 Vemurafenib	Vemurafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		blocks BRAF; used on patients with BRAF mutation V600E
 IL-21+	IL-21+			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
 Cisplatin	Cisplatin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Platinum chemo
 Velban	Velban			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Inhibits microtuble assembly
-Taxol	Taxol			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
-Trientine	Trientine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Triethylenetetramine, TETA	telomerase inhibiting
+Taxol	Paclitaxel			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	paclitaxel	
+Trientine	Trientine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Triethylenetetramine, TETA"	telomerase inhibiting
 Gleevec	Gleevec			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Tyrosine kinase inhibitor
 Nivolumab	Nivo	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		immune checkpoint inhibitor
 Ecorafenib	Ecorafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		blocks BRAF; used on patients with BRAF mutation V600E
@@ -34,7 +33,6 @@ AMG 337	AMG 337			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		inhibitor of the ad
 TIC	TIC			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		tumor-initiating cells
 BCNU	BCNU			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		crosslinks DNA
 Tamoxifen	Tamoxifen			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		blocks estrogen receptors
-Paclitaxel	Paclitaxel			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Abraxane	
 DCVax	DCVax			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		activated dendritic cells
 ADI-PEG	ADI-PEG			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Breaks down asparagine
 GM-CSF	GM-CSF			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		improves recovery of white blood cells following chemo
@@ -42,23 +40,22 @@ M-Vax	M-Vax			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Irradiated cancer cells
 Mel44	Mel44			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Melanoma peptides
 PEG	PEG			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Pegaspargase	Breaks down asparagine
 IL-10	IL-10			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		enhances vaccine-induced T cell responses
-Ipilimumab	Ipi	CTLA4	CTLA4	TRUE	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	Yervoy	Binds CTLA4, reducing its ability to upregulate cell division by binding C28
-Pembrolizumab	Pembro	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	Keytruda	
-MK3475	Pembro	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		
+Ipilimumab	Ipi	CTLA4	CTLA4	TRUE	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	Yervoy	"Binds CTLA4, reducing its ability to upregulate cell division by binding C28"
+Pembrolizumab	Pembro	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	"Keytruda, MK3475, MK-3475"	
 ADZ2014	ADZ2014			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Vistusertib	
-CPT11	CPT11			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Camptosar, Irinotecan	
+CPT11	CPT11			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Camptosar, Irinotecan"	
 Docetaxal	Docetaxal			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Taxotere	
 Vismodegib	Vismodegib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Erivedge	
 AZD6738	AZD6738			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		impact ATR pathway checkpoint for DDR ( DNA Damage Response ) establishment
-FOLFIRI	FOLFIRI			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Fonic Acid + Fluorouracil + Irinotecan	
-FOLFOX	FOLFOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Folinic Acid + Fluorouacil + Oxiliplatin	
-Ramucrimab	Ramucrimab			FALSE	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		Binds VEGF2 antigen with high affnity preventing typical activation by VEGFR, thus downregulation of angiogeneis in tumor tissue
+FOLFIRI	FOLFIRI			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Fonic Acid and Fluorouracil and Irinotecan	
+FOLFOX	FOLFOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Folinic Acid and Fluorouacil and Oxiliplatin	
+Ramucrimab	Ramucrimab			FALSE	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		"Binds VEGF2 antigen with high affnity preventing typical activation by VEGFR, thus downregulation of angiogeneis in tumor tissue"
 XELOX	XELOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Oxaliplatin and capecitabine	
 Lapatinib	Lapatinib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Tykerb and Tyverb	
-DXP	DXP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	docetaxel, cisplatin and capecitabine	
+DXP	DXP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	docetaxel and cisplatin and capecitabine	
 DP	DP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
 SOX	SOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	S-1 and oxaliplatin	
-SP	SP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	S-1 plus cisplatin	
+SP	SP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	S-1 and cisplatin	
 XP	XP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Capecitabine and cisplatin	
 Herceptin	Herceptin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Trastuzumab	
 FGFR2	FGFR2			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
