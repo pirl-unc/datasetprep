@@ -108,7 +108,7 @@ converge_aliases <- function(
 }
 
 ######### TESTING DATA. ###############
-# out <- converge_aliases( test_drug_vec, "+", " + ", drug_path, include_missing_terms=F )
+# out <- converge_aliases( test_drug_vec, "+", " + ", drug_path, include_missing_terms=T )
 #
 # full_name_drugs <- c("Interferon", "cisplatin", "Ipilimumab")
 # preferred_name_drugs <- c("Ipi", "Ribociclib", "atezo")
@@ -120,17 +120,84 @@ converge_aliases <- function(
 
 lookup_properties <- function(
     input_vector,
-    property_path,
-    name_clm,
-    property_clm,
-    property_sep,
-    input_vector_sep,
+    input_vector_sep = "+",
+    property_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
+    name_clm = "Preferred_Name",
+    property_clm = "Properties",
+    copy_clms = c("ICI_Pathway", "ICI_Target"),
+    property_sep = ",",
+    all_properties = c("ICI", "Non_ICI", "IS", "aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo", "Steroid"),
     no_info_itemized_value = "None",
     no_info_boolean_value = FALSE,
+    no_info_copy_value = NA,
     itemized_clm_suffix = "_Rx",
     boolean_clm_suffix = "_Tx",
-    all_properties = c("IS", "aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo", "Steroid"),
     skip_itemized_clms = FALSE,
     skip_boolean_clms = FALSE
 ) {
+
+  if (!file.exists(property_lut_path)) stop( "No file exists at property_lut_path ( ", property_lut_path, " )." )
+  lut_df <- read.csv(property_lut_path, sep="\t", na.strings = "")
+
+  if ( !all(c(name_clm, property_clm) %in% names(lut_df)) ) stop( "The property_clm and/or name_clm does not exist in the lookup table provided.")
+
+  output_df <- data.frame( original_values=input_vector )
+  for ( prop in all_properties ){
+    if (!skip_itemized_clms) output_df[[ paste0(prop, itemized_clm_suffix) ]] <- no_info_itemized_value
+    if (!skip_boolean_clms) output_df[[ paste0(prop, boolean_clm_suffix) ]] <- no_info_boolean_value
+  }
+
+  if ( all( is.na(copy_clms) ) ) copy_clms <- c()
+  if ( length(copy_clms) & !all( copy_clms %in% names(lut_df)) ) stop( "At least one of the copy_clms does not exist in the lookup table provided.")
+  for ( clm_to_copy in copy_clms ){
+    output_df[[ clm_to_copy ]] <- no_info_copy_value
+  }
+
+  names_vec <- lut_df[[ name_clm ]]
+  props_vec <- lut_df[[ property_clm ]]
+  elements_not_found <- c()
+  for ( input_index in seq_along(input_vector) ) {
+    these_elements <- strsplit( input_vector[ input_index ], input_vector_sep, fixed=T)[[1]] %>% trimws() %>% .[complete.cases(.)]
+    if ( length(these_elements) == 0 | all( these_elements == "" ) ) next
+
+    for ( element in these_elements ){
+      my_props <- props_vec[ which( names_vec == element ) ]
+      if( length(my_props) == 0 ) next
+      # keep only those that are in the all_properties vector
+      my_props %<>% {strsplit(., property_sep, fixed=T )[[1]]} %>% trimws()
+      my_props %<>% {.[ . %in% all_properties ]}
+      for ( prop in my_props ){
+        if (!skip_itemized_clms){
+          my_prop_clm <- paste0(prop, itemized_clm_suffix)
+          if ( output_df[input_index, my_prop_clm] == no_info_itemized_value ) output_df[input_index, my_prop_clm] <- element
+          else output_df[input_index, my_prop_clm] %<>% paste(element, sep="+")
+        }
+        if (!skip_boolean_clms) {
+          output_df[input_index, paste0(prop, boolean_clm_suffix)] <- TRUE
+        }
+      }
+    }
+    for( clm_to_copy in copy_clms ){
+      vals_to_copy <- lut_df[ lut_df[[ name_clm ]] %in% these_elements, clm_to_copy ] %>% unique() %>% {.[complete.cases(.)]}
+      if( length(vals_to_copy) ) output_df[input_index, clm_to_copy] <- paste(vals_to_copy, collapse=",")
+    }
+  }
+  return(output_df)
 }
+
+lur <- lookup_properties(c("DXP + SOX"), property_lut_path = drug_path)
+
+
+# add comments so I can understand my own code - remove embedded loops if possible
+# add output of elements not found
+# what do we do with the combined PD1 / CTLA4 field?
+
+# generally working - need to test:
+
+# * full set of drugs with at least one from each class
+# * various combinations to verify that two or more drugs work
+# * confirm what happens with NA, "", and unknown drug names
+# * changing values for all params
+
+# test both methods with an actual dataset by updating the dataset_prep.R for one
+

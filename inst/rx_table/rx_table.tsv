@@ -1,74 +1,84 @@
-Full_Name	Preferred_Name	ICI_Target	ICI_Pathway	Is_ICI	Is_PD1	Is_CTLA4	Is_aVEGF	Is_aBRAF	Is_aMAPK	Is_Chemo	Name_Aliases	Description
-Biochemo	Biochemo			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
-Trametinib	Trametinib			FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	TRUE		MEK inhibitor
-Dabrafenib	Dabrafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		MEK inhibitor; potent inhibitor of the RAF proteins BRAF and CRAF through ATP competitive binding of the active conformation of BRAF kinase
-IL-2	IL-2			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
-Ribociclib	Ribociclib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		CDK inhibitor
-Binimetinib	Binimetinib			FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	TRUE		MEK 1 and MEK 2 protein inhibitor
-CVD	CVD			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Cisplatin and Dacarbazine and Vinblastine	
-Interferon	Interferon			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
-Dacarbazine	Dacarbazine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		"DTIC methylates nucleic acids, causing DNA damage resulting in growth arrest and cell death"
-Temozolomide	TMZ			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Temodar, Temo, Temodal"	methylates guanine
-Dasatinib	Dasatinib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		kinase inhibitor
-TLR	TLR			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		toll-like receptor agonist
-gp100 vaccine	gp100 vaccine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		targets melanocytes
-Abraxane	Abraxane			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
-Carboplatin	Carboplatin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Platinum chemo
-Doxycycline	Doxycycline			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		"inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment"
-Vemurafenib	Vemurafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		blocks BRAF; used on patients with BRAF mutation V600E
-IL-21+	IL-21+			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Increases NKCs
-Cisplatin	Cisplatin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Platinum chemo
-Velban	Velban			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Inhibits microtuble assembly
-Taxol	Paclitaxel			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	paclitaxel	
-Trientine	Trientine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Triethylenetetramine, TETA"	telomerase inhibiting
-Gleevec	Gleevec			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Tyrosine kinase inhibitor
-Nivolumab	Nivo	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		immune checkpoint inhibitor
-Ecorafenib	Ecorafenib			FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	FALSE		blocks BRAF; used on patients with BRAF mutation V600E
-TIL	TIL			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
-MAGE	MAGE			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		CTA that triggers body to attack MAGE overexpression in melanoma
-Vinblastine	Vinblastine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		mitotic inhibitor
-Trametibib	Trametibib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		MEK inhibitor
-Decarbazine	Decarbazine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		methylates guanine
-AMG 337	AMG 337			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		inhibitor of the adenosine transporter; MET kinase imhibitor
-TIC	TIC			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		tumor-initiating cells
-BCNU	BCNU			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		crosslinks DNA
-Tamoxifen	Tamoxifen			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		blocks estrogen receptors
-DCVax	DCVax			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		activated dendritic cells
-ADI-PEG	ADI-PEG			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		Breaks down asparagine
-GM-CSF	GM-CSF			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		improves recovery of white blood cells following chemo
-M-Vax	M-Vax			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Irradiated cancer cells
-Mel44	Mel44			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		Melanoma peptides
-PEG	PEG			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Pegaspargase	Breaks down asparagine
-IL-10	IL-10			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		enhances vaccine-induced T cell responses
-Ipilimumab	Ipi	CTLA4	CTLA4	TRUE	FALSE	TRUE	FALSE	FALSE	FALSE	FALSE	Yervoy	"Binds CTLA4, reducing its ability to upregulate cell division by binding C28"
-Pembrolizumab	Pembro	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	"Keytruda, MK3475, MK-3475"	
-ADZ2014	ADZ2014			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Vistusertib	
-CPT11	CPT11			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	"Camptosar, Irinotecan"	
-Docetaxal	Docetaxal			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Taxotere	
-Vismodegib	Vismodegib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Erivedge	
-AZD6738	AZD6738			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		impact ATR pathway checkpoint for DDR ( DNA Damage Response ) establishment
-FOLFIRI	FOLFIRI			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Fonic Acid and Fluorouracil and Irinotecan	
-FOLFOX	FOLFOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Folinic Acid and Fluorouacil and Oxiliplatin	
-Ramucrimab	Ramucrimab			FALSE	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		"Binds VEGF2 antigen with high affnity preventing typical activation by VEGFR, thus downregulation of angiogeneis in tumor tissue"
-XELOX	XELOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Oxaliplatin and capecitabine	
-Lapatinib	Lapatinib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Tykerb and Tyverb	
-DXP	DXP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	docetaxel and cisplatin and capecitabine	
-DP	DP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
-SOX	SOX			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	S-1 and oxaliplatin	
-SP	SP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	S-1 and cisplatin	
-XP	XP			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	Capecitabine and cisplatin	
-Herceptin	Herceptin			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Trastuzumab	
-FGFR2	FGFR2			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
-Selumetinib	Selumetinib			FALSE	FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	Koselugo	Inhibits MEP1
-Volitinib	Volitinib			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		
-FPA144-001	FPA144-001			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	Bemarituzumab	
-ADZ1775	ADZ1775			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		used in combination with chemo typically as it makes cells more succepble to radiation and chemo
-ADZ5363	ADZ5363			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	capivasertib	
-Cemiplimab	Cemiplimab	PD1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		
-Atezolizumab	Atezo	PD-L1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		
-Avelumab	Avelumab	PD-L1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		
-Durvalumab	Durvalumab	PD-L1	PD1	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE		
-Sunitinib	Sunitinib			FALSE	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		
-Bevacizumab	Bev			FALSE	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		
-Ironotecan	Ironotecan			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
-Lomustine	Lomustine			FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE		
+Full_Name	Preferred_Name	ICI_Target	ICI_Pathway	Properties	Name_Aliases	Description
+Steroid	Steroid			Steroid		
+Chemo	Chemo			Chemo		
+aMAPK	aMAPK			"aMAPK, Non_ICI"		
+aBRAF	aBRAF			"aBRAF, Non_ICI"		
+ICI	ICI			ICI		
+PD1	PD1	PD1	PD1	"ICI, aPD1"		
+CTLA4	CTLA4	CTLA4	CTLA4	"ICI, aCTLA4"		
+aVEGF	aVEGF			"aVEGF, Non_ICI"		
+IS	IS			IS	Immunosuppressant	
+Biochemo	Biochemo			"Chemo, Non_ICI"		
+Trametinib	Trametinib			"aMAPK, Chemo, Non_ICI"		MEK inhibitor
+Dabrafenib	Dabrafenib			"aBRAF, Non_ICI"		MEK inhibitor; potent inhibitor of the RAF proteins BRAF and CRAF through ATP competitive binding of the active conformation of BRAF kinase
+IL-2	IL-2			Non_ICI		Increases NKCs
+Ribociclib	Ribociclib			"Chemo, Non_ICI"		CDK inhibitor
+Binimetinib	Binimetinib			"aMAPK, Chemo,Non_ICI"		MEK 1 and MEK 2 protein inhibitor
+CVD	CVD			"Chemo, Non_ICI"	Cisplatin and Dacarbazine and Vinblastine	
+Interferon	Interferon			Non_ICI		Increases NKCs
+Dacarbazine	Dacarbazine			"Chemo, Non_ICI"		"DTIC methylates nucleic acids, causing DNA damage resulting in growth arrest and cell death"
+Temozolomide	TMZ			"Chemo, Non_ICI"	"Temodar, Temo, Temodal"	methylates guanine
+Dasatinib	Dasatinib			"Chemo, Non_ICI"		kinase inhibitor
+TLR	TLR			Non_ICI		toll-like receptor agonist
+gp100 vaccine	gp100 vaccine			Non_ICI		targets melanocytes
+Abraxane	Abraxane			"Chemo, Non_ICI"		
+Carboplatin	Carboplatin			"Chemo, Non_ICI"		Platinum chemo
+Doxycycline	Doxycycline			Non_ICI		"inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment"
+Vemurafenib	Vemurafenib			"aBRAF, Non_ICI"		blocks BRAF; used on patients with BRAF mutation V600E
+IL-21+	IL-21+			Non_ICI		Increases NKCs
+Cisplatin	Cisplatin			"Chemo, Non_ICI"		Platinum chemo
+Velban	Velban			"Chemo, Non_ICI"		Inhibits microtuble assembly
+Taxol	Paclitaxel			"Chemo, Non_ICI"	paclitaxel	
+Trientine	Trientine			"Chemo, Non_ICI"	"Triethylenetetramine, TETA"	telomerase inhibiting
+Gleevec	Gleevec			"Chemo, Non_ICI"		Tyrosine kinase inhibitor
+Nivolumab	Nivo	PD1	PD1	"ICI, aPD1"		immune checkpoint inhibitor
+Ecorafenib	Ecorafenib			"aBRAF, Non_ICI"		blocks BRAF; used on patients with BRAF mutation V600E
+TIL	TIL			Non_ICI		
+MAGE	MAGE			Non_ICI		CTA that triggers body to attack MAGE overexpression in melanoma
+Vinblastine	Vinblastine			"Chemo, Non_ICI"		mitotic inhibitor
+Trametibib	Trametibib			"Chemo, Non_ICI"		MEK inhibitor
+Decarbazine	Decarbazine			"Chemo, Non_ICI"		methylates guanine
+AMG 337	AMG 337			Non_ICI		inhibitor of the adenosine transporter; MET kinase imhibitor
+TIC	TIC			Non_ICI		tumor-initiating cells
+BCNU	BCNU			"Chemo, Non_ICI"		crosslinks DNA
+Tamoxifen	Tamoxifen			Non_ICI		blocks estrogen receptors
+DCVax	DCVax			Non_ICI		activated dendritic cells
+ADI-PEG	ADI-PEG			"Chemo, Non_ICI"		Breaks down asparagine
+GM-CSF	GM-CSF			Non_ICI		improves recovery of white blood cells following chemo
+M-Vax	M-Vax			Non_ICI		Irradiated cancer cells
+Mel44	Mel44			Non_ICI		Melanoma peptides
+PEG	PEG			"Chemo, Non_ICI"	Pegaspargase	Breaks down asparagine
+IL-10	IL-10			Non_ICI		enhances vaccine-induced T cell responses
+Ipilimumab	Ipi	CTLA4	CTLA4	"ICI, aCTLA4"	Yervoy	"Binds CTLA4, reducing its ability to upregulate cell division by binding C28"
+Pembrolizumab	Pembro	PD1	PD1	"ICI, aPD1"	"Keytruda, MK3475, MK-3475"	
+ADZ2014	ADZ2014			Non_ICI	Vistusertib	
+CPT11	CPT11			"Chemo, Non_ICI"	"Camptosar, Irinotecan"	
+Docetaxal	Docetaxal			"Chemo, Non_ICI"	Taxotere	
+Vismodegib	Vismodegib			Non_ICI	Erivedge	
+AZD6738	AZD6738			Non_ICI		impact ATR pathway checkpoint for DDR ( DNA Damage Response ) establishment
+FOLFIRI	FOLFIRI			"Chemo, Non_ICI"	Fonic Acid and Fluorouracil and Irinotecan	
+FOLFOX	FOLFOX			"Chemo, Non_ICI"	Folinic Acid and Fluorouacil and Oxiliplatin	
+Ramucrimab	Ramucrimab			"aVEGF, Non_ICI"		"Binds VEGF2 antigen with high affnity preventing typical activation by VEGFR, thus downregulation of angiogeneis in tumor tissue"
+XELOX	XELOX			"Chemo, Non_ICI"	Oxaliplatin and capecitabine	
+Lapatinib	Lapatinib			Non_ICI	Tykerb and Tyverb	
+DXP	DXP			"Chemo, Non_ICI"	docetaxel and cisplatin and capecitabine	
+DP	DP			Non_ICI		
+SOX	SOX			"Chemo, Non_ICI"	S-1 and oxaliplatin	
+SP	SP			"Chemo, Non_ICI"	S-1 and cisplatin	
+XP	XP			"Chemo, Non_ICI"	Capecitabine and cisplatin	
+Herceptin	Herceptin			Non_ICI	Trastuzumab	
+FGFR2	FGFR2			Non_ICI		
+Selumetinib	Selumetinib			"aMAPK, Non_ICI"	Koselugo	Inhibits MEP1
+Volitinib	Volitinib			Non_ICI		
+FPA144-001	FPA144-001			Non_ICI	Bemarituzumab	
+ADZ1775	ADZ1775			Non_ICI		used in combination with chemo typically as it makes cells more succepble to radiation and chemo
+ADZ5363	ADZ5363			Non_ICI	capivasertib	
+Cemiplimab	Cemiplimab	PD1	PD1	"ICI, aPD1"		
+Atezolizumab	Atezo	PD-L1	PD1	"ICI, aPD1"		
+Avelumab	Avelumab	PD-L1	PD1	"ICI, aPD1"		
+Durvalumab	Durvalumab	PD-L1	PD1	"ICI, aPD1"		
+Sunitinib	Sunitinib			"aVEGF, Non_ICI"		
+Bevacizumab	Bev			"aVEGF, Non_ICI"		
+Ironotecan	Ironotecan			"Chemo, Non_ICI"		
+Lomustine	Lomustine			"Chemo, Non_ICI"		
+Everolimus	Everolimus			"IS, Non_ICI"		
