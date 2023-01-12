@@ -35,7 +35,7 @@ converge_aliases <- function(
 
   #load the lut_path into a data frame
   if (!file.exists(lut_path)) stop( "No file exists at lut_path ( ", lut_path, " )." )
-  lut_df <- read.csv(lut_path, sep="\t",na.strings = "")
+  lut_df <- read.table(lut_path, sep="\t",na.strings = "", header=T)
 
   if ( !all(alias_clms %in% names(lut_df)) ) stop( "Not all alias_clms exist in lookup table provided.")
 
@@ -285,11 +285,20 @@ lookup_drug_properties <- function(
     skip_itemized_clms = FALSE,
     skip_boolean_clms = FALSE
 ){
-  return( lookup_properties(input_vector, property_lut_path=property_lut_path, name_clm=name_clm, property_clm = property_clm, copy_clms=copy_clms,
+  drug_df_with_props <- lookup_properties(input_vector, property_lut_path=property_lut_path, name_clm=name_clm, property_clm = property_clm, copy_clms=copy_clms,
                             all_properties=all_properties, itemized_clm_suffix=itemized_clm_suffix, boolean_clm_suffix=boolean_clm_suffix, 
                             no_info_itemized_value = no_info_itemized_value, no_info_boolean_value=no_info_boolean_value, 
-                            no_info_copy_value = no_info_copy_value, skip_itemized_clms=skip_itemized_clms, skip_boolean_clms=skip_boolean_clms))
+                            no_info_copy_value = no_info_copy_value, skip_itemized_clms=skip_itemized_clms, skip_boolean_clms=skip_boolean_clms)
+  
+  # add the aCTLA4_aPD1_Tx column if boolean_clms are requested and all_properties includes both aCTLA4 and aPD1
+  if(!skip_boolean_clms && all(c("aPD1", "aCTLA4") %in% all_properties)){
+    drug_df_with_props$aCTLA4_aPD1_Tx <- ( drug_df_with_props$aCTLA4_Tx & drug_df_with_props$aPD1_Tx )
+  }
+  
+  return(drug_df_with_props)
+  
 }
+
 ########### TESTING DATA ###########
 # lookup_drug_properties( out, property_lut_path = drug_lut_path, skip_boolean_clms=T)
 # write.table(lur, "v1_lookup_props_output.tsv", sep="\t")
