@@ -1,6 +1,6 @@
 Full_Name	Preferred_Name	ICI_Target	ICI_Pathway	Properties	Name_Aliases	Description
-Steroid	Steroid			Steroid		
-Chemo	Chemo			Chemo		
+Steroid	Steroid			"Steroid, Non_ICI"		
+Chemo	Chemo			"Chemo,Non_ICI"		
 aMAPK	aMAPK			"aMAPK, Non_ICI"		
 aBRAF	aBRAF			"aBRAF, Non_ICI"		
 ICI	ICI			ICI		
