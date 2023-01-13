@@ -51,7 +51,7 @@ get_patient_columns = function(){
     'Patient_ID', 'TCGA_Tissue', 'TCGA_Subtype', 'Cancer_Tissue', 'Tissue_Subtype',
     'M_Stage', 'Metastasized', 'Clinical_Stage', 'Response', 'Responder', 'Progression', 'Clinical_Benefit',
     'OS_e', 'OS_d', 'PFS_e', 'PFS_d', 'Age', 'Sex',
-    'Race', 'Caucasian', 'Asian', 'African', 'Nat_American', 'Pac_Islander', 'Likely_Caucasian',
+    'Race', 'Caucasian', 'Asian', 'African', 'Native_American', 'Pacific_Islander', 'Likely_Caucasian',
     'ICI_Rx', 'aPD1_Rx', 'aCTLA4_Rx', 'ICI_Pathway', 'ICI_Target',
     'Non_ICI_Rx', 'NeoICI_Rx',  'ICI_Tx', 'aPD1_Tx', 'aCTLA4_Tx', 'aCTLA4_aPD1_Tx',
     'Non_ICI_Tx', 'NeoICI_Tx',
