@@ -56,7 +56,7 @@ set_race_fields = function (dat, input_clm = "Race", na_to_lc = FALSE)
 		warning(paste0("set_race_fields input_clm (", input_clm, ") does not exist in dat."))
 		dat$Race = NA
 		
-	} else {
+	} #else { - we still want to add these other fields, even if there is no race data - just start from race = NA
 		dat$Race %<>% gsub("_", " ", ., fixed = T)
 		dat$Race %<>% trimws
 		dat$Race = stringr::str_to_title(dat[[input_clm]])
@@ -85,7 +85,7 @@ set_race_fields = function (dat, input_clm = "Race", na_to_lc = FALSE)
 		}
 		
 		cat("Added/modified columns: ", paste0(options, collapse = ", "), "\n")
-	}
+#	}
 	dat$Likely_Caucasian = dat$Race == "Caucasian"
 	
 	if (na_to_lc) {
