@@ -1,6 +1,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # converge_aliases
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#'
+#' @keywords internal
+#' 
 #' @title Takes an input vector and replaces aliases with preferred values
 #'
 #' @description
@@ -19,10 +22,6 @@
 #'
 #' @return Returns a vector of same length as input_vector with aliases replaced by preferred values
 #'
-#' @export
-#'
-#'
-#'  return_df <- converge_aliases(
 converge_aliases <- function(
     input_vector,
     input_vector_sep = "+",
@@ -113,7 +112,6 @@ converge_aliases <- function(
   return( output_vector )
 }
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # converge_drug_aliases
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,7 +171,6 @@ converge_drug_aliases <- function(
 ######### TESTING DATA. ###############
 # 
 # library(magrittr)
-# library(data.table)
 # 
 # drug_lut_path <- file.path("~/vincent_lab/packages/datasetprep/inst/rx_table/rx_table.tsv")
 # full_name_drugs <- c("Interferon", "cisplatin", "Ipilimumab", "Atezo")
@@ -189,6 +186,9 @@ converge_drug_aliases <- function(
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # lookup_properties
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#'
+#' @keywords internal
+#'
 #' @title Finds properties for names in input vector using user-defined lookup table
 #'
 #' @description

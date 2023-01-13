@@ -71,7 +71,7 @@ get_patient_columns = function(){
 #' Method to return static list of RUN_COLUMNS which is 
 #' concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS
 #'  
-#' @return Character vector of RUN_COLUMNS
+#' @return Character vector of RUN_COLUMNS and PATIENT_COLUMNS
 #'
 #' @export
 #' 
