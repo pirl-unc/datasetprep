@@ -53,7 +53,7 @@ format_sex = function(
 set_race_fields = function (dat, input_clm = "Race", na_to_lc = FALSE) 
 {
 	if (is.na(input_clm) | input_clm %ni% names(dat)) {
-		warning(paste0("set_race_fields input_clm, ", input_clm, ", not found."))
+		warning(paste0("set_race_fields input_clm (", input_clm, ") does not exist in dat."))
 		dat$Race = NA
 		
 	} else {
