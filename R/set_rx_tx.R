@@ -6,7 +6,11 @@
 #drug_list = readr::read_tsv(drug_path, col_types=readr::cols(Full_Name="c",Preferred_Name="c", is_ici_inhibitor="l", ici_pathway="c", is_aVEGF="l", is_aBRAF="l", is_aMAPK="l", is_chemo="l", name_aliases="c", description="c" ))
 
 
-# I would think it would use Name_Aliases to match more names but those aren't used.  Some names like temo are duplicated there any way so that would need cleaning up if that were the case. Put Timo in 'Ambiguous_Names' and warn for that?  Maybe have  bounded by pipes so it's easy to grep them.
+# To fix in next version - from Dante #####
+# check - I would think it would use Name_Aliases to match more names but those aren't used.  
+# check - Some names like temo are duplicated there any way so that would need cleaning up if that were the case. 
+# check - Put Timo in 'Ambiguous_Names' and warn for that?  Maybe have  bounded by pipes so it's easy to grep them.
+#
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # set_rx_tx
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -34,6 +38,8 @@ set_rx_tx = function(
 	dat, 
 	drug_table_path=system.file("rx_table", "rx_table.tsv", package="datasetprep")
 ){
+  warning("This method has been depricated. Please use converge_drug_aliases() and lookup_drug_properties(). Effective IMMEDIATELY!")
+  return()
   #define look up table for tsv file names to data variable names
   drug_classes = c("Is_PD1", "Is_CTLA4", "Is_aVEGF", "Is_aBRAF", "Is_aMAPK", "Is_Chemo")
   names(drug_classes) = c("aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo")
