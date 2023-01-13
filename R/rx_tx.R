@@ -350,7 +350,7 @@ lookup_drug_properties <- function(
   lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep")
   itemized_clm_suffix = "_Rx"
   boolean_clm_suffix = "_Tx"
-  no_info_itemized_value = NA_character_
+  no_info_itemized_value = "None"
   no_info_boolean_value = FALSE
   no_info_copy_value = NA_character_
   skip_itemized_clms = FALSE
