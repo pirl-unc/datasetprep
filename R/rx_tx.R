@@ -352,7 +352,7 @@ lookup_drug_properties <- function(
   boolean_clm_suffix = "_Tx"
   no_info_itemized_value = "None"
   no_info_boolean_value = FALSE
-  no_info_copy_value = NA_character_
+  no_info_copy_value = "None"
   skip_itemized_clms = FALSE
   skip_boolean_clms = FALSE
 
