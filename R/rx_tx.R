@@ -22,6 +22,8 @@
 #'
 #' @return Returns a vector of same length as input_vector with aliases replaced by preferred values
 #'
+#' @export
+#'
 converge_aliases <- function(
     input_vector,
     input_vector_sep = "+",
@@ -218,6 +220,8 @@ converge_drug_aliases <- function(
 #' @return Returns a dataframe with original input vector and itemized, 
 #' boolean and copied values as requested through input parameters.
 #'
+#' @export
+#' 
 lookup_properties <- function(
     input_vector,
     property_lut_path,
