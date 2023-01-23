@@ -7,7 +7,7 @@
 get_all_columns()
 }
 \value{
-Character vector of RUN_COLUMNS
+Character vector of RUN_COLUMNS and PATIENT_COLUMNS
 }
 \description{
 Method to return static list of RUN_COLUMNS which is 

@@ -70,7 +70,11 @@ Typically somatic workflow matches are when a given patient has samples of tumor
 ## Drug lookup
 
 ### set_rx_tx
-Takes a data.frame with a Drug column and returns formatted variables based on the drug names
+DEPRICATED :: Takes a data.frame with a Drug column and returns formatted variables based on the drug names
+### converge_drug_aliases
+Replaces drug name aliases with preferred name values
+### lookup_drug_properties
+Looks up properties for drugs and sets itemized and boolean fields with appropriate values
 
 ## Helpers
 

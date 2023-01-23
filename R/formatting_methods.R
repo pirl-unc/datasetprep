@@ -8,7 +8,7 @@
 #' 
 #' @param sex Vector of sex values
 #' @param female_values String values in sex to replace with Female, defaults include "female", "F", and "f"
-#' @param male_str String values in sex to replace with Male, defaults include "male", "M", and "m"
+#' @param male_values String values in sex to replace with Male, defaults include "male", "M", and "m"
 #' @param female_replacement Value to replace female_chars with, defaults to "Female"
 #' @param male_replacement Value to replace male_chars with, defaults to "Male"
 #' 
@@ -53,7 +53,7 @@ format_sex = function(
 set_race_fields = function (dat, input_clm = "Race", na_to_lc = FALSE) 
 {
 	if (is.na(input_clm) | input_clm %ni% names(dat)) {
-		warning(paste0("set_race_fields input_clm, ", input_clm, ", not found."))
+		warning(paste0("set_race_fields input_clm (", input_clm, ") does not exist in dat."))
 		dat$Race = NA
 		
 	} else {

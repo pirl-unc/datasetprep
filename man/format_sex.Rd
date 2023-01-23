@@ -6,8 +6,8 @@
 \usage{
 format_sex(
   sex,
-  female_chars = c("female", "F", "f", "FEMALE"),
-  male_chars = c("male", "M", "m", "MALE"),
+  female_values = c("female", "f", "w", "woman", "girl", "g"),
+  male_values = c("male", "m", "man", "boy", "b"),
   female_replacement = "Female",
   male_replacement = "Male"
 )
@@ -15,9 +15,9 @@ format_sex(
 \arguments{
 \item{sex}{Vector of sex values}
 
-\item{female_chars}{Characters in sex to replace with Female, defaults include "female", "F", and "f"}
+\item{female_values}{String values in sex to replace with Female, defaults include "female", "F", and "f"}
 
-\item{male_chars}{Characters in sex to replace with Male, defaults include "male", "M", and "m"}
+\item{male_values}{String values in sex to replace with Male, defaults include "male", "M", and "m"}
 
 \item{female_replacement}{Value to replace female_chars with, defaults to "Female"}
 

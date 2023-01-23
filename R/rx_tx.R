@@ -1,6 +1,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # converge_aliases
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#'
+#' @keywords internal
+#' 
 #' @title Takes an input vector and replaces aliases with preferred values
 #'
 #' @description
@@ -19,15 +22,13 @@
 #'
 #' @return Returns a vector of same length as input_vector with aliases replaced by preferred values
 #'
-#' @export
-#'
 converge_aliases <- function(
     input_vector,
     input_vector_sep = "+",
-    output_vector_sep = " + ",
-    lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
-    alias_clms=c("Full_Name", "Name_Aliases"),
-    preferred_name_clm=c("Preferred_Name"),
+    output_vector_sep = "+",
+    lut_path,
+    alias_clms="Alias",
+    preferred_name_clm="Name",
     alias_sep=",",
     include_missing_terms = FALSE,
     default_empty_value = NA
@@ -35,9 +36,13 @@ converge_aliases <- function(
 
   #load the lut_path into a data frame
   if (!file.exists(lut_path)) stop( "No file exists at lut_path ( ", lut_path, " )." )
-  lut_df <- read.table(lut_path, sep="\t",na.strings = "", header=T)
+  lut_df <- read.csv(lut_path, sep="\t", na.strings = "")
 
-  if ( !all(alias_clms %in% names(lut_df)) ) stop( "Not all alias_clms exist in lookup table provided.")
+  if ( !all(alias_clms %in% names(lut_df)) )
+  {
+    missing_clms <- alias_clms[ which(!(alias_clms %in% names(lut_df)))]
+    stop( "Not all alias_clms ( ", paste(missing_clms, collapse=",") , " ) exist in lookup table provided.")
+  }
 
   full_lut <- c()
   preferred_names_vec <- lut_df[[ preferred_name_clm ]] %>% trimws()
@@ -77,7 +82,7 @@ converge_aliases <- function(
   if( any(input_sep_matches) ){
     num_matches <- sum(input_sep_matches)
     matching_aliases <- names(full_lut)[input_sep_matches]
-    warning( "The input_vector_sep ( ", input_vector_sep, " ) is found in ", num_matches, " of the aliases ( ", paste(matching_aliases, collapse=","), " ). These aliases will never match an input value.\n\n")
+    warning( "The input_vector_sep ( ", input_vector_sep, " ) is found in ", num_matches, " of the aliases ( ", paste(matching_aliases, collapse=","), " ). These aliases will never match an input value.")
   }
 
   missing_vals <- c()
@@ -107,24 +112,83 @@ converge_aliases <- function(
   return( output_vector )
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# converge_drug_aliases
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @title Takes an input vector of drug names/combinations and replaces 
+#' aliases with preferred names
+#'
+#' @description
+#' This method replaces aliases in an input vector using a user-defined
+#' drug table.
+#'
+#' @param input_vector Character vector with drug aliases to be replaced
+#' @param include_missing_terms Boolean to keep unchanged names that are not found in the alias_clms
+#' @param drug_lut_path Path to .tsv drug table
+#' @param default_empty_value Value to use where output vector name is empty or NA
+#'
+#' @return Returns a vector of same length as input_vector with drug aliases replaced by preferred names
+#'
+#' @export
+#'
+converge_drug_aliases <- function(
+    input_vector,
+    drug_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
+    include_missing_terms = FALSE,
+    default_empty_value = NA
+){
+  
+  ## DEFAULTS TO USE ###
+  # There shouldn't be any call to change these but if necessary, keep both for backwards compatibility?
+  #   * add functionality in base converge_aliases, to handle an input vector for the separators
+  #
+  #
+  input_vector_sep = "+"
+  output_vector_sep = " + "
+  alias_clms=c("Full_Name", "Name_Aliases")
+  preferred_name_clm=c("Preferred_Name")
+  alias_sep=","
+
+  #call the base function with argument values and defaults
+  return_df <- converge_aliases(
+    input_vector,
+    input_vector_sep = input_vector_sep,
+    output_vector_sep = output_vector_sep,
+    lut_path = drug_lut_path,
+    alias_clms = alias_clms,
+    preferred_name_clm = preferred_name_clm,
+    alias_sep = alias_sep,
+    include_missing_terms = include_missing_terms, 
+    default_empty_value = default_empty_value
+    )
+  
+  # anything extra we'd like to do here? maybe output some stats to the user?
+  
+  # return the df
+  return( return_df )
+}
+
 ######### TESTING DATA. ###############
-# out <- converge_aliases( test_drug_vec, "+", " + ", drug_lut_path )
-
+# 
 # library(magrittr)
-
+# 
 # drug_lut_path <- file.path("~/vincent_lab/packages/datasetprep/inst/rx_table/rx_table.tsv")
-# full_name_drugs <- c("Interferon", "cisplatin", "Ipilimumab")
+# full_name_drugs <- c("Interferon", "cisplatin", "Ipilimumab", "Atezo")
 # preferred_name_drugs <- c("Ipi", "Ribociclib", "atezo")
 # alias_name_drugs <- c("Paclitaxel", "Temodar", "Temo", "Mk-3475", "Tykerb and Tyverb")
 # each_category_drugs <- c("BiocheMO", "Trametinib", "Dabrafenib", "Ramucrimab", "Atezo", "Herceptin", "Ipi")
-# misc_name_and_combination_tests <- c("NA", NA, "   ", "", "PEMBRO", "PEMBRO  + Ipilimumab", "DXP+SOX+ Yervoy")
-# missing_name_tests <- c("Rando drug", "DXP + Ipini")
-# test_drug_vec <- c( full_name_drugs, preferred_name_drugs, alias_name_drugs, each_category_drugs, misc_name_and_combination_tests, missing_name_tests )
+# misc_name_and_combination_drugs <- c("NA", NA, "   ", "", "PEMBRO", "PEMBRO  + Ipilimumab", "DXP+SOX+ Yervoy")
+# missing_name_drugs <- c("Rando drug", "DXP + Ipini")
+# test_drug_vec <- c( full_name_drugs, preferred_name_drugs, alias_name_drugs, each_category_drugs, misc_name_and_combination_drugs, missing_name_drugs )
+# out <- converge_drug_aliases( test_drug_vec, lut_path <- drug_lut_path)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # lookup_properties
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#'
+#' @keywords internal
+#'
 #' @title Finds properties for names in input vector using user-defined lookup table
 #'
 #' @description
@@ -149,6 +213,7 @@ converge_aliases <- function(
 #' @param no_info_copy_value Value to return for copied columns where value is empty/NA
 #' @param skip_itemized_clms Boolean to include itemized columns in return df
 #' @param skip_boolean_clms Boolean to include boolean columns in return df
+#' @param return_input Boolean whether to include the input vector as the first column of the return df
 #'
 #' @return Returns a dataframe with original input vector and itemized, 
 #' boolean and copied values as requested through input parameters.
@@ -166,13 +231,13 @@ lookup_properties <- function(
     output_copy_clm_sep = ",",
     itemized_clm_suffix = "_Itemized",
     boolean_clm_suffix = "_Boolean",
-    no_info_itemized_value = NA,
+    no_info_itemized_value = NA_character_,
     no_info_boolean_value = FALSE,
     no_info_copy_value = NA,
     skip_itemized_clms = FALSE,
-    skip_boolean_clms = FALSE
+    skip_boolean_clms = FALSE,
+    return_input=TRUE
 ) {
-
   # load lut
   if (!file.exists(property_lut_path)) stop( "No file exists at property_lut_path ( ", property_lut_path, " )." )
   lut_df <- read.csv(property_lut_path, sep="\t", na.strings = "")
@@ -220,7 +285,9 @@ lookup_properties <- function(
       for ( prop in my_props ){
         if (!skip_itemized_clms){
           my_prop_clm <- paste0(prop, itemized_clm_suffix)
-          if ( output_df[input_index, my_prop_clm] == no_info_itemized_value ) output_df[input_index, my_prop_clm] <- name
+          current_prop_val <- output_df[input_index, my_prop_clm]
+#          cat(my_prop_clm, " :: ", current_prop_val, " :: ", is.na(current_prop_val), " :: ", identical(current_prop_val, no_info_itemized_value), "\n")
+          if ( is.na(current_prop_val) | identical(current_prop_val, no_info_itemized_value) ) output_df[input_index, my_prop_clm] <- name
           else output_df[input_index, my_prop_clm] %<>% paste(name, sep=output_property_sep)
         }
         if (!skip_boolean_clms) {
@@ -237,6 +304,11 @@ lookup_properties <- function(
   
   missing_names_vec %<>% .[ complete.cases(.) ] %>% unique()
   if( length(missing_names_vec) ) cat("The following names in the input_vec were not found in the lookup table: ", paste(missing_names_vec), "\n")
+
+  # remove the first column ( a copy of the input_vec ) from the return df if requested
+  if( !return_input ){
+    output_df[-1]
+  }
   
   return(output_df)
 }
@@ -247,23 +319,14 @@ lookup_properties <- function(
 #' @title Looks up properties for drug combinations in input vector using user-defined lookup table
 #'
 #' @description
-#' This method looks up drug names in user-defined lookup table, 
-#' takes properties found in the associated property_clm 
-#' and expands them into a return dataframe with itemized and boolean columns..
+#' This method calls base lookup_properties method with appropriate values for package drug table
+#' and returns the resulting df with aCTLA4_PD1_Tx column added
 #'
 #' @param input_vector Character vector with drug names to be looked up
 #' @param property_lut_path Path to .tsv with drug names and properties
-#' @param name_clm Column containing names in lut
-#' @param property_clm Column containing properties in lut
 #' @param copy_clms Optional vector of columns containing values to be copied directly
 #' @param all_properties Vector of property names to look for in property_clm and include in return df
-#' @param itemized_clm_suffix Characters appended to each property to form itemized column names in return df
-#' @param boolean_clm_suffix Characters appended to each property to form boolean column names in return df
-#' @param no_info_itemized_value Value to return for itemized columns where the given property is not found
-#' @param no_info_boolean_value Value to return for boolean columns where the given property is not found
-#' @param no_info_copy_value Value to return for copied columns where value is empty/NA
-#' @param skip_itemized_clms Boolean to include itemized columns in return df
-#' @param skip_boolean_clms Boolean to include boolean columns in return df
+#' @param return_input Boolean whether to include the input vector as the first column of the return df
 #'
 #' @return Returns a dataframe with original input vector and itemized, 
 #' boolean and copied properties as requested through input parameters.
@@ -273,64 +336,56 @@ lookup_properties <- function(
 lookup_drug_properties <- function(
     input_vector,
     property_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
-    name_clm = "Preferred_Name",
-    property_clm = "Properties",
     copy_clms = c("ICI_Pathway", "ICI_Target"),
     all_properties = c("ICI", "Non_ICI", "IS", "aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo", "Steroid"),
-    itemized_clm_suffix = "_Rx",
-    boolean_clm_suffix = "_Tx",
-    no_info_itemized_value = "None",
-    no_info_boolean_value = FALSE,
-    no_info_copy_value = NA,
-    skip_itemized_clms = FALSE,
-    skip_boolean_clms = FALSE
+    return_input = FALSE
 ){
-  drug_df_with_props <- lookup_properties(input_vector, property_lut_path=property_lut_path, name_clm=name_clm, property_clm = property_clm, copy_clms=copy_clms,
-                            all_properties=all_properties, itemized_clm_suffix=itemized_clm_suffix, boolean_clm_suffix=boolean_clm_suffix, 
-                            no_info_itemized_value = no_info_itemized_value, no_info_boolean_value=no_info_boolean_value, 
-                            no_info_copy_value = no_info_copy_value, skip_itemized_clms=skip_itemized_clms, skip_boolean_clms=skip_boolean_clms)
+  
+  name_clm = "Preferred_Name"
+  property_clm = "Properties"
+  input_vector_sep = "+"
+  property_sep = ","
+  output_property_sep = "+"
+  output_copy_clm_sep = ","
+  lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep")
+  itemized_clm_suffix = "_Rx"
+  boolean_clm_suffix = "_Tx"
+  no_info_itemized_value = NA_character_
+  no_info_boolean_value = FALSE
+  no_info_copy_value = NA_character_
+  skip_itemized_clms = FALSE
+  skip_boolean_clms = FALSE
+
+  props_df <- lookup_properties(
+    input_vector, 
+    property_lut_path=property_lut_path, 
+    name_clm=name_clm, 
+    property_clm = property_clm, 
+    copy_clms=copy_clms,
+    all_properties=all_properties, 
+    itemized_clm_suffix=itemized_clm_suffix, 
+    boolean_clm_suffix=boolean_clm_suffix, 
+    no_info_itemized_value = no_info_itemized_value, 
+    no_info_boolean_value=no_info_boolean_value,
+    no_info_copy_value = no_info_copy_value, 
+    skip_itemized_clms=skip_itemized_clms, 
+    skip_boolean_clms=skip_boolean_clms,
+    return_input=return_input 
+    )
   
   # add the aCTLA4_aPD1_Tx column if boolean_clms are requested and all_properties includes both aCTLA4 and aPD1
   if(!skip_boolean_clms && all(c("aPD1", "aCTLA4") %in% all_properties)){
-    drug_df_with_props$aCTLA4_aPD1_Tx <- ( drug_df_with_props$aCTLA4_Tx & drug_df_with_props$aPD1_Tx )
+    props_df$aCTLA4_aPD1_Tx <- ( props_df$aCTLA4_Tx & props_df$aPD1_Tx )
   }
   
-  return(drug_df_with_props)
+  return( props_df )
   
 }
 
 ########### TESTING DATA ###########
-# lookup_drug_properties( out, property_lut_path = drug_lut_path, skip_boolean_clms=T)
-# write.table(lur, "v1_lookup_props_output.tsv", sep="\t")
-
-########### Helper for comparing outputs from changes to this method ... should save sample output to inst folder?
-# original_output <- read.table("v1_lookup_props_output.tsv", sep="\t")
-# identical_output( lur, original_output )
 #
-# # output comparison function
-# identical_output <- function( df1, df2 ){
-#   if( nrow(df1) != nrow(df2) ) stop("The two dataframes do not have the same number of rows.")
-#   if( ncol(df1) != ncol(df2) ) stop("The two dataframes do not have the same number of columns.")
-#   if( !all(names(df1) == names(df2)) ) stop("The column names of the two dataframe do not match.")
-#   match_vec <- sapply( seq_along(df1), function(i){
-#     r <- all(identical(df1[[i]], df2[[i]]))
-#     if( !r ) cat("Not-identical: ", names(df1)[i], "\n")
-#     return(r)
-#   } ) %>% unlist() %>% {!.}
-#   if( sum(match_vec) == 0 ) print("Congratulations!!!  All items match.")
-#   else print("Something doesn't match - see above output for column names.")
-# }
-
-
-
-
-# what do we do with the combined PD1 / CTLA4 field?
-
-########  TEST  ##########
-
-# * changing values for all params
-
-
-# FINALLY
-# test both methods with an actual dataset by updating the dataset_prep.R for one
+# assumes out is a list of valid drug Preferred_Names like output from converge_drug_aliases()
+# lookup_drug_properties( out, property_lut_path = drug_lut_path)
+#
+#######################
 
