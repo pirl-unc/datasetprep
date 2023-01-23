@@ -1,5 +1,7 @@
 The purpose of this package is to add tools that make life easier when performing dataset prep.  
 
+It works pretty good.
+
 ## Install
 Restart R Session  
 In R:
