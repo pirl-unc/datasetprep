@@ -149,3 +149,33 @@ set_rx_tx = function(
 }
 ### test run ###
 #dx1=set_rx_tx(test_df,drug_table_path = file.path(getwd(),"Desktop/work/vincent_lab/datasetprep/inst/rx_table/rx_table.tsv"))
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# create_input_path
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @title Depricated method to create the full path to a given input file - set this manually with file.path instead
+#' 
+#' @description 
+#' Uses the RAW_DATA_DIR and the parameters passed in to create a full path to the input file being requested
+#' 
+#' @param dataset The name of the dataset ( which should match the folder name for this dataset in the filesystem )
+#' @param filename The name of the input file
+#' @param subfolder The path to the subfolder containing the input file, if any
+#' 
+#' @return The full path to the file being requested starting from 
+#' /datastore/nextgenout5/share/labs/Vincent_Lab/datasets
+#' 
+#' @export
+create_input_path = function( dataset, filename, subfolder=NA ){
+	stop( "This method is depricated. You'll have to set your input path(s) manually. Sorry for that." )
+	# if( !is.na(subfolder) ){
+	#   #strip beginning and ending slashes from subfolder ...
+	#   subfolder %<>% gsub("^/+", "", .) %>% gsub("/+$", "", . )
+	#   return(file.path(RAW_DATA_DIR, dataset, subfolder, filename)) 
+	# }else{
+	#   return(file.path(RAW_DATA_DIR, dataset, filename))
+	# }
+}
+#create_input_path("mds","data.txt")
