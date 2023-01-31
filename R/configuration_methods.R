@@ -15,19 +15,17 @@ configure_output_columns = function(){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # get_run_only_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Returns character vector of RUN_ONLY_COLUMNS
-#' 
-#' @description 
-#' Method to return static list of RUN_ONLY_COLUMNS
+#' @title Returns character vector of column names for data only relevant to a 
+#' sample or sequencing run as opposed to a patient.
 #'  
-#' @return Character vector of RUN_ONLY_COLUMNS
+#' @return Character vector of column names
 #'
 #' @export
 #' 
 get_run_only_columns = function(){
   return( c(
     'Run_ID', 'Sequencing_Method', 'Analyte', 'Biopsy_Site', 'Specific_Biopsy_Site','Metastatic_Biopsy', 'Sample_Treated',
-    'Sample_Treatment', 'Sample_Type', 'Normal', 'Primary_Tumor', 'Read_Length',
+    'Timepoint', 'Sample_Type', 'Normal', 'Primary_Tumor', 'Read_Length',
     'Batch_ID', 'Sequencer', 'Sequencer_ID', 'Sample_Prep', 'FFPE', 'Storage', 'Storage_Method',
     'File_Prefix', 'Run_Name', 'Pre_On_Treatment_Match', 'Somatic_Workflow_Match',
     'Center'
@@ -37,12 +35,13 @@ get_run_only_columns = function(){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # get_patient_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Returns character vector of PATIENT_ONLY_COLUMNS
+#' @title Returns character vector of column name relevant to the patient and 
+#' should be true of all samples coming from that patient
 #' 
 #' @description 
-#' Method to return static list of PATIENT_ONLY_COLUMNS
+#' Method to return static list of columns relevant to patient level data.
 #'  
-#' @return Character vector of PATIENT_ONLY_COLUMNS
+#' @return Character vector of column names
 #'
 #' @export
 #' 
@@ -65,13 +64,13 @@ get_patient_columns = function(){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # get_all_columns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @title Returns character vector concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS
+#' @title Returns character vector concatenation of get_patient_columns and get_run_only_columns
 #' 
 #' @description 
-#' Method to return static list of RUN_COLUMNS which is 
-#' concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS
+#' Method to return character vector combining of get_patient_columns and
+#' get_run_only_columns
 #'  
-#' @return Character vector of RUN_COLUMNS and PATIENT_COLUMNS
+#' @return Character vector of get_patient_columns and get_run_only_columns
 #'
 #' @export
 #' 

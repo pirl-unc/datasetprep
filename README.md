@@ -9,7 +9,7 @@ devtools::install_github("Benjamin-Vincent-Lab/datasetprep")
 
 Or for a specific version:
 ``` r
-devtools::install_github("Benjamin-Vincent-Lab/datasetprep", ref = "0.3.2")
+devtools::install_github("Benjamin-Vincent-Lab/datasetprep", ref = "0.4.0")
 ```
 
 Use the package documentation for help:
@@ -20,13 +20,13 @@ Use the package documentation for help:
 ##Configuration methods
 
 ###get_run_only_columns
-Returns character vector of RUN_ONLY_COLUMNS
+Returns character vector of column names for data only relevant to a sample or sequencing run as opposed to a patient.
 
 ###get_patient_only_columns
-Returns character vector of PATIENT_ONLY_COLUMNS
+Returns character vector of column name relevant to the patient and should be true of all samples coming from that patient
 
 ###get_all_columns
-Returns character vector concatenation of RUN_ONLY_COLUMNS and PATIENT_ONLY_COLUMNS
+Returns character vector concatenation of get_patient_columns and get_run_only_columns
 
 ##Initializaton methods
 
