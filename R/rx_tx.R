@@ -312,7 +312,7 @@ lookup_properties <- function(
 
   # remove the first column ( a copy of the input_vec ) from the return df if requested
   if( !return_input ){
-    output_df[-1]
+  	output_df = output_df[-1]
   }
   
   return(output_df)
