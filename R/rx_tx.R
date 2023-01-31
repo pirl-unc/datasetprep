@@ -324,16 +324,30 @@ lookup_properties <- function(
 #' @title Looks up properties for drug combinations in input vector using user-defined lookup table
 #'
 #' @description
-#' This method calls base lookup_properties method with appropriate values for package drug table
+#' This method calls \code{\link{datasetprep::lookup_properties}} method with appropriate values for package drug table
 #' and returns the resulting df with aCTLA4_PD1_Tx column added
 #'
 #' @param input_vector Character vector with drug names to be looked up
 #' @param property_lut_path Path to .tsv with drug names and properties
-#' @param copy_clms Optional vector of columns containing values to be copied directly
 #' @param all_properties Vector of property names to look for in property_clm and include in return df
 #' @param return_input Boolean whether to include the input vector as the first column of the return df
+#' @param name_clm Column containing names in lut
+#' @param property_clm Column containing properties in lut
+#' @param copy_clms Some columns in the lookup table can have values that can be copied over.  For example, For 'Pembro' we'd want to find pembro on the list and then grab the info for ICI_Pathway (PD1) and pass that info along to the sample data. Optional vector of columns containing values to be copied directly
+#' @param input_vector_sep Character separating multi-name values of input vector
+#' @param property_sep Character separating multi-property values in property_clm
+#' @param output_property_sep Character to separate multi-name values returned in itemized columns
+#' @param output_copy_clm_sep Character separating copy column values from multi-name inputs
+#' @param itemized_clm_suffix Characters appended to each property to form itemized column names in return df
+#' @param boolean_clm_suffix Characters appended to each property to form boolean column names in return df
+#' @param no_info_itemized_value Value to return for itemized columns where the given property is not found
+#' @param no_info_boolean_value Value to return for boolean columns where the given property is not found
+#' @param no_info_copy_value Value to return for copied columns where value is empty/NA
+#' @param skip_itemized_clms Boolean to include itemized columns in return df
+#' @param skip_boolean_clms Boolean to include boolean columns in return df
+#' @param return_input Boolean whether to include the input vector as the first column of the return df
 #'
-#' @return Returns a dataframe with original input vector and itemized, 
+#' @return Returns a data.frame with original input vector and itemized, 
 #' boolean and copied properties as requested through input parameters.
 #'
 #' @export
@@ -343,23 +357,21 @@ lookup_drug_properties <- function(
     property_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
     copy_clms = c("ICI_Pathway", "ICI_Target"),
     all_properties = c("ICI", "Non_ICI", "IS", "aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK", "Chemo", "Steroid"),
-    return_input = FALSE
+    return_input = FALSE,
+    name_clm = "Preferred_Name",
+    property_clm = "Properties",
+    input_vector_sep = "+",
+    property_sep = ",",
+    output_property_sep = "+",
+    output_copy_clm_sep = ",",
+    itemized_clm_suffix = "_Rx",
+    boolean_clm_suffix = "_Tx",
+    no_info_itemized_value = "None",
+    no_info_boolean_value = FALSE,
+    no_info_copy_value = "None",
+    skip_itemized_clms = FALSE,
+    skip_boolean_clms = FALSE
 ){
-  
-  name_clm = "Preferred_Name"
-  property_clm = "Properties"
-  input_vector_sep = "+"
-  property_sep = ","
-  output_property_sep = "+"
-  output_copy_clm_sep = ","
-  lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep")
-  itemized_clm_suffix = "_Rx"
-  boolean_clm_suffix = "_Tx"
-  no_info_itemized_value = "None"
-  no_info_boolean_value = FALSE
-  no_info_copy_value = "None"
-  skip_itemized_clms = FALSE
-  skip_boolean_clms = FALSE
 
   props_df <- lookup_properties(
     input_vector, 
@@ -376,7 +388,7 @@ lookup_drug_properties <- function(
     skip_itemized_clms=skip_itemized_clms, 
     skip_boolean_clms=skip_boolean_clms,
     return_input=return_input 
-    )
+   )
   
   # add the aCTLA4_aPD1_Tx column if boolean_clms are requested and all_properties includes both aCTLA4 and aPD1
   if(!skip_boolean_clms && all(c("aPD1", "aCTLA4") %in% all_properties)){
