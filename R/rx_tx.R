@@ -191,18 +191,19 @@ converge_drug_aliases <- function(
 #'
 #' @keywords internal
 #'
-#' @title Finds properties for names in input vector using user-defined lookup table
+#' @title Finds properties for names in input vector using user-defined lookup 
+#' table
 #'
 #' @description
-#' This method looks up names in user-defined lookup table, 
-#' takes properties found in the associated property_clm 
-#' and expands them into a return dataframe with itemized and boolean columns for each.
+#' This method looks up names in user-defined lookup table, takes properties 
+#' found in the associated property_clm and expands them into a return 
+#' data.frame with itemized and boolean columns for each.
 #'
 #' @param input_vector Character vector with names to be looked up
 #' @param property_lut_path Path to .tsv with name and property columns
 #' @param name_clm Column containing names in lut
 #' @param property_clm Column containing properties in lut
-#' @param copy_clms Optional vector of columns containing values to be copied directly
+#' @param copy_clms Some columns in the lookup table can have values that can be copied over.  For example, For 'Pembro' we'd want to find pembro on the list and then grab the info for ICI_Pathway (PD1) and pass that info along to the sample data. Optional vector of columns containing values to be copied directly
 #' @param all_properties Vector of property names to look for in property_clm and include in return df
 #' @param input_vector_sep Character separating multi-name values of input vector
 #' @param property_sep Character separating multi-property values in property_clm
