@@ -24,11 +24,12 @@ configure_output_columns = function(){
 #' 
 get_run_only_columns = function(){
   return( c(
-    'Run_ID', 'Sequencing_Method', 'Analyte', 'Biopsy_Site', 'Specific_Biopsy_Site','Metastatic_Biopsy', 'Sample_Treated',
-    'Timepoint', 'Sample_Type', 'Normal', 'Primary_Tumor', 'Read_Length',
-    'Batch_ID', 'Sequencer', 'Sequencer_ID', 'Sample_Prep', 'FFPE', 'Storage', 'Storage_Method',
-    'File_Prefix', 'Run_Name', 'Pre_On_Treatment_Match', 'Somatic_Workflow_Match',
-    'Center'
+    'Run_ID', 'Sequencing_Method', 'Analyte', 'Biopsy_Site', 
+    'Specific_Biopsy_Site', 'Metastatic_Biopsy', 'Sample_Treated', 'Timepoint', 
+    'Sample_Type', 'Normal', 'Primary_Tumor', 'Read_Length', 'Batch_ID', 
+    'Sequencer', 'Sequencer_ID', 'Sample_Prep', 'FFPE', 'Likely_FFPE', 
+    'Storage', 'Storage_Method', 'File_Prefix', 'Run_Name', 
+    'Pre_On_Treatment_Match', 'Somatic_Workflow_Match', 'Center'
     ) )
 }
 
