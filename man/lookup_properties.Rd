@@ -2,7 +2,8 @@
 % Please edit documentation in R/rx_tx.R
 \name{lookup_properties}
 \alias{lookup_properties}
-\title{Finds properties for names in input vector using user-defined lookup table}
+\title{Finds properties for names in input vector using user-defined lookup 
+table}
 \usage{
 lookup_properties(
   input_vector,
@@ -34,7 +35,7 @@ lookup_properties(
 
 \item{property_clm}{Column containing properties in lut}
 
-\item{copy_clms}{Optional vector of columns containing values to be copied directly}
+\item{copy_clms}{Some columns in the lookup table can have values that can be copied over.  For example, For 'Pembro' we'd want to find pembro on the list and then grab the info for ICI_Pathway (PD1) and pass that info along to the sample data. Optional vector of columns containing values to be copied directly}
 
 \item{all_properties}{Vector of property names to look for in property_clm and include in return df}
 
@@ -67,8 +68,8 @@ Returns a dataframe with original input vector and itemized,
 boolean and copied values as requested through input parameters.
 }
 \description{
-This method looks up names in user-defined lookup table, 
-takes properties found in the associated property_clm 
-and expands them into a return dataframe with itemized and boolean columns for each.
+This method looks up names in user-defined lookup table, takes properties 
+found in the associated property_clm and expands them into a return 
+data.frame with itemized and boolean columns for each.
 }
 \keyword{internal}

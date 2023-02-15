@@ -10,7 +10,20 @@ lookup_drug_properties(
   copy_clms = c("ICI_Pathway", "ICI_Target"),
   all_properties = c("ICI", "Non_ICI", "IS", "aPD1", "aCTLA4", "aVEGF", "aBRAF", "aMAPK",
     "Chemo", "Steroid"),
-  return_input = FALSE
+  return_input = FALSE,
+  name_clm = "Preferred_Name",
+  property_clm = "Properties",
+  input_vector_sep = "+",
+  property_sep = ",",
+  output_property_sep = "+",
+  output_copy_clm_sep = ",",
+  itemized_clm_suffix = "_Rx",
+  boolean_clm_suffix = "_Tx",
+  no_info_itemized_value = "None",
+  no_info_boolean_value = FALSE,
+  no_info_copy_value = "None",
+  skip_itemized_clms = FALSE,
+  skip_boolean_clms = FALSE
 )
 }
 \arguments{
@@ -18,17 +31,43 @@ lookup_drug_properties(
 
 \item{property_lut_path}{Path to .tsv with drug names and properties}
 
-\item{copy_clms}{Optional vector of columns containing values to be copied directly}
+\item{copy_clms}{Some columns in the lookup table can have values that can be copied over.  For example, For 'Pembro' we'd want to find pembro on the list and then grab the info for ICI_Pathway (PD1) and pass that info along to the sample data. Optional vector of columns containing values to be copied directly}
 
 \item{all_properties}{Vector of property names to look for in property_clm and include in return df}
 
 \item{return_input}{Boolean whether to include the input vector as the first column of the return df}
+
+\item{name_clm}{Column containing names in lut}
+
+\item{property_clm}{Column containing properties in lut}
+
+\item{input_vector_sep}{Character separating multi-name values of input vector}
+
+\item{property_sep}{Character separating multi-property values in property_clm}
+
+\item{output_property_sep}{Character to separate multi-name values returned in itemized columns}
+
+\item{output_copy_clm_sep}{Character separating copy column values from multi-name inputs}
+
+\item{itemized_clm_suffix}{Characters appended to each property to form itemized column names in return df}
+
+\item{boolean_clm_suffix}{Characters appended to each property to form boolean column names in return df}
+
+\item{no_info_itemized_value}{Value to return for itemized columns where the given property is not found}
+
+\item{no_info_boolean_value}{Value to return for boolean columns where the given property is not found}
+
+\item{no_info_copy_value}{Value to return for copied columns where value is empty/NA}
+
+\item{skip_itemized_clms}{Boolean to include itemized columns in return df}
+
+\item{skip_boolean_clms}{Boolean to include boolean columns in return df}
 }
 \value{
-Returns a dataframe with original input vector and itemized, 
+Returns a data.frame with original input vector and itemized, 
 boolean and copied properties as requested through input parameters.
 }
 \description{
-This method calls base lookup_properties method with appropriate values for package drug table
+This method calls \code{\link{datasetprep::lookup_properties}} method with appropriate values for package drug table
 and returns the resulting df with aCTLA4_PD1_Tx column added
 }

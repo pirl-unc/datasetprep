@@ -2,13 +2,15 @@
 % Please edit documentation in R/configuration_methods.R
 \name{get_run_only_columns}
 \alias{get_run_only_columns}
-\title{Returns character vector of RUN_ONLY_COLUMNS}
+\title{Returns character vector of column names for data only relevant to a 
+sample or sequencing run as opposed to a patient.}
 \usage{
 get_run_only_columns()
 }
 \value{
-Character vector of RUN_ONLY_COLUMNS
+Character vector of column names
 }
 \description{
-Method to return static list of RUN_ONLY_COLUMNS
+Returns character vector of column names for data only relevant to a 
+sample or sequencing run as opposed to a patient.
 }

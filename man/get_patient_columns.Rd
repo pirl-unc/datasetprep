@@ -2,13 +2,14 @@
 % Please edit documentation in R/configuration_methods.R
 \name{get_patient_columns}
 \alias{get_patient_columns}
-\title{Returns character vector of PATIENT_ONLY_COLUMNS}
+\title{Returns character vector of column name relevant to the patient and 
+should be true of all samples coming from that patient}
 \usage{
 get_patient_columns()
 }
 \value{
-Character vector of PATIENT_ONLY_COLUMNS
+Character vector of column names
 }
 \description{
-Method to return static list of PATIENT_ONLY_COLUMNS
+Method to return static list of columns relevant to patient level data.
 }
