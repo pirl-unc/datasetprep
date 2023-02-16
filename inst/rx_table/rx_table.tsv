@@ -4,8 +4,8 @@ Chemo	Chemo			"Chemo,Non_ICI"
 aMAPK	aMAPK			"aMAPK, Non_ICI"		
 aBRAF	aBRAF			"aBRAF, Non_ICI"		
 ICI	ICI			ICI		
-PD1	PD1	PD1	PD1	"ICI, aPD1"		
-CTLA4	CTLA4	CTLA4	CTLA4	"ICI, aCTLA4"		
+aPD1	aPD1	PD1	PD1	"ICI, aPD1"		
+aCTLA4	aCTLA4	CTLA4	CTLA4	"ICI, aCTLA4"		
 aVEGF	aVEGF			"aVEGF, Non_ICI"		
 IS	IS			IS	Immunosuppressant	
 Biochemo	Biochemo			"Chemo, Non_ICI"		
