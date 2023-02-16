@@ -9,7 +9,12 @@ converge_drug_aliases(
   input_vector,
   drug_lut_path = system.file("rx_table", "rx_table.tsv", package = "datasetprep"),
   include_missing_terms = FALSE,
-  default_empty_value = NA
+  default_empty_value = NA,
+  input_vector_sep = " + ",
+  output_vector_sep = " + ",
+  alias_clms = c("Full_Name", "Name_Aliases"),
+  preferred_name_clm = c("Preferred_Name"),
+  alias_sep = ","
 )
 }
 \arguments{
@@ -17,14 +22,24 @@ converge_drug_aliases(
 
 \item{drug_lut_path}{Path to .tsv drug table}
 
-\item{include_missing_terms}{Boolean to keep unchanged names that are not found in the alias_clms}
+\item{include_missing_terms}{Boolean to keep unchanged names that are not found in the alias_clms.}
 
 \item{default_empty_value}{Value to use where output vector name is empty or NA}
+
+\item{input_vector_sep}{Character separating multi-name values of input vector}
+
+\item{output_vector_sep}{Character to separate returned multi-name values}
+
+\item{alias_clms}{Vector of column names containing aliases in lut}
+
+\item{preferred_name_clm}{Name of column from which to pull preferred names to replace aliases}
+
+\item{alias_sep}{Character separating multiple aliases found within a single alias_clm}
 }
 \value{
 Returns a vector of same length as input_vector with drug aliases replaced by preferred names
 }
 \description{
 This method replaces aliases in an input vector using a user-defined
-drug table.
+drug table. All args pass to \code{\link{datasetprep::converge_aliases}}.
 }

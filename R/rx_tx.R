@@ -26,8 +26,8 @@
 #'
 converge_aliases <- function(
     input_vector,
-    input_vector_sep = "+",
-    output_vector_sep = "+",
+    input_vector_sep = " + ",
+    output_vector_sep = " + ",
     lut_path,
     alias_clms="Alias",
     preferred_name_clm="Name",
@@ -122,13 +122,18 @@ converge_aliases <- function(
 #'
 #' @description
 #' This method replaces aliases in an input vector using a user-defined
-#' drug table.
+#' drug table. All args pass to \code{\link{datasetprep::converge_aliases}}.
 #'
 #' @param input_vector Character vector with drug aliases to be replaced
-#' @param include_missing_terms Boolean to keep unchanged names that are not found in the alias_clms
-#' @param drug_lut_path Path to .tsv drug table
+#' @param alias_clms Vector of column names containing aliases in lut
+#' @param alias_sep Character separating multiple aliases found within a single alias_clm
 #' @param default_empty_value Value to use where output vector name is empty or NA
-#'
+#' @param drug_lut_path Path to .tsv drug table
+#' @param include_missing_terms Boolean to keep unchanged names that are not found in the alias_clms.
+#' @param input_vector_sep Character separating multi-name values of input vector
+#' @param output_vector_sep Character to separate returned multi-name values
+#' @param preferred_name_clm Name of column from which to pull preferred names to replace aliases
+#' 
 #' @return Returns a vector of same length as input_vector with drug aliases replaced by preferred names
 #'
 #' @export
@@ -137,21 +142,15 @@ converge_drug_aliases <- function(
     input_vector,
     drug_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
     include_missing_terms = FALSE,
-    default_empty_value = NA
+    default_empty_value = NA,
+    input_vector_sep = " + ",
+    output_vector_sep = " + ",
+    alias_clms=c("Full_Name", "Name_Aliases"),
+    preferred_name_clm=c("Preferred_Name"),
+    alias_sep=","
 ){
-  
-  ## DEFAULTS TO USE ###
-  # There shouldn't be any call to change these but if necessary, keep both for backwards compatibility?
-  #   * add functionality in base converge_aliases, to handle an input vector for the separators
-  #
-  #
-  input_vector_sep = "+"
-  output_vector_sep = " + "
-  alias_clms=c("Full_Name", "Name_Aliases")
-  preferred_name_clm=c("Preferred_Name")
-  alias_sep=","
 
-  #call the base function with argument values and defaults
+  # Call the base function with argument values and defaults
   return_df <- converge_aliases(
     input_vector,
     input_vector_sep = input_vector_sep,
@@ -164,11 +163,9 @@ converge_drug_aliases <- function(
     default_empty_value = default_empty_value
     )
   
-  # anything extra we'd like to do here? maybe output some stats to the user?
-  
-  # return the df
   return( return_df )
 }
+
 
 ######### TESTING DATA. ###############
 # 
@@ -183,7 +180,6 @@ converge_drug_aliases <- function(
 # missing_name_drugs <- c("Rando drug", "DXP + Ipini")
 # test_drug_vec <- c( full_name_drugs, preferred_name_drugs, alias_name_drugs, each_category_drugs, misc_name_and_combination_drugs, missing_name_drugs )
 # out <- converge_drug_aliases( test_drug_vec, lut_path <- drug_lut_path)
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # lookup_properties

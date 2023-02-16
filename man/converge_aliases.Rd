@@ -6,8 +6,8 @@
 \usage{
 converge_aliases(
   input_vector,
-  input_vector_sep = "+",
-  output_vector_sep = "+",
+  input_vector_sep = " + ",
+  output_vector_sep = " + ",
   lut_path,
   alias_clms = "Alias",
   preferred_name_clm = "Name",
