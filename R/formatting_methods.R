@@ -122,15 +122,11 @@ set_response_data = function( dat, response_col = "Response" ){
   #Normalize abbreviated responses, if there are any, while also normalizing full name values if those already exist
   response_data = toupper(dat[[response_col]]) %>% trimws()
   dat$Response = response_data
-  #clever approach but doesn't work if any entries are already full words b/c they don't match the lut
-  #fm_response_lut = c(Pd="Progressive Disease", Sd="Stable Disease", Pr="Partial Response", Cr="Complete Response")  
-  #dat$Response[dat] = fm_response_lut[dat$Response]
-  if(any(response_data %in% c("PD", "SD", "PR", "CR"))){
-    dat$Response[response_data == "PD"] = "Progressive Disease"
-    dat$Response[response_data == "SD"] = "Stable Disease"
-    dat$Response[response_data == "PR"] = "Partial Response"
-    dat$Response[response_data == "CR"] = "Complete Response"
-  }
+ 
+  dat$Response[response_data %in% c("PD", "PROGRESSIVE DISEASE")] = "Progressive Disease"
+  dat$Response[response_data %in% c("SD", "STABLE DISEASE")] = "Stable Disease"
+  dat$Response[response_data %in% c("PR", "PARTIAL RESPONSE")] = "Partial Response"
+  dat$Response[response_data %in% c("CR", "COMPLETE RESPONSE")] = "Complete Response"
   #convert remaining values to NA
   dat$Response[dat$Response %ni% c("Progressive Disease", "Stable Disease", "Partial Response", "Complete Response")] = NA
   #set additional values
