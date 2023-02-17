@@ -106,10 +106,10 @@ converge_aliases <- function(
     }
     # now return default empty value if no replacements were found ( an we are not including_missing_terms )
     if ( !length( replace_vals ) ) return( default_empty_value )
-    return( paste( replace_vals, collapse=output_vector_sep) )
+    return( paste( sort(replace_vals), collapse=output_vector_sep) )
   }, USE.NAMES = F)
   missing_vals %<>% unique()
-  if ( length(missing_vals ) ) cat( "The following values from input_vec could not be found in the lookup table: ", paste( missing_vals, collapse=", "), "\n\n")
+  if ( length(missing_vals ) ) cat( "The following values from input_vec could not be found in the lookup table: ", paste( sort(missing_vals), collapse=", "), "\n\n")
 
   return( output_vector )
 }
@@ -276,8 +276,15 @@ lookup_properties <- function(
     if ( length(these_names) == 0 | all( these_names == "" ) ) next # there is nothing to see here ... move on ( empty input_vector rows have already been initialized with default property values in output_df )
     # add any names not found in the names_vec to the missing_names_vec
     missing_names_vec %<>% c(these_names[ which( !(these_names %in% names(props_lut)) ) ])
-    for ( name in these_names ){
-      my_props <- props_lut[ name ]
+    
+    # can't add names to property one at a time or they can't be alphabetized
+    #  and you'd see 'A + B' and 'B + A' as answers, 
+    #  which would be seen as different values by all downstream processes
+    #  So we'll make a property list we add to and then sort 
+    #  and combine them in the end.
+    property_list = list()
+    for ( my_name in these_names ){
+      my_props <- props_lut[ my_name ]
       if( length(my_props) == 0 ) next
       # separate these properties by property_sep, remove whitespace and then keep only those that are in the all_properties vector
       my_props %<>% {strsplit(., property_sep, fixed=T )[[1]]} %>% trimws()
@@ -286,20 +293,41 @@ lookup_properties <- function(
       for ( prop in my_props ){
         if (!skip_itemized_clms){
           my_prop_clm <- paste0(prop, itemized_clm_suffix)
-          current_prop_val <- output_df[input_index, my_prop_clm]
-#          cat(my_prop_clm, " :: ", current_prop_val, " :: ", is.na(current_prop_val), " :: ", identical(current_prop_val, no_info_itemized_value), "\n")
-          if ( is.na(current_prop_val) | identical(current_prop_val, no_info_itemized_value) ) output_df[input_index, my_prop_clm] <- name
-          else output_df[input_index, my_prop_clm] %<>% paste(name, sep=output_property_sep)
+          if(my_prop_clm %ni% names(property_list)){
+          	property_list[[my_prop_clm]] = my_name
+          } else {
+          	property_list[[my_prop_clm]] %<>% c(my_name)
+          }
         }
         if (!skip_boolean_clms) {
           output_df[input_index, paste0(prop, boolean_clm_suffix)] <- TRUE
         }
       }
     }
+    for (my_prop_clm in names(property_list)){
+    	my_values = property_list[[my_prop_clm]]
+    	my_values %<>%
+    		.[!is.na(.)] %>%
+    		.[. != ""] %>%
+    		unique(.) %>% 
+    		sort()
+    	if ( length(my_values > 0) ){
+    		output_df[input_index, my_prop_clm] <- paste0(my_values, collapse=output_property_sep)
+    	}
+    }
+    
     # for any copy_clms, update the output_df at this index with combined values from lut_df for all names
-    for( clm_to_copy in copy_clms ){
-      vals_to_copy <- lut_df[ which( names(props_lut) %in% these_names), clm_to_copy ] %>% unique() %>% {.[complete.cases(.)]}
-      if( length(vals_to_copy) ) output_df[input_index, clm_to_copy] <- paste(vals_to_copy, collapse=output_copy_clm_sep)
+    for( copy_clm in copy_clms ){
+      vals_to_copy <- lut_df[ which( names(props_lut) %in% these_names), copy_clm ]
+      vals_to_copy %<>% 
+      	.[!is.na(.)] %>%
+      	.[. != ""] %>%
+        unique() %>% 
+      	sort()
+      
+      if ( length(vals_to_copy) >= 0) {
+      	output_df[input_index, copy_clm] <- paste(vals_to_copy, collapse=output_copy_clm_sep)
+      }
     }
   }
   
@@ -356,10 +384,10 @@ lookup_drug_properties <- function(
     return_input = FALSE,
     name_clm = "Preferred_Name",
     property_clm = "Properties",
-    input_vector_sep = "+",
+    input_vector_sep = " + ",
     property_sep = ",",
-    output_property_sep = "+",
-    output_copy_clm_sep = ",",
+    output_property_sep = " + ",
+    output_copy_clm_sep = " + ",
     itemized_clm_suffix = "_Rx",
     boolean_clm_suffix = "_Tx",
     no_info_itemized_value = "None",
