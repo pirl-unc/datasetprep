@@ -325,7 +325,7 @@ lookup_properties <- function(
         unique() %>% 
       	sort()
       
-      if ( length(vals_to_copy) >= 0) {
+      if ( length(vals_to_copy) ) {
       	output_df[input_index, copy_clm] <- paste(vals_to_copy, collapse=output_copy_clm_sep)
       }
     }
