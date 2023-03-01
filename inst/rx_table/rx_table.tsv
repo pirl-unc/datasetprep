@@ -84,3 +84,8 @@ Lomustine	Lomustine			"Chemo, Non_ICI"
 Everolimus	Everolimus			"IS, Non_ICI"		
 Dexamethasone	Dex			"Steroid, Non_ICI"	dex	
 Prednisone	Pred			"Steroid, Non_ICI"	pred	
+Nitrosourea	Nitrosourea			"Chemo, Non_ICI"	An anticancer drug that can cross the blood-brain barrier. Carmustine and lomustine are nitrosoureas.	
+Hydroxyurea	Hydroxyurea			"Chemo, Non_ICI"	A drug used alone or with other anticancer drugs or radiation therapy under the brand name Hydrea to treat certain types of chronic myelogenous leukemia and head and neck cancer and under the brand name Droxia to treat certain patients with sickle cell anemia.	
+Imatinib	Imatinib			"Chemo, Non_ICI"	BCR-ABL tyrosine kinase inhibitor	
+Tumor Treating Fields	TTF			Non_ICI	"A web of wires and electrodes generates an electric field that alternates positive and negative from 100,000 to 300,000 times a second. "	
+Celecoxib	Celecoxib			Non_ICI	nonsteroidal anti-inflammatory drug	
