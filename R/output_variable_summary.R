@@ -22,19 +22,16 @@ output_variable_summary = function(dat=NULL, column_names=NULL, max_length=10, t
   }
   if(is.null(column_names)) column_names = colnames(dat)
   if(!is.null(title)){
-    message(paste("Variable Summary for", title))
-    message("------------------------------------------")
-    message("")
+    cat(paste("Variable Summary for", title,"\n"))
+  	cat("------------------------------------------\n\n")
   }
   for(this_name in column_names){
+  	cat(paste0(this_name,"\n"))
     if(!(this_name %in% colnames(dat))){
-      message(this_name)
-      message("Variable does not exist in data.")
-      message("")
+      cat("Variable does not exist in data.\n\n")
       next
     }
     #only output summaries for variables with less than max_length values
-    message(this_name)
     if(length(unique(dat[[this_name]])) <= max_length){
       my_summary = summary(factor(dat[[this_name]]))
       my_out = ""
@@ -48,14 +45,11 @@ output_variable_summary = function(dat=NULL, column_names=NULL, max_length=10, t
       my_out = gsub("Partial Response", "PR", my_out)
       my_out = gsub("Stable Disease", "SD", my_out)
       my_out = gsub("Progressive Disease", "PD", my_out)
-      message(my_out)
+     cat(paste0(my_out),"\n")
     }else{
-      message(paste("more than", max_length, "values"))
-      message(paste("example value: ", dat[[this_name]][!is.na(dat[[this_name]])][1]))
+     cat(paste0("more than ", max_length, " values\n"))
+     cat(paste0("example value: ", dat[[this_name]][!is.na(dat[[this_name]])][1],"\n"))
     }
-    message("")
+   cat("\n")
   }
 }
-
-#d <- data.frame(id=c(NA, "p120","p125","p117"), age=c(10,14,12,10))
-#output_variable_summary(d, c("id","age"), 2)

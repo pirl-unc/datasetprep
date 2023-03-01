@@ -26,10 +26,16 @@ init_paths = function(base_dir){
 
     # need to detect if we are running on community rstudio or a rocker version(ie, in a custom container)
   if (my_os == "centos"){
-    message("Running in CentOS. Assuming this is an Interactive Session Set-up through the OnDemand GUI.")
+  	cat("----------------------------------------\n")
+  	cat("Running in CentOS. Assuming this is an Interactive Session Set-up through the OnDemand GUI.\n")
+  	cat("----------------------------------------\n")
+    
     # Interactive sessions allow you to use your user library so no temp is needed.
   } else if (my_os == "ubuntu"){
-    message("Running in ubuntu. Assuming this is a customized container R >= 4.0")
+  	cat("----------------------------------------\n")
+  	cat("Running in ubuntu. Assuming this is a customized container R >= 4.0\n")
+    cat("----------------------------------------\n")
+    
     # singularity on the cluster prevents rstudio from changing the permission of folders which is needed to install packages,
     #  BUT we still want to be able to install packages on the fly to try them out before adding them to the dockerfile.
     #  for this reason we will make a temp_library directory
@@ -42,8 +48,4 @@ init_paths = function(base_dir){
   }
   return(post_processing_dir)
 }
-
-#initialize this base path here since it doesn't ever change between datasets
-#and can thus remain in the package environment
-#RAW_DATA_DIR = "/datastore/nextgenout5/share/labs/Vincent_Lab/datasets"
 

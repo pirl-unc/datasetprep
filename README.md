@@ -9,7 +9,7 @@ devtools::install_github("Benjamin-Vincent-Lab/datasetprep")
 
 Or for a specific version:
 ``` r
-devtools::install_github("Benjamin-Vincent-Lab/datasetprep", ref = "0.4.7")
+devtools::install_github("Benjamin-Vincent-Lab/datasetprep", ref = "0.4.8")
 ```
 
 Use the package documentation for help:
