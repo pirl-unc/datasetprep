@@ -82,3 +82,5 @@ Bevacizumab	Bev			"aVEGF, Non_ICI"
 Ironotecan	Ironotecan			"Chemo, Non_ICI"		
 Lomustine	Lomustine			"Chemo, Non_ICI"		
 Everolimus	Everolimus			"IS, Non_ICI"		
+Dexamethasone	Dex			"Steroid, Non_ICI"	dex	
+Prednisone	Pred			"Steroid, Non_ICI"	pred	
