@@ -11,7 +11,6 @@ IS	IS			IS	Immunosuppressant
 Biochemo	Biochemo			"Chemo, Non_ICI"		
 Trametinib	Trametinib			"aMAPK, Chemo, Non_ICI"		MEK inhibitor
 Dabrafenib	Dabrafenib			"aBRAF, Non_ICI"		MEK inhibitor; potent inhibitor of the RAF proteins BRAF and CRAF through ATP competitive binding of the active conformation of BRAF kinase
-IL-2	IL-2			Non_ICI		Increases NKCs
 Ribociclib	Ribociclib			"Chemo, Non_ICI"		CDK inhibitor
 Binimetinib	Binimetinib			"aMAPK, Chemo,Non_ICI"		MEK 1 and MEK 2 protein inhibitor
 CVD	CVD			"Chemo, Non_ICI"	Cisplatin and Dacarbazine and Vinblastine	
@@ -25,7 +24,6 @@ Abraxane	Abraxane			"Chemo, Non_ICI"
 Carboplatin	Carboplatin			"Chemo, Non_ICI"		Platinum chemo
 Doxycycline	Doxycycline			Non_ICI		"inhibits protein synthesis in bacteria including mitochondria; Expression of stem cell factors Oct4, Sox2, Nanog and CD44 were also significantly downregulated after doxycycline treatment"
 Vemurafenib	Vemurafenib			"aBRAF, Non_ICI"		blocks BRAF; used on patients with BRAF mutation V600E
-IL-21+	IL-21+			Non_ICI		Increases NKCs
 Cisplatin	Cisplatin			"Chemo, Non_ICI"		Platinum chemo
 Velban	Velban			"Chemo, Non_ICI"		Inhibits microtuble assembly
 Taxol	Paclitaxel			"Chemo, Non_ICI"	paclitaxel	
@@ -48,7 +46,6 @@ GM-CSF	GM-CSF			Non_ICI		improves recovery of white blood cells following chemo
 M-Vax	M-Vax			Non_ICI		Irradiated cancer cells
 Mel44	Mel44			Non_ICI		Melanoma peptides
 PEG	PEG			"Chemo, Non_ICI"	Pegaspargase	Breaks down asparagine
-IL-10	IL-10			Non_ICI		enhances vaccine-induced T cell responses
 Ipilimumab	Ipi	CTLA4	CTLA4	"ICI, aCTLA4"	Yervoy	"Binds CTLA4, reducing its ability to upregulate cell division by binding C28"
 Pembrolizumab	Pembro	PD1	PD1	"ICI, aPD1"	"Keytruda, MK3475, MK-3475"	
 ADZ2014	ADZ2014			Non_ICI	Vistusertib	
