@@ -1,5 +1,7 @@
 The purpose of this package is to add tools that make life easier when performing dataset prep.  
 
+* this repo was initially hosted at https://github.com/Benjamin-Vincent-Lab/datasetprep and was moved here on 2/13/2024
+
 ## Install
 Restart R Session  
 In R:
