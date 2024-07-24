@@ -25,15 +25,15 @@ init_paths = function(base_dir){
   dir.create(post_processing_dir, showWarnings = F)
 
     # need to detect if we are running on community rstudio or a rocker version(ie, in a custom container)
-  if (my_os == "centos"){
+  if (my_os == "rocky"){
   	cat("----------------------------------------\n")
-  	cat("Running in CentOS. Assuming this is an Interactive Session Set-up through the OnDemand GUI.\n")
+  	cat("Running in 'Rocky'. Assuming this is an interactive session set-up through the OnDemand GUI.\n")
   	cat("----------------------------------------\n")
     
     # Interactive sessions allow you to use your user library so no temp is needed.
   } else if (my_os == "ubuntu"){
   	cat("----------------------------------------\n")
-  	cat("Running in ubuntu. Assuming this is a customized container R >= 4.0\n")
+  	cat("Running in 'Ubuntu'. Assuming this is a customized container R >= 4.0\n")
     cat("----------------------------------------\n")
     
     # singularity on the cluster prevents rstudio from changing the permission of folders which is needed to install packages,
@@ -44,7 +44,7 @@ init_paths = function(base_dir){
     dir.create(temp_lib_dir, showWarnings = F)
     .libPaths(temp_lib_dir)
   } else {
-    warning(paste0("OS, ", my_os, " was not expected. Not sure how this is going to go. Good luck!"))
+    warning(paste0("OS, ", my_os, ", was not expected. Not sure how this is going to go. Good luck!"))
   }
   return(post_processing_dir)
 }
