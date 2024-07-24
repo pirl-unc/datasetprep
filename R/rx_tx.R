@@ -33,7 +33,7 @@ converge_aliases <- function(
     preferred_name_clm="Name",
     alias_sep=",",
     include_missing_terms = FALSE,
-    default_empty_value = NA
+    default_empty_value = NA_character_
 ){
 
   #load the lut_path into a data frame
@@ -142,7 +142,7 @@ converge_drug_aliases <- function(
     input_vector,
     drug_lut_path=system.file("rx_table", "rx_table.tsv", package="datasetprep"),
     include_missing_terms = FALSE,
-    default_empty_value = NA,
+    default_empty_value = NA_character_,
     input_vector_sep = " + ",
     output_vector_sep = " + ",
     alias_clms=c("Full_Name", "Name_Aliases"),
@@ -331,9 +331,10 @@ lookup_properties <- function(
     }
   }
   
-  missing_names_vec %<>% .[ complete.cases(.) ] %>% unique()
-  if( length(missing_names_vec) ) cat("The following names in the input_vec were not found in the lookup table: ", paste(missing_names_vec), "\n")
-
+  if( length(missing_names_vec) ) {
+    missing_names_vec %<>% .[ complete.cases(.) ] %>% unique()
+    cat("The following names in the input_vec were not found in the lookup table: ", paste(missing_names_vec), "\n")
+  }
   # remove the first column ( a copy of the input_vec ) from the return df if requested
   if( !return_input ){
   	output_df = output_df[-1]
