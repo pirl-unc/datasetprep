@@ -13,7 +13,7 @@ converge_aliases(
   preferred_name_clm = "Name",
   alias_sep = ",",
   include_missing_terms = FALSE,
-  default_empty_value = NA
+  default_empty_value = NA_character_
 )
 }
 \arguments{

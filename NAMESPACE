@@ -3,6 +3,7 @@
 export(configure_output_columns)
 export(converge_aliases)
 export(converge_drug_aliases)
+export(convert_clm_case)
 export(create_input_path)
 export(create_patient_ids)
 export(create_run_ids)

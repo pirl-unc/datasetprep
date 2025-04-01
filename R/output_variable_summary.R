@@ -45,10 +45,14 @@ output_variable_summary = function(dat=NULL, column_names=NULL, max_length=10, t
       my_out = gsub("Partial Response", "PR", my_out)
       my_out = gsub("Stable Disease", "SD", my_out)
       my_out = gsub("Progressive Disease", "PD", my_out)
-     cat(paste0(my_out),"\n")
+      cat(paste0(my_out),"\n")
     }else{
-     cat(paste0("more than ", max_length, " values\n"))
-     cat(paste0("example value: ", dat[[this_name]][!is.na(dat[[this_name]])][1],"\n"))
+     cat(paste0("More than ", max_length, " values. Examples: \n"))
+     my_outs = unique(dat[[this_name]])
+     my_outs = my_outs[!is.na(my_outs)]
+     my_outs = my_outs[my_outs != ""]
+     if (length(my_outs) >= 3) my_outs = my_outs[1:3]
+     for ( my_out in my_outs) cat(paste0("  ", my_out,"\n"))
     }
    cat("\n")
   }

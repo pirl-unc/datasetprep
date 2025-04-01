@@ -9,7 +9,7 @@ converge_drug_aliases(
   input_vector,
   drug_lut_path = system.file("rx_table", "rx_table.tsv", package = "datasetprep"),
   include_missing_terms = FALSE,
-  default_empty_value = NA,
+  default_empty_value = NA_character_,
   input_vector_sep = " + ",
   output_vector_sep = " + ",
   alias_clms = c("Full_Name", "Name_Aliases"),
