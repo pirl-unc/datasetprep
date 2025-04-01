@@ -8,14 +8,12 @@
 #' @return Returns dataframe with updated and added *_Rx and *_Tx columns
 #' 
 #' @export
-convert_clm_case <- function(input_string) {
-  # Convert the input string to lower case and split by '_'
-  words <- tolower(unlist(strsplit(input_string, "_")))
-  # Capitalize the first letter of each word
-  words <- sapply(words, function(word) {
-    paste0(toupper(substring(word, 1, 1)), substring(word, 2))
-  })
-  # Combine the words back into snake case
-  result <- paste(words, collapse = "_")
-  return(result)
+convert_clm_case <- function(input_strings) {
+  sapply(input_strings, function(input_string) {
+    words <- tolower(unlist(strsplit(input_string, "_")))
+    words <- sapply(words, function(word) {
+      paste0(toupper(substring(word, 1, 1)), substring(word, 2))
+    })
+    paste(words, collapse = "_")
+  }, USE.NAMES = FALSE)
 }

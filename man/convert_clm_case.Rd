@@ -4,7 +4,7 @@
 \alias{convert_clm_case}
 \title{Takes an input_string and puts it in title format with underscores.}
 \usage{
-convert_clm_case(input_string)
+convert_clm_case(input_strings)
 }
 \arguments{
 \item{input_string}{}
